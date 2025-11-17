@@ -92,13 +92,13 @@
   <meta name="route-pattern" content="/:user_id/:repository/raw/*name(/*path)" data-turbo-transient>
   <meta name="route-controller" content="blob" data-turbo-transient>
   <meta name="route-action" content="raw" data-turbo-transient>
-  <meta name="fetch-nonce" content="v2:2310821e-61d4-b9c3-8978-d2980abc87f7">
+  <meta name="fetch-nonce" content="v2:c73a4f78-c9ac-778f-9c15-dd18a534203c">
 
     
   <meta name="current-catalog-service-hash" content="f3abb0cc802f3d7b95fc8762b94bdcb13bf39634c40c357301c4aa1d67a256fb">
 
 
-  <meta name="request-id" content="D9E0:20E26E:36A37BC:37FB9FF:6918B0BC" data-turbo-transient="true" /><meta name="html-safe-nonce" content="727794d5e93253c4b986ea9b271ac7866a5895b3eac77fe892395ed9103f89dc" data-turbo-transient="true" /><meta name="visitor-payload" content="eyJyZWZlcnJlciI6bnVsbCwicmVxdWVzdF9pZCI6IkQ5RTA6MjBFMjZFOjM2QTM3QkM6MzdGQjlGRjo2OTE4QjBCQyIsInZpc2l0b3JfaWQiOiI0NTE2OTU1MjM3OTYyNTI2OTA4IiwicmVnaW9uX2VkZ2UiOiJzZWEiLCJyZWdpb25fcmVuZGVyIjoiaWFkIn0=" data-turbo-transient="true" /><meta name="visitor-hmac" content="3da4a9e8e63b12e4c01cb1057c0a2a9a0ac69adf9f9ed7c0793bd116d2cfb542" data-turbo-transient="true" />
+  <meta name="request-id" content="DC39:31F70:3D7E52F:3EF2FA3:6918C982" data-turbo-transient="true" /><meta name="html-safe-nonce" content="a6e5a92a9ce3f216773fdc2fef9834eac36d3b5dfb7f3443c2b06883aa2df332" data-turbo-transient="true" /><meta name="visitor-payload" content="eyJyZWZlcnJlciI6bnVsbCwicmVxdWVzdF9pZCI6IkRDMzk6MzFGNzA6M0Q3RTUyRjozRUYyRkEzOjY5MThDOTgyIiwidmlzaXRvcl9pZCI6IjEyOTQ4OTg4NDAxMTQ2MTI2MTAiLCJyZWdpb25fZWRnZSI6InNlYSIsInJlZ2lvbl9yZW5kZXIiOiJpYWQifQ==" data-turbo-transient="true" /><meta name="visitor-hmac" content="b8463552c46fdf76fdafc564371e306e9f43bdf99c2c0cdcbf7069fd63253d24" data-turbo-transient="true" />
 
 
     <meta name="hovercard-subject-tag" content="repository:142516183" data-turbo-transient>
@@ -107,7 +107,7 @@
   <meta name="github-keyboard-shortcuts" content="copilot" data-turbo-transient="true" />
   
 
-  <meta name="selected-link" value="/shannpersand/comic-shanns/raw/main/fonts/ComicShanns-Regular.ttf" data-turbo-transient>
+  <meta name="selected-link" value="/shannpersand/comic-shanns/raw/main/ComicShanns-Regular.ttf" data-turbo-transient>
   <link rel="assets" href="https://github.githubassets.com/">
 
     <meta name="google-site-verification" content="Apib7-x98H0j5cPqHWwSMm6dNU4GmODRoqxLiDzdx9I">
@@ -135,7 +135,7 @@
 
     <link rel="fluid-icon" href="https://github.com/fluidicon.png" title="GitHub">
     <meta property="fb:app_id" content="1401488693436528">
-    <meta name="apple-itunes-app" content="app-id=1477376905, app-argument=https://github.com/shannpersand/comic-shanns/raw/main/fonts/ComicShanns-Regular.ttf" />
+    <meta name="apple-itunes-app" content="app-id=1477376905, app-argument=https://github.com/shannpersand/comic-shanns/raw/main/ComicShanns-Regular.ttf" />
 
       <meta property="og:url" content="https://github.com">
   <meta property="og:site_name" content="GitHub">
@@ -192,7 +192,7 @@
 
 
 
-      <link rel="canonical" href="https://github.com/shannpersand/comic-shanns/raw/main/fonts/ComicShanns-Regular.ttf" data-turbo-transient>
+      <link rel="canonical" href="https://github.com/shannpersand/comic-shanns/raw/main/ComicShanns-Regular.ttf" data-turbo-transient>
 
 
     <meta name="turbo-body-classes" content="logged-out env-production page-responsive min-height-full d-flex flex-column">
@@ -203,7 +203,7 @@
   <meta name="browser-errors-url" content="https://api.github.com/_private/browser/errors">
 
   <meta name="release" content="22a3c54b60e2433cd9de7a5b3dced0c6838d93c7">
-  <meta name="ui-target" content="canary-1">
+  <meta name="ui-target" content="full">
 
   <link rel="mask-icon" href="https://github.githubassets.com/assets/pinned-octocat-093da3e6fa40.svg" color="#000000">
   <link rel="alternate icon" class="js-site-favicon" type="image/png" href="https://github.githubassets.com/favicons/favicon.png">
@@ -286,19 +286,19 @@
 
       <div class="d-flex flex-1 flex-order-2 text-right d-lg-none gap-2 flex-justify-end">
           <a
-            href="/login?return_to=https%3A%2F%2Fgithub.com%2Fshannpersand%2Fcomic-shanns%2Fraw%2Fmain%2Ffonts%2FComicShanns-Regular.ttf"
+            href="/login?return_to=https%3A%2F%2Fgithub.com%2Fshannpersand%2Fcomic-shanns%2Fraw%2Fmain%2FComicShanns-Regular.ttf"
             class="HeaderMenu-link HeaderMenu-button d-inline-flex f5 no-underline border color-border-default rounded-2 px-2 py-1 color-fg-inherit js-prevent-focus-on-mobile-nav"
-            data-hydro-click="{&quot;event_type&quot;:&quot;authentication.click&quot;,&quot;payload&quot;:{&quot;location_in_page&quot;:&quot;site header menu&quot;,&quot;repository_id&quot;:null,&quot;auth_type&quot;:&quot;SIGN_UP&quot;,&quot;originating_url&quot;:&quot;https://github.com/shannpersand/comic-shanns/raw/main/fonts/ComicShanns-Regular.ttf&quot;,&quot;user_id&quot;:null}}" data-hydro-click-hmac="9b1e3995d02990819734b9bd9c1cfa67da6f751a9e74b16353c9df245b3f972b"
+            data-hydro-click="{&quot;event_type&quot;:&quot;authentication.click&quot;,&quot;payload&quot;:{&quot;location_in_page&quot;:&quot;site header menu&quot;,&quot;repository_id&quot;:null,&quot;auth_type&quot;:&quot;SIGN_UP&quot;,&quot;originating_url&quot;:&quot;https://github.com/shannpersand/comic-shanns/raw/main/ComicShanns-Regular.ttf&quot;,&quot;user_id&quot;:null}}" data-hydro-click-hmac="c1cf95c63285befe46c431011891edcdcd051cb06f0ad7e85ad1b2aab9d73a84"
             data-analytics-event="{&quot;category&quot;:&quot;Marketing nav&quot;,&quot;action&quot;:&quot;click to Sign in&quot;,&quot;label&quot;:&quot;ref_page:Marketing;ref_cta:Sign in;ref_loc:Header&quot;}"
           >
             Sign in
           </a>
               <div class="AppHeader-appearanceSettings">
     <react-partial-anchor>
-      <button data-target="react-partial-anchor.anchor" id="icon-button-592bc5dc-cfa6-4921-8269-d9fd1997c383" aria-labelledby="tooltip-d464124c-d1e7-4482-ac7d-055e8280e63e" type="button" disabled="disabled" data-view-component="true" class="Button Button--iconOnly Button--invisible Button--medium AppHeader-button HeaderMenu-link border cursor-wait">  <svg aria-hidden="true" height="16" viewBox="0 0 16 16" version="1.1" width="16" data-view-component="true" class="octicon octicon-sliders Button-visual">
+      <button data-target="react-partial-anchor.anchor" id="icon-button-2676a89d-8c23-4788-9878-34dbee9248fe" aria-labelledby="tooltip-07b5970e-bea5-40e6-93ff-2f33185f5281" type="button" disabled="disabled" data-view-component="true" class="Button Button--iconOnly Button--invisible Button--medium AppHeader-button HeaderMenu-link border cursor-wait">  <svg aria-hidden="true" height="16" viewBox="0 0 16 16" version="1.1" width="16" data-view-component="true" class="octicon octicon-sliders Button-visual">
     <path d="M15 2.75a.75.75 0 0 1-.75.75h-4a.75.75 0 0 1 0-1.5h4a.75.75 0 0 1 .75.75Zm-8.5.75v1.25a.75.75 0 0 0 1.5 0v-4a.75.75 0 0 0-1.5 0V2H1.75a.75.75 0 0 0 0 1.5H6.5Zm1.25 5.25a.75.75 0 0 0 0-1.5h-6a.75.75 0 0 0 0 1.5h6ZM15 8a.75.75 0 0 1-.75.75H11.5V10a.75.75 0 1 1-1.5 0V6a.75.75 0 0 1 1.5 0v1.25h2.75A.75.75 0 0 1 15 8Zm-9 5.25v-2a.75.75 0 0 0-1.5 0v1.25H1.75a.75.75 0 0 0 0 1.5H4.5v1.25a.75.75 0 0 0 1.5 0v-2Zm9 0a.75.75 0 0 1-.75.75h-6a.75.75 0 0 1 0-1.5h6a.75.75 0 0 1 .75.75Z"></path>
 </svg>
-</button><tool-tip id="tooltip-d464124c-d1e7-4482-ac7d-055e8280e63e" for="icon-button-592bc5dc-cfa6-4921-8269-d9fd1997c383" popover="manual" data-direction="s" data-type="label" data-view-component="true" class="sr-only position-absolute">Appearance settings</tool-tip>
+</button><tool-tip id="tooltip-07b5970e-bea5-40e6-93ff-2f33185f5281" for="icon-button-2676a89d-8c23-4788-9878-34dbee9248fe" popover="manual" data-direction="s" data-type="label" data-view-component="true" class="sr-only position-absolute">Appearance settings</tool-tip>
 
       <template data-target="react-partial-anchor.template">
         <link crossorigin="anonymous" media="all" rel="stylesheet" href="https://github.githubassets.com/assets/primer-react.2ed7297523f7a189873b.module.css" />
@@ -1061,7 +1061,7 @@
                 
 
 
-<qbsearch-input class="search-input" data-scope="owner:shannpersand" data-custom-scopes-path="/search/custom_scopes" data-delete-custom-scopes-csrf="RHOgr265Fp7zCCuOXcsHMrlwNSe7hEh24HFrxgwsLZvo02Ft5ueyVIOLssuECYfRtuXGkUnuErhAqGipm9nMrg" data-max-custom-scopes="10" data-header-redesign-enabled="false" data-initial-value="" data-blackbird-suggestions-path="/search/suggestions" data-jump-to-suggestions-path="/_graphql/GetSuggestedNavigationDestinations" data-current-repository="" data-current-org="" data-current-owner="" data-logged-in="false" data-copilot-chat-enabled="false" data-nl-search-enabled="false" data-retain-scroll-position="true">
+<qbsearch-input class="search-input" data-scope="owner:shannpersand" data-custom-scopes-path="/search/custom_scopes" data-delete-custom-scopes-csrf="GTrNQ5YmF_8otCiosEvRqgm-qkqsfL5_4cOpxSMcl4NiteuAqIYdbWbce3TOCJO-R5VeTKLcdjNXaLoV38d8Lg" data-max-custom-scopes="10" data-header-redesign-enabled="false" data-initial-value="" data-blackbird-suggestions-path="/search/suggestions" data-jump-to-suggestions-path="/_graphql/GetSuggestedNavigationDestinations" data-current-repository="" data-current-org="" data-current-owner="" data-logged-in="false" data-copilot-chat-enabled="false" data-nl-search-enabled="false" data-retain-scroll-position="true">
   <div
     class="search-input-container search-with-dialog position-relative d-flex flex-row flex-items-center mr-4 rounded"
     data-action="click:qbsearch-input#searchInputContainerClicked"
@@ -1125,7 +1125,7 @@
           ></div>
           <div class="QueryBuilder-InputWrapper">
             <div aria-hidden="true" class="QueryBuilder-Sizer" data-target="query-builder.sizer"></div>
-            <input id="query-builder-test" name="query-builder-test" value="" autocomplete="off" type="text" role="combobox" spellcheck="false" aria-expanded="false" aria-describedby="validation-d226b8bf-eba7-4e48-b57b-3c1791cdc2bc" data-target="query-builder.input" data-action="
+            <input id="query-builder-test" name="query-builder-test" value="" autocomplete="off" type="text" role="combobox" spellcheck="false" aria-expanded="false" aria-describedby="validation-04e7d662-25a3-498c-b5ca-0b2f083a1010" data-target="query-builder.input" data-action="
           input:query-builder#inputChange
           blur:query-builder#inputBlur
           keydown:query-builder#inputKeydown
@@ -1363,7 +1363,7 @@
                   tabindex="-1"
                 ></ul>
         </div>
-      <div class="FormControl-inlineValidation" id="validation-d226b8bf-eba7-4e48-b57b-3c1791cdc2bc" hidden="hidden">
+      <div class="FormControl-inlineValidation" id="validation-04e7d662-25a3-498c-b5ca-0b2f083a1010" hidden="hidden">
         <span class="FormControl-inlineValidation--visual">
           <svg aria-hidden="true" height="12" viewBox="0 0 12 12" version="1.1" width="12" data-view-component="true" class="octicon octicon-alert-fill">
     <path d="M4.855.708c.5-.896 1.79-.896 2.29 0l4.675 8.351a1.312 1.312 0 0 1-1.146 1.954H1.33A1.313 1.313 0 0 1 .183 9.058ZM7 7V3H5v4Zm-1 3a1 1 0 1 0 0-2 1 1 0 0 0 0 2Z"></path>
@@ -1404,7 +1404,7 @@
   
 </div>
       <scrollable-region data-labelled-by="feedback-dialog-title">
-        <div data-view-component="true" class="Overlay-body">        <!-- '"` --><!-- </textarea></xmp> --></option></form><form id="code-search-feedback-form" data-turbo="false" action="/search/feedback" accept-charset="UTF-8" method="post"><input type="hidden" name="authenticity_token" value="9z26pEkT8O2toXLou5vx4t8AHdpU6lRyr1Eau5wlw68WL6AXPe-t6EgUQfpbiL-xAgaz6BZpP_vCVsMqld15SA" />
+        <div data-view-component="true" class="Overlay-body">        <!-- '"` --><!-- </textarea></xmp> --></option></form><form id="code-search-feedback-form" data-turbo="false" action="/search/feedback" accept-charset="UTF-8" method="post"><input type="hidden" name="authenticity_token" value="xNxlsDKONBDrsg_NCHfhIQPByUGlN_MaG5KDU3nrkFDZS8YmihkcAWvRpwgTOC6nzpJN6NSgv9X-CWKTgVvIGg" />
           <p>We read every piece of feedback, and take your input very seriously.</p>
           <textarea name="feedback" class="form-control width-full mb-2" style="height: 120px" id="feedback"></textarea>
           <input name="include_email" id="include_email" aria-label="Include my email address so I can be contacted" class="form-control mr-2" type="checkbox">
@@ -1442,7 +1442,7 @@
         <div data-view-component="true" class="Overlay-body">        <div data-target="custom-scopes.customScopesModalDialogFlash"></div>
 
         <div hidden class="create-custom-scope-form" data-target="custom-scopes.createCustomScopeForm">
-        <!-- '"` --><!-- </textarea></xmp> --></option></form><form id="custom-scopes-dialog-form" data-turbo="false" action="/search/custom_scopes" accept-charset="UTF-8" method="post"><input type="hidden" name="authenticity_token" value="8jMMBVw1ydlY_mT0qrCN7XbyupzU-S90YwYHClsRmlyTZ_-F1CxObBLz3bGO50wM0d_jxbi-35y_mz6awGzY3w" />
+        <!-- '"` --><!-- </textarea></xmp> --></option></form><form id="custom-scopes-dialog-form" data-turbo="false" action="/search/custom_scopes" accept-charset="UTF-8" method="post"><input type="hidden" name="authenticity_token" value="j9bwHwvL53R8NL1tR60STTaH3Bmxm2WgW6FhPtR3XfWePjVkBF67Em5Z8M6f6xbHDCKTJQT4CmiAEvYIMyiDMA" />
           <div data-target="custom-scopes.customScopesModalDialogFlash"></div>
 
           <input type="hidden" id="custom_scope_id" name="custom_scope_id" data-target="custom-scopes.customScopesIdField">
@@ -1460,7 +1460,7 @@
                 placeholder="github-ruby"
                 required
                 maxlength="50">
-              <input type="hidden" value="5qDWQMtkGCzGBfJqvsUkEIL6Z9G3LPdMu37OLtGCRYpwTB28mHgEXQTUH6tpeciWYHg9X0ODNZ-aQ_7WZr2cHg" data-csrf="true" />
+              <input type="hidden" value="ULcCHSuLTzNyT8E2bIJAqXlUJ73Y6_kNVRDzWYpGDCHwbEKxju_wS0UJoIKNn6Jdvx_qDLJzDRL8Lf_v5QGRKg" data-csrf="true" />
             </auto-check>
           </div>
 
@@ -1502,10 +1502,10 @@
 
             <div class="position-relative HeaderMenu-link-wrap d-lg-inline-block">
               <a
-                href="/login?return_to=https%3A%2F%2Fgithub.com%2Fshannpersand%2Fcomic-shanns%2Fraw%2Fmain%2Ffonts%2FComicShanns-Regular.ttf"
+                href="/login?return_to=https%3A%2F%2Fgithub.com%2Fshannpersand%2Fcomic-shanns%2Fraw%2Fmain%2FComicShanns-Regular.ttf"
                 class="HeaderMenu-link HeaderMenu-link--sign-in HeaderMenu-button flex-shrink-0 no-underline d-none d-lg-inline-flex border border-lg-0 rounded px-2 py-1"
                 style="margin-left: 12px;"
-                data-hydro-click="{&quot;event_type&quot;:&quot;authentication.click&quot;,&quot;payload&quot;:{&quot;location_in_page&quot;:&quot;site header menu&quot;,&quot;repository_id&quot;:null,&quot;auth_type&quot;:&quot;SIGN_UP&quot;,&quot;originating_url&quot;:&quot;https://github.com/shannpersand/comic-shanns/raw/main/fonts/ComicShanns-Regular.ttf&quot;,&quot;user_id&quot;:null}}" data-hydro-click-hmac="9b1e3995d02990819734b9bd9c1cfa67da6f751a9e74b16353c9df245b3f972b"
+                data-hydro-click="{&quot;event_type&quot;:&quot;authentication.click&quot;,&quot;payload&quot;:{&quot;location_in_page&quot;:&quot;site header menu&quot;,&quot;repository_id&quot;:null,&quot;auth_type&quot;:&quot;SIGN_UP&quot;,&quot;originating_url&quot;:&quot;https://github.com/shannpersand/comic-shanns/raw/main/ComicShanns-Regular.ttf&quot;,&quot;user_id&quot;:null}}" data-hydro-click-hmac="c1cf95c63285befe46c431011891edcdcd051cb06f0ad7e85ad1b2aab9d73a84"
                 data-analytics-event="{&quot;category&quot;:&quot;Marketing nav&quot;,&quot;action&quot;:&quot;click to go to homepage&quot;,&quot;label&quot;:&quot;ref_page:Marketing;ref_cta:Sign in;ref_loc:Header&quot;}"
               >
                 Sign in
@@ -1515,7 +1515,7 @@
     <h4 data-view-component="true" class="color-fg-default mb-2">                    Sign in to GitHub
 </h4>
                         
-<!-- '"` --><!-- </textarea></xmp> --></option></form><form data-turbo="false" action="/session" accept-charset="UTF-8" method="post"><input type="hidden" name="authenticity_token" value="hg_g_-uyLTdGmfPz3bQyWN7IV3YRzSoTQCgLsNDLu2ayTVYj49Nsp7CXXuI4zo8jTxh0bv3tiH0OmlMyI2hjQw" />  <input type="hidden" name="add_account" id="add_account" autocomplete="off" class="form-control" />
+<!-- '"` --><!-- </textarea></xmp> --></option></form><form data-turbo="false" action="/session" accept-charset="UTF-8" method="post"><input type="hidden" name="authenticity_token" value="HDodnG0cjwBIrs1BW1tjEpHBYBGKKT4pFPC6kPnH4wAer9h2jyMLjL40aukkKZqG_KXeiHb8kFrH44D2qOQEvQ" />  <input type="hidden" name="add_account" id="add_account" autocomplete="off" class="form-control" />
 
     <label for="login_field">
       Username or email address
@@ -1533,17 +1533,17 @@
 <input type="hidden" class="js-support" name="javascript-support" value="unknown">
 <input type="hidden" class="js-webauthn-support" name="webauthn-support" value="unknown">
 <input type="hidden" class="js-webauthn-iuvpaa-support" name="webauthn-iuvpaa-support" value="unknown">
-<input type="hidden" name="return_to" id="return_to" value="https://github.com/shannpersand/comic-shanns/raw/main/fonts/ComicShanns-Regular.ttf" autocomplete="off" class="form-control" />
+<input type="hidden" name="return_to" id="return_to" value="https://github.com/shannpersand/comic-shanns/raw/main/ComicShanns-Regular.ttf" autocomplete="off" class="form-control" />
 <input type="hidden" name="allow_signup" id="allow_signup" autocomplete="off" class="form-control" />
 <input type="hidden" name="client_id" id="client_id" autocomplete="off" class="form-control" />
 <input type="hidden" name="integration" id="integration" autocomplete="off" class="form-control" />
-<input type="text" name="required_field_48f6" hidden="hidden" class="form-control" /><input type="hidden" name="timestamp" value="1763225788759" autocomplete="off" class="form-control" /><input type="hidden" name="timestamp_secret" value="440c04ad5c88daf5c1b5fa509790dcf7d4f6e492596901182ad64c26b163bea3" autocomplete="off" class="form-control" />
+<input type="text" name="required_field_54c5" hidden="hidden" class="form-control" /><input type="hidden" name="timestamp" value="1763232130935" autocomplete="off" class="form-control" /><input type="hidden" name="timestamp_secret" value="12fc37c5cabb5aa999bde014590662e9ba1c699752a416693fd5cc74c911017b" autocomplete="off" class="form-control" />
 
     <input type="submit" name="commit" value="Sign in" class="btn btn-primary btn-block js-sign-in-button" data-disable-with="Signing in…" data-signin-label="Sign in" data-sso-label="Sign in with your identity provider" development="false" disable-emu-sso="false" />
   </div>
 </form>  <webauthn-status class="js-webauthn-login-emu-control">
         <div data-target="webauthn-status.partial" class="d-flex flex-justify-between flex-column mt-3 mb-0" hidden>
-          <a href="/login?return_to=https%3A%2F%2Fgithub.com%2Fshannpersand%2Fcomic-shanns%2Fraw%2Fmain%2Ffonts%2FComicShanns-Regular.ttf" data-analytics-event="{&quot;category&quot;:&quot;passkey_404_login&quot;,&quot;action&quot;:&quot;clicked&quot;,&quot;label&quot;:null}" data-view-component="true" class="Button--link Button--medium Button">  <span class="Button-content">
+          <a href="/login?return_to=https%3A%2F%2Fgithub.com%2Fshannpersand%2Fcomic-shanns%2Fraw%2Fmain%2FComicShanns-Regular.ttf" data-analytics-event="{&quot;category&quot;:&quot;passkey_404_login&quot;,&quot;action&quot;:&quot;clicked&quot;,&quot;label&quot;:null}" data-view-component="true" class="Button--link Button--medium Button">  <span class="Button-content">
     <span class="Button-label">or continue with other methods</span>
   </span>
 </a>
@@ -1553,20 +1553,20 @@
 
 </div></div>            </div>
 
-              <a href="/signup?ref_cta=Sign+up&amp;ref_loc=header+logged+out&amp;ref_page=%2Fshannpersand%2Fcomic-shanns%2Fraw%2Fmain%2Ffonts%2FComicShanns-Regular.ttf&amp;source=header"
+              <a href="/signup?ref_cta=Sign+up&amp;ref_loc=header+logged+out&amp;ref_page=%2Fshannpersand%2Fcomic-shanns%2Fraw%2Fmain%2FComicShanns-Regular.ttf&amp;source=header"
                 class="HeaderMenu-link HeaderMenu-link--sign-up HeaderMenu-button flex-shrink-0 d-flex d-lg-inline-flex no-underline border color-border-default rounded px-2 py-1"
-                data-hydro-click="{&quot;event_type&quot;:&quot;authentication.click&quot;,&quot;payload&quot;:{&quot;location_in_page&quot;:&quot;site header menu&quot;,&quot;repository_id&quot;:null,&quot;auth_type&quot;:&quot;SIGN_UP&quot;,&quot;originating_url&quot;:&quot;https://github.com/shannpersand/comic-shanns/raw/main/fonts/ComicShanns-Regular.ttf&quot;,&quot;user_id&quot;:null}}" data-hydro-click-hmac="9b1e3995d02990819734b9bd9c1cfa67da6f751a9e74b16353c9df245b3f972b"
-                data-analytics-event="{&quot;category&quot;:&quot;Sign up&quot;,&quot;action&quot;:&quot;click to sign up for account&quot;,&quot;label&quot;:&quot;ref_page:/shannpersand/comic-shanns/raw/main/fonts/ComicShanns-Regular.ttf;ref_cta:Sign up;ref_loc:header logged out&quot;}"
+                data-hydro-click="{&quot;event_type&quot;:&quot;authentication.click&quot;,&quot;payload&quot;:{&quot;location_in_page&quot;:&quot;site header menu&quot;,&quot;repository_id&quot;:null,&quot;auth_type&quot;:&quot;SIGN_UP&quot;,&quot;originating_url&quot;:&quot;https://github.com/shannpersand/comic-shanns/raw/main/ComicShanns-Regular.ttf&quot;,&quot;user_id&quot;:null}}" data-hydro-click-hmac="c1cf95c63285befe46c431011891edcdcd051cb06f0ad7e85ad1b2aab9d73a84"
+                data-analytics-event="{&quot;category&quot;:&quot;Sign up&quot;,&quot;action&quot;:&quot;click to sign up for account&quot;,&quot;label&quot;:&quot;ref_page:/shannpersand/comic-shanns/raw/main/ComicShanns-Regular.ttf;ref_cta:Sign up;ref_loc:header logged out&quot;}"
               >
                 Sign up
               </a>
 
                 <div class="AppHeader-appearanceSettings">
     <react-partial-anchor>
-      <button data-target="react-partial-anchor.anchor" id="icon-button-e5a1e061-859b-4852-9d7a-291840eea8e9" aria-labelledby="tooltip-476d7b41-87b4-43bf-82c3-d42468101243" type="button" disabled="disabled" data-view-component="true" class="Button Button--iconOnly Button--invisible Button--medium AppHeader-button HeaderMenu-link border cursor-wait">  <svg aria-hidden="true" height="16" viewBox="0 0 16 16" version="1.1" width="16" data-view-component="true" class="octicon octicon-sliders Button-visual">
+      <button data-target="react-partial-anchor.anchor" id="icon-button-4b3eba1f-c1f2-4dd9-b2f0-68178f897487" aria-labelledby="tooltip-74e12539-557d-4eb4-917e-c935ac76446c" type="button" disabled="disabled" data-view-component="true" class="Button Button--iconOnly Button--invisible Button--medium AppHeader-button HeaderMenu-link border cursor-wait">  <svg aria-hidden="true" height="16" viewBox="0 0 16 16" version="1.1" width="16" data-view-component="true" class="octicon octicon-sliders Button-visual">
     <path d="M15 2.75a.75.75 0 0 1-.75.75h-4a.75.75 0 0 1 0-1.5h4a.75.75 0 0 1 .75.75Zm-8.5.75v1.25a.75.75 0 0 0 1.5 0v-4a.75.75 0 0 0-1.5 0V2H1.75a.75.75 0 0 0 0 1.5H6.5Zm1.25 5.25a.75.75 0 0 0 0-1.5h-6a.75.75 0 0 0 0 1.5h6ZM15 8a.75.75 0 0 1-.75.75H11.5V10a.75.75 0 1 1-1.5 0V6a.75.75 0 0 1 1.5 0v1.25h2.75A.75.75 0 0 1 15 8Zm-9 5.25v-2a.75.75 0 0 0-1.5 0v1.25H1.75a.75.75 0 0 0 0 1.5H4.5v1.25a.75.75 0 0 0 1.5 0v-2Zm9 0a.75.75 0 0 1-.75.75h-6a.75.75 0 0 1 0-1.5h6a.75.75 0 0 1 .75.75Z"></path>
 </svg>
-</button><tool-tip id="tooltip-476d7b41-87b4-43bf-82c3-d42468101243" for="icon-button-e5a1e061-859b-4852-9d7a-291840eea8e9" popover="manual" data-direction="s" data-type="label" data-view-component="true" class="sr-only position-absolute">Appearance settings</tool-tip>
+</button><tool-tip id="tooltip-74e12539-557d-4eb4-917e-c935ac76446c" for="icon-button-4b3eba1f-c1f2-4dd9-b2f0-68178f897487" popover="manual" data-direction="s" data-type="label" data-view-component="true" class="sr-only position-absolute">Appearance settings</tool-tip>
 
       <template data-target="react-partial-anchor.template">
         <link crossorigin="anonymous" media="all" rel="stylesheet" href="https://github.githubassets.com/assets/primer-react.2ed7297523f7a189873b.module.css" />
@@ -1604,10 +1604,10 @@
         <span class="js-stale-session-flash-signed-out" hidden>You signed out in another tab or window. <a class="Link--inTextBlock" href="">Reload</a> to refresh your session.</span>
         <span class="js-stale-session-flash-switched" hidden>You switched accounts on another tab or window. <a class="Link--inTextBlock" href="">Reload</a> to refresh your session.</span>
 
-    <button id="icon-button-c8f2b779-def5-4e89-a36c-1a3d8c345b6e" aria-labelledby="tooltip-162cf85c-d314-4d9f-adae-ea5b6a88725c" type="button" data-view-component="true" class="Button Button--iconOnly Button--invisible Button--medium flash-close js-flash-close">  <svg aria-hidden="true" height="16" viewBox="0 0 16 16" version="1.1" width="16" data-view-component="true" class="octicon octicon-x Button-visual">
+    <button id="icon-button-7bebc35a-72fc-456c-b6bb-00dfd7a4f4f0" aria-labelledby="tooltip-622bc56f-ead8-4c89-9354-6f4943d09c22" type="button" data-view-component="true" class="Button Button--iconOnly Button--invisible Button--medium flash-close js-flash-close">  <svg aria-hidden="true" height="16" viewBox="0 0 16 16" version="1.1" width="16" data-view-component="true" class="octicon octicon-x Button-visual">
     <path d="M3.72 3.72a.75.75 0 0 1 1.06 0L8 6.94l3.22-3.22a.749.749 0 0 1 1.275.326.749.749 0 0 1-.215.734L9.06 8l3.22 3.22a.749.749 0 0 1-.326 1.275.749.749 0 0 1-.734-.215L8 9.06l-3.22 3.22a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042L6.94 8 3.72 4.78a.75.75 0 0 1 0-1.06Z"></path>
 </svg>
-</button><tool-tip id="tooltip-162cf85c-d314-4d9f-adae-ea5b6a88725c" for="icon-button-c8f2b779-def5-4e89-a36c-1a3d8c345b6e" popover="manual" data-direction="s" data-type="label" data-view-component="true" class="sr-only position-absolute">Dismiss alert</tool-tip>
+</button><tool-tip id="tooltip-622bc56f-ead8-4c89-9354-6f4943d09c22" for="icon-button-7bebc35a-72fc-456c-b6bb-00dfd7a4f4f0" popover="manual" data-direction="s" data-type="label" data-view-component="true" class="sr-only position-absolute">Dismiss alert</tool-tip>
 
 
   

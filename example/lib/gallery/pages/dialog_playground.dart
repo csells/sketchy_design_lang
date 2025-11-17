@@ -56,7 +56,7 @@ class _SketchyDialogPlaygroundExampleState
             Positioned.fill(
               child: DecoratedBox(
                 decoration: const BoxDecoration(
-                  color: Color(0xAA000000),
+                  color: SketchyPalette.scrim,
                   backgroundBlendMode: BlendMode.srcOver,
                 ),
                 child: Center(

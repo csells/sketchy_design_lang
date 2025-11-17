@@ -87,7 +87,7 @@ class _WhiteboardPainter extends CustomPainter {
   void paint(Canvas canvas, Size size) {
     if (showGrid) {
       final paint = Paint()
-        ..color = const Color(0x11000000)
+        ..color = SketchyPalette.canvasShadow
         ..strokeWidth = 1;
       const gap = 32.0;
       for (var x = 0.0; x < size.width; x += gap) {
@@ -99,11 +99,11 @@ class _WhiteboardPainter extends CustomPainter {
     }
 
     final strokePaint = Paint()
-      ..color = const Color(0xFF1C1C1C)
+      ..color = SketchyPalette.gridLine
       ..strokeWidth = 2
       ..style = PaintingStyle.stroke;
     final fillPaint = Paint()
-      ..color = const Color(0xFFFFF5DA)
+      ..color = SketchyPalette.cream
       ..style = PaintingStyle.fill;
 
     final circleCenter = size.center(const Offset(-80, -40));
@@ -113,7 +113,7 @@ class _WhiteboardPainter extends CustomPainter {
     final rectTopLeft = size.center(const Offset(40, 20));
     final rect = Rect.fromLTWH(rectTopLeft.dx, rectTopLeft.dy, 140, 80);
     final rectFill = Paint()
-      ..color = const Color(0xFFE8F0FF)
+      ..color = SketchyPalette.sky
       ..style = PaintingStyle.fill;
     canvas.drawRect(rect, rectFill);
     canvas.drawRect(rect, strokePaint);

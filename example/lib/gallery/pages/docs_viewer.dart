@@ -1,3 +1,4 @@
+import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 import 'package:sketchy_design_lang/sketchy_design_lang.dart';
 
@@ -43,9 +44,21 @@ class _DocsViewerExampleState extends State<DocsViewerExample> {
                             style: typography.headline,
                           ),
                         ),
-                        const SketchyTooltip(
-                          message: 'Copy deep link',
-                          child: SketchyIconButton(icon: SketchyIcons.copy),
+                        SketchyTooltip(
+                          message: 'copy link.',
+                          child: SketchyIconButton(
+                            icon: SketchyIcons.copy,
+                            onPressed: () async {
+                              await Clipboard.setData(
+                                ClipboardData(text: _docs[_index].title),
+                              );
+                              if (!context.mounted) return;
+                              SketchyMessage.show(
+                                context,
+                                message: 'Link copied.',
+                              );
+                            },
+                          ),
                         ),
                       ],
                     ),

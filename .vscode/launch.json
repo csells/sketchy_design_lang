@@ -2,10 +2,25 @@
   "version": "0.2.0",
   "configurations": [
     {
-      "name": "Gallery",
+      "name": "Sketchy App",
       "cwd": "example",
       "request": "launch",
-      "type": "dart"
+      "type": "dart",
+      "program": "lib/example.dart"
+    },
+    {
+      "name": "Sketchy Gallery",
+      "cwd": "example",
+      "request": "launch",
+      "type": "dart",
+      "program": "lib/gallery/main.dart"
+    },
+    {
+      "name": "Sketchy Design System",
+      "cwd": "example",
+      "request": "launch",
+      "type": "dart",
+      "program": "lib/design_system.dart"
     }
   ]
 }

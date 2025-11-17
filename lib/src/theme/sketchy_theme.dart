@@ -1,5 +1,6 @@
 import 'package:flutter/widgets.dart';
 
+import 'sketchy_color_mode.dart';
 import 'sketchy_colors.dart';
 import 'sketchy_typography.dart';
 
@@ -15,13 +16,13 @@ class SketchyThemeData {
     this.roughness = 0.5,
   });
 
-  /// Default light theme used by the examples.
-  factory SketchyThemeData.light({double roughness = 0.5}) =>
-      SketchyThemeData.fromMode(SketchyColorMode.light, roughness: roughness);
+  /// Default white theme used by the examples.
+  factory SketchyThemeData.white({double roughness = 0.5}) =>
+      SketchyThemeData.fromMode(SketchyColorMode.white, roughness: roughness);
 
-  /// Dark-mode variant built from a darker palette.
-  factory SketchyThemeData.dark({double roughness = 0.5}) =>
-      SketchyThemeData.fromMode(SketchyColorMode.dark, roughness: roughness);
+  /// Black-mode variant built from a darker palette.
+  factory SketchyThemeData.black({double roughness = 0.5}) =>
+      SketchyThemeData.fromMode(SketchyColorMode.black, roughness: roughness);
 
   /// Builds a theme from the predefined [mode].
   factory SketchyThemeData.fromMode(
@@ -85,8 +86,8 @@ class SketchyThemeData {
 class _SketchyThemeModeFactory {
   const _SketchyThemeModeFactory();
 
-  SketchyThemeData light({double roughness = 0.5}) =>
-      SketchyThemeData.fromMode(SketchyColorMode.light, roughness: roughness);
+  SketchyThemeData white({double roughness = 0.5}) =>
+      SketchyThemeData.fromMode(SketchyColorMode.white, roughness: roughness);
 
   SketchyThemeData red({double roughness = 0.5}) =>
       SketchyThemeData.fromMode(SketchyColorMode.red, roughness: roughness);
@@ -115,8 +116,8 @@ class _SketchyThemeModeFactory {
   SketchyThemeData magenta({double roughness = 0.5}) =>
       SketchyThemeData.fromMode(SketchyColorMode.magenta, roughness: roughness);
 
-  SketchyThemeData dark({double roughness = 0.5}) =>
-      SketchyThemeData.fromMode(SketchyColorMode.dark, roughness: roughness);
+  SketchyThemeData black({double roughness = 0.5}) =>
+      SketchyThemeData.fromMode(SketchyColorMode.black, roughness: roughness);
 }
 
 /// Inherited widget wiring [SketchyThemeData] into the tree.

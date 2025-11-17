@@ -1,40 +1,7 @@
 import 'package:flutter/painting.dart';
 
-/// Supported Sketchy color modes derived from `specs/sketchy-mode-colors.png`.
-enum SketchyColorMode {
-  /// Classic light ink-on-paper palette.
-  light,
-
-  /// Bold scarlet-inspired palette.
-  red,
-
-  /// Energetic orange palette.
-  orange,
-
-  /// Bright yellow palette.
-  yellow,
-
-  /// Fresh green palette.
-  green,
-
-  /// Playful cyan palette.
-  cyan,
-
-  /// Default blue palette.
-  blue,
-
-  /// Deep indigo palette.
-  indigo,
-
-  /// Vivid violet palette.
-  violet,
-
-  /// Punchy magenta palette.
-  magenta,
-
-  /// High-contrast dark palette.
-  dark,
-}
+import 'sketchy_color_mode.dart';
+import 'sketchy_palette.dart';
 
 /// Palette describing the “ink and paper” colors Sketchy components use.
 class SketchyColors {
@@ -59,9 +26,9 @@ class SketchyColors {
       paper: palette.paper,
       primary: palette.primary,
       secondary: palette.secondary,
-      info: const Color(0xFF4F7CAC),
-      warning: const Color(0xFFED6A5A),
-      success: const Color(0xFF6C9A8B),
+      info: SketchyPalette.info,
+      warning: SketchyPalette.warning,
+      success: SketchyPalette.success,
     );
   }
 
@@ -127,70 +94,70 @@ class _ModePalette {
 
 const Map<SketchyColorMode, _ModePalette> _modePalettes =
     <SketchyColorMode, _ModePalette>{
-      SketchyColorMode.light: _ModePalette(
-        ink: Color(0xFF1B1B1B),
-        paper: Color(0xFFFFFBF5),
-        primary: Color(0xFF1B1B1B),
-        secondary: Color(0xFFF5F2EA),
+      SketchyColorMode.white: _ModePalette(
+        ink: SketchyPalette.ink,
+        paper: SketchyPalette.paper,
+        primary: SketchyPalette.black,
+        secondary: SketchyPalette.white,
       ),
       SketchyColorMode.red: _ModePalette(
-        ink: Color(0xFF5C1111),
-        paper: Color(0xFFFFF3F0),
-        primary: Color(0xFFE53935),
-        secondary: Color(0xFFFFCDD2),
+        ink: SketchyPalette.redInk,
+        paper: SketchyPalette.redPaper,
+        primary: SketchyPalette.scarlet,
+        secondary: SketchyPalette.lightCoral,
       ),
       SketchyColorMode.orange: _ModePalette(
-        ink: Color(0xFF7A2F05),
-        paper: Color(0xFFFFF4E9),
-        primary: Color(0xFFFB8C00),
-        secondary: Color(0xFFFFE0B2),
+        ink: SketchyPalette.orangeInk,
+        paper: SketchyPalette.orangePaper,
+        primary: SketchyPalette.ember,
+        secondary: SketchyPalette.lightPeach,
       ),
       SketchyColorMode.yellow: _ModePalette(
-        ink: Color(0xFF7C5B04),
-        paper: Color(0xFFFFFBE6),
-        primary: Color(0xFFFBC02D),
-        secondary: Color(0xFFFFF59D),
+        ink: SketchyPalette.yellowInk,
+        paper: SketchyPalette.yellowPaper,
+        primary: SketchyPalette.lemon,
+        secondary: SketchyPalette.lightLemon,
       ),
       SketchyColorMode.green: _ModePalette(
-        ink: Color(0xFF184B2B),
-        paper: Color(0xFFF1FFF4),
-        primary: Color(0xFF2E7D32),
-        secondary: Color(0xFFC8E6C9),
+        ink: SketchyPalette.greenInk,
+        paper: SketchyPalette.greenPaper,
+        primary: SketchyPalette.lime,
+        secondary: SketchyPalette.lightSage,
       ),
       SketchyColorMode.cyan: _ModePalette(
-        ink: Color(0xFF06464E),
-        paper: Color(0xFFF0FDFF),
-        primary: Color(0xFF00ACC1),
-        secondary: Color(0xFFB2EBF2),
+        ink: SketchyPalette.cyanInk,
+        paper: SketchyPalette.cyanPaper,
+        primary: SketchyPalette.teal,
+        secondary: SketchyPalette.lightTurquoise,
       ),
       SketchyColorMode.blue: _ModePalette(
-        ink: Color(0xFF0F305D),
-        paper: Color(0xFFF0F6FF),
-        primary: Color(0xFF1976D2),
-        secondary: Color(0xFFBBDEFB),
+        ink: SketchyPalette.blueInk,
+        paper: SketchyPalette.bluePaper,
+        primary: SketchyPalette.cobalt,
+        secondary: SketchyPalette.lightSkyBlue,
       ),
       SketchyColorMode.indigo: _ModePalette(
-        ink: Color(0xFF261E61),
-        paper: Color(0xFFF4F0FF),
-        primary: Color(0xFF5C6BC0),
-        secondary: Color(0xFFD1C4E9),
+        ink: SketchyPalette.indigoInk,
+        paper: SketchyPalette.indigoPaper,
+        primary: SketchyPalette.indigo,
+        secondary: SketchyPalette.lightPeriwinkle,
       ),
       SketchyColorMode.violet: _ModePalette(
-        ink: Color(0xFF3C164D),
-        paper: Color(0xFFFFF0FF),
-        primary: Color(0xFF8E24AA),
-        secondary: Color(0xFFE1BEE7),
+        ink: SketchyPalette.violetInk,
+        paper: SketchyPalette.violetPaper,
+        primary: SketchyPalette.violet,
+        secondary: SketchyPalette.lightLilac,
       ),
       SketchyColorMode.magenta: _ModePalette(
-        ink: Color(0xFF5A0E2A),
-        paper: Color(0xFFFFF1F7),
-        primary: Color(0xFFD81B60),
-        secondary: Color(0xFFF8BBD0),
+        ink: SketchyPalette.magentaInk,
+        paper: SketchyPalette.magentaPaper,
+        primary: SketchyPalette.magenta,
+        secondary: SketchyPalette.lightPink,
       ),
-      SketchyColorMode.dark: _ModePalette(
-        ink: Color(0xFFF5F5F5),
-        paper: Color(0xFF0F0F0F),
-        primary: Color(0xFFF5F5F5),
-        secondary: Color(0xFF1B1B1B),
+      SketchyColorMode.black: _ModePalette(
+        ink: SketchyPalette.white,
+        paper: SketchyPalette.black,
+        primary: SketchyPalette.white,
+        secondary: SketchyPalette.black,
       ),
     };

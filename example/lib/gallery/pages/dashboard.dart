@@ -162,7 +162,7 @@ class _ChartPainter extends CustomPainter {
   @override
   void paint(Canvas canvas, Size size) {
     final paint = Paint()
-      ..color = const Color(0xFF000000)
+      ..color = SketchyPalette.black
       ..strokeWidth = 2
       ..style = PaintingStyle.stroke;
 

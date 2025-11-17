@@ -32,8 +32,8 @@ class _SketchyExamplesAppState extends State<SketchyExamplesApp> {
   Widget build(BuildContext context) => SketchyApp(
     title: 'Sketchy Examples',
     theme: SketchyThemeData.fromMode(_mode, roughness: _roughness),
+    debugShowCheckedModeBanner: false,
     home: ExampleGallery(
-      mode: _mode,
       onCycleMode: _cycleMode,
       roughness: _roughness,
       onRoughnessChanged: _handleRoughness,

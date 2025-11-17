@@ -3,20 +3,16 @@ import 'dart:async' show unawaited;
 import 'package:flutter/widgets.dart';
 import 'package:sketchy_design_lang/sketchy_design_lang.dart';
 
-import '../examples/examples.dart';
+import '../pages/examples.dart';
 
 /// Landing page that lists all example scenes.
 class ExampleGallery extends StatefulWidget {
   const ExampleGallery({
-    required this.mode,
     required this.onCycleMode,
     required this.roughness,
     required this.onRoughnessChanged,
     super.key,
   });
-
-  /// Active sketchy mode.
-  final SketchyColorMode mode;
 
   /// Callback that cycles to the next mode.
   final VoidCallback onCycleMode;
@@ -49,7 +45,6 @@ class _ExampleGalleryState extends State<ExampleGallery> {
     builder: (context, constraints) {
       final isCompact = constraints.maxWidth <= 800;
       return _GalleryShell(
-        mode: widget.mode,
         onCycleMode: widget.onCycleMode,
         roughness: widget.roughness,
         onRoughnessChanged: widget.onRoughnessChanged,
@@ -112,43 +107,42 @@ class _ExampleGalleryState extends State<ExampleGallery> {
 class _GalleryShell extends StatelessWidget {
   const _GalleryShell({
     required this.child,
-    required this.mode,
     required this.onCycleMode,
     required this.roughness,
     required this.onRoughnessChanged,
   });
 
   final Widget child;
-  final SketchyColorMode mode;
   final VoidCallback onCycleMode;
   final double roughness;
   final ValueChanged<double> onRoughnessChanged;
 
   @override
   Widget build(BuildContext context) {
-    final typography = SketchyTypography.of(context);
+    final modeName = _describeMode(SketchyTheme.of(context).mode);
     return SketchyScaffold(
       appBar: SketchyAppBar(
-        title: Text('Sketchy Examples — ${_describeMode(mode)}'),
+        title: Text('Sketchy Examples — $modeName'),
         actions: [
           _ModeButton(onPressed: onCycleMode),
           const SizedBox(width: 12),
-          SizedBox(
-            width: 220,
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text('Roughness', style: typography.caption),
-                SketchySlider(value: roughness, onChanged: onRoughnessChanged),
-              ],
+          SketchyTooltip(
+            message: 'rough.',
+            child: SizedBox(
+              width: 220,
+              child: SketchySlider(
+                value: roughness,
+                onChanged: onRoughnessChanged,
+              ),
             ),
           ),
         ],
       ),
       body: Stack(
         children: [
-          Positioned.fill(child: child),
+          Positioned.fill(
+            child: Padding(padding: const EdgeInsets.all(24), child: child),
+          ),
           const _MascotBadge(),
         ],
       ),
@@ -215,7 +209,7 @@ class _ModeButton extends StatelessWidget {
           fillColor: theme.colors.secondary,
           strokeColor: theme.colors.primary,
           createPrimitive: () =>
-              SketchyPrimitive.circle(fill: SketchyFill.solid),
+              SketchyPrimitive.rectangle(fill: SketchyFill.solid),
           child: const SizedBox.shrink(),
         ),
       ),
@@ -233,15 +227,19 @@ class _MascotBadge extends StatelessWidget {
     child: SketchyTooltip(
       message: 'meh.',
       child: SizedBox(
-        width: 88,
-        child: Image.asset('specs/sketchy-mascot.png'),
+        width: 16,
+        height: 16,
+        child: Image.asset(
+          'packages/sketchy_design_lang/assets/images/sketchy-mascot.png',
+          fit: BoxFit.contain,
+        ),
       ),
     ),
   );
 }
 
 String _describeMode(SketchyColorMode mode) => switch (mode) {
-  SketchyColorMode.light => 'Light',
+  SketchyColorMode.white => 'White',
   SketchyColorMode.red => 'Red',
   SketchyColorMode.orange => 'Orange',
   SketchyColorMode.yellow => 'Yellow',
@@ -251,5 +249,5 @@ String _describeMode(SketchyColorMode mode) => switch (mode) {
   SketchyColorMode.indigo => 'Indigo',
   SketchyColorMode.violet => 'Violet',
   SketchyColorMode.magenta => 'Magenta',
-  SketchyColorMode.dark => 'Dark',
+  SketchyColorMode.black => 'Black',
 };

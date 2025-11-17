@@ -1,6 +1,7 @@
 import 'package:flutter/widgets.dart';
 import 'package:wired_elements/wired_elements.dart';
 
+import '../theme/sketchy_palette.dart';
 import '../theme/sketchy_typography.dart';
 
 /// Rough-styled text field wrapper.
@@ -48,7 +49,7 @@ class SketchyTextField extends StatelessWidget {
           const SizedBox(height: 4),
           Text(
             errorText!,
-            style: typography.caption.copyWith(color: const Color(0xFFD64550)),
+            style: typography.caption.copyWith(color: SketchyPalette.error),
           ),
         ],
       ],

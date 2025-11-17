@@ -37,6 +37,15 @@ class SketchyExampleEntry {
 
 final List<SketchyExampleEntry> sketchyExamples = [
   SketchyExampleEntry(
+    id: 'docs-viewer',
+    title: 'Welcome to Sketchy',
+    description: _para([
+      'Landing page that doubles as developer documentation with tabs,',
+      'tooltips, and rough dividers.',
+    ]),
+    builder: DocsViewerExample.builder,
+  ),
+  SketchyExampleEntry(
     id: 'spotlight-panel',
     title: 'Spotlight Panel',
     description: _para([
@@ -80,15 +89,6 @@ final List<SketchyExampleEntry> sketchyExamples = [
       'highlights.',
     ]),
     builder: QuizCardExample.builder,
-  ),
-  SketchyExampleEntry(
-    id: 'docs-viewer',
-    title: 'Developer Documentation Viewer',
-    description: _para([
-      'Tab-based viewer with inline tooltips, dividers, and hover',
-      'effects.',
-    ]),
-    builder: DocsViewerExample.builder,
   ),
   SketchyExampleEntry(
     id: 'whiteboard-palette',

@@ -25,7 +25,7 @@ dev_dependencies:
 flutter:
   uses-material-design: false
   assets:
-    - assets/fonts/ComicShanns-Regular.ttf
+    - assets/images/
   fonts:
     - family: ComicShanns
       fonts:

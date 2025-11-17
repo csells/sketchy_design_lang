@@ -96,10 +96,7 @@ class SketchyButton extends StatelessWidget {
       padding: const EdgeInsets.symmetric(horizontal: 20),
       fillColor: background,
       strokeColor: theme.colors.ink,
-      createPrimitive: () => SketchyPrimitive.roundedRectangle(
-        cornerRadius: theme.borderRadius,
-        fill: fill,
-      ),
+      createPrimitive: () => SketchyPrimitive.rectangle(fill: fill),
       child: Center(
         child: Text(
           label,
