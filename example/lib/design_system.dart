@@ -1,8 +1,81 @@
 // ignore_for_file: public_member_api_docs
 
 import 'dart:async';
+
 import 'package:flutter/material.dart';
+import 'package:sketchy_design_lang/sketchy_design_lang.dart';
 import 'package:wired_elements/wired_elements.dart';
+
+SketchyThemeData _resolveSketchyTheme(SketchyColorMode mode, bool isDark) {
+  final base = SketchyThemeData.fromMode(mode);
+  if (!isDark) return base;
+  final swappedColors = base.colors.copyWith(
+    primary: base.colors.secondary,
+    secondary: base.colors.primary,
+    paper: SketchyPalette.charcoal,
+    ink: SketchyPalette.white,
+  );
+  return base.copyWith(colors: swappedColors);
+}
+
+ThemeData _materialThemeFromSketchy(
+  SketchyThemeData sketchyTheme,
+  bool isDark,
+) {
+  final colors = sketchyTheme.colors;
+  final brightness = isDark ? Brightness.dark : Brightness.light;
+  final colorScheme =
+      ColorScheme.fromSeed(
+        seedColor: colors.primary,
+        brightness: brightness,
+      ).copyWith(
+        primary: colors.primary,
+        onPrimary: colors.secondary,
+        secondary: colors.secondary,
+        onSecondary: colors.ink,
+        surface: colors.paper,
+        onSurface: colors.ink,
+      );
+
+  final textTheme = TextTheme(
+    displayLarge: sketchyTheme.typography.headline.copyWith(color: colors.ink),
+    titleLarge: sketchyTheme.typography.title.copyWith(color: colors.ink),
+    bodyLarge: sketchyTheme.typography.body.copyWith(color: colors.ink),
+    bodyMedium: sketchyTheme.typography.body.copyWith(color: colors.ink),
+    bodySmall: sketchyTheme.typography.caption.copyWith(color: colors.ink),
+    labelLarge: sketchyTheme.typography.label.copyWith(color: colors.ink),
+  );
+
+  return ThemeData(
+    brightness: brightness,
+    useMaterial3: true,
+    scaffoldBackgroundColor: colors.paper,
+    colorScheme: colorScheme,
+    fontFamily: sketchyTheme.typography.body.fontFamily,
+    textTheme: textTheme,
+    appBarTheme: AppBarTheme(
+      backgroundColor: colors.primary,
+      foregroundColor: colors.secondary,
+      centerTitle: true,
+      titleTextStyle: sketchyTheme.typography.title.copyWith(
+        color: colors.secondary,
+        fontSize: 24,
+      ),
+    ),
+  );
+}
+
+class PaletteOption {
+  const PaletteOption({
+    required this.id,
+    required this.label,
+    required this.mode,
+  });
+
+  final String id;
+  final String label;
+  final SketchyColorMode mode;
+}
 
 void main() {
   runApp(const SketchyApp());
@@ -17,70 +90,41 @@ class SketchyApp extends StatefulWidget {
 
 class _SketchyAppState extends State<SketchyApp> {
   bool _isDark = false;
-  String _activeThemeName = 'monochrome';
+  String _activePaletteId = 'monochrome';
 
-  // ROYGBIV + monochrome. Easy to add more later.
-  final Map<String, SketchyPalette> _palettes = {
-    'monochrome': const SketchyPalette(
-      name: 'Monochrome',
-      primary: Colors.black,
-      secondary: Color(0xFFEFEFEF),
+  static const List<PaletteOption> _palettes = <PaletteOption>[
+    PaletteOption(
+      id: 'monochrome',
+      label: 'Monochrome',
+      mode: SketchyColorMode.white,
     ),
-    'red': const SketchyPalette(
-      name: 'Red',
-      primary: Colors.red,
-      secondary: Color(0xFFFFCDD2),
-    ),
-    'orange': const SketchyPalette(
-      name: 'Orange',
-      primary: Colors.deepOrange,
-      secondary: Color(0xFFFFE0B2),
-    ),
-    'yellow': const SketchyPalette(
-      name: 'Yellow',
-      primary: Colors.amber,
-      secondary: Color(0xFFFFF59D),
-    ),
-    'green': const SketchyPalette(
-      name: 'Green',
-      primary: Colors.lightGreen,
-      secondary: Color(0xFFC5E1A5),
-    ),
-    'blue': const SketchyPalette(
-      name: 'Blue',
-      primary: Colors.blue,
-      secondary: Color(0xFFBBDEFB),
-    ),
-    'indigo': const SketchyPalette(
-      name: 'Indigo',
-      primary: Colors.indigo,
-      secondary: Color(0xFFC5CAE9),
-    ),
-    'violet': const SketchyPalette(
-      name: 'Violet',
-      primary: Colors.deepPurple,
-      secondary: Color(0xFFD1C4E9),
-    ),
-  };
+    PaletteOption(id: 'red', label: 'Red', mode: SketchyColorMode.red),
+    PaletteOption(id: 'orange', label: 'Orange', mode: SketchyColorMode.orange),
+    PaletteOption(id: 'yellow', label: 'Yellow', mode: SketchyColorMode.yellow),
+    PaletteOption(id: 'green', label: 'Green', mode: SketchyColorMode.green),
+    PaletteOption(id: 'blue', label: 'Blue', mode: SketchyColorMode.blue),
+    PaletteOption(id: 'indigo', label: 'Indigo', mode: SketchyColorMode.indigo),
+    PaletteOption(id: 'violet', label: 'Violet', mode: SketchyColorMode.violet),
+  ];
+
+  PaletteOption get _activePalette =>
+      _palettes.firstWhere((option) => option.id == _activePaletteId);
 
   @override
   Widget build(BuildContext context) {
-    final palette = _palettes[_activeThemeName]!;
-    final lightTheme = buildSketchyTheme(palette, Brightness.light);
-    final darkTheme = buildSketchyTheme(palette, Brightness.dark);
+    final sketchyTheme = _resolveSketchyTheme(_activePalette.mode, _isDark);
+    final materialTheme = _materialThemeFromSketchy(sketchyTheme, _isDark);
 
     return MaterialApp(
       title: 'Sketchy Design System',
       debugShowCheckedModeBanner: false,
-      theme: lightTheme,
-      darkTheme: darkTheme,
-      themeMode: _isDark ? ThemeMode.dark : ThemeMode.light,
+      theme: materialTheme,
       home: SketchyDesignSystemPage(
-        currentPalette: palette,
+        palette: _activePalette,
         palettes: _palettes,
         isDark: _isDark,
-        onThemeChanged: (name) {
-          setState(() => _activeThemeName = name);
+        onThemeChanged: (id) {
+          setState(() => _activePaletteId = id);
         },
         onToggleDarkMode: () {
           setState(() => _isDark = !_isDark);
@@ -90,67 +134,18 @@ class _SketchyAppState extends State<SketchyApp> {
   }
 }
 
-class SketchyPalette {
-  const SketchyPalette({
-    required this.name,
-    required this.primary,
-    required this.secondary,
-  });
-  final String name;
-  final Color primary;
-  final Color secondary;
-}
-
-ThemeData buildSketchyTheme(SketchyPalette palette, Brightness brightness) {
-  final isDark = brightness == Brightness.dark;
-  final primary = isDark ? palette.secondary : palette.primary;
-  final secondary = isDark ? palette.primary : palette.secondary;
-
-  final base = ThemeData(
-    brightness: brightness,
-    useMaterial3: true,
-    colorScheme: ColorScheme.fromSeed(
-      seedColor: primary,
-      brightness: brightness,
-      primary: primary,
-      secondary: secondary,
-    ),
-    fontFamily: 'ComicShanns', // your Comic Shanns family name
-  );
-
-  return base.copyWith(
-    scaffoldBackgroundColor: isDark
-        ? const Color(0xFF111111)
-        : const Color(0xFFFFFDF6),
-    appBarTheme: base.appBarTheme.copyWith(
-      backgroundColor: primary,
-      foregroundColor: isDark ? Colors.black : Colors.white,
-      centerTitle: true,
-      elevation: 0,
-      titleTextStyle: const TextStyle(
-        fontFamily: 'ComicShanns',
-        fontSize: 26,
-        fontWeight: FontWeight.bold,
-      ),
-    ),
-    textTheme: base.textTheme.apply(
-      bodyColor: isDark ? Colors.white : Colors.black87,
-      displayColor: isDark ? Colors.white : Colors.black87,
-    ),
-  );
-}
-
 class SketchyDesignSystemPage extends StatefulWidget {
   const SketchyDesignSystemPage({
-    required this.currentPalette,
+    required this.palette,
     required this.palettes,
     required this.isDark,
     required this.onToggleDarkMode,
     required this.onThemeChanged,
     super.key,
   });
-  final SketchyPalette currentPalette;
-  final Map<String, SketchyPalette> palettes;
+
+  final PaletteOption palette;
+  final List<PaletteOption> palettes;
   final bool isDark;
   final VoidCallback onToggleDarkMode;
   final ValueChanged<String> onThemeChanged;
@@ -228,7 +223,7 @@ class _SketchyDesignSystemPageState extends State<SketchyDesignSystemPage>
 
   @override
   Widget build(BuildContext context) {
-    final palette = widget.currentPalette;
+    final palette = widget.palette;
 
     return Scaffold(
       appBar: AppBar(title: const Text('Sketchy Design System')),
@@ -256,7 +251,7 @@ class _SketchyDesignSystemPageState extends State<SketchyDesignSystemPage>
     );
   }
 
-  Widget _buildHeaderRow(BuildContext context, SketchyPalette palette) => Row(
+  Widget _buildHeaderRow(BuildContext context, PaletteOption palette) => Row(
     crossAxisAlignment: CrossAxisAlignment.center,
     children: [
       // Mascot
@@ -280,7 +275,7 @@ class _SketchyDesignSystemPageState extends State<SketchyDesignSystemPage>
             ),
             const SizedBox(height: 8),
             Text(
-              'Current theme: ${palette.name} • '
+              'Current theme: ${palette.label} • '
               'Mode: ${widget.isDark ? 'Dark' : 'Light'}',
               style: _mutedStyle(context),
             ),
@@ -290,7 +285,7 @@ class _SketchyDesignSystemPageState extends State<SketchyDesignSystemPage>
     ],
   );
 
-  Widget _buildThemeRow(SketchyPalette active) => Column(
+  Widget _buildThemeRow(PaletteOption active) => Column(
     crossAxisAlignment: CrossAxisAlignment.start,
     children: [
       Text(
@@ -310,22 +305,25 @@ class _SketchyDesignSystemPageState extends State<SketchyDesignSystemPage>
       Wrap(
         spacing: 12,
         runSpacing: 12,
-        children: widget.palettes.entries.map((entry) {
-          final palette = entry.value;
-          final isActive = identical(palette, active);
+        children: widget.palettes.map((option) {
+          final isActive = option.id == active.id;
+          final previewColors = _resolveSketchyTheme(option.mode, false).colors;
           return GestureDetector(
-            onTap: () => widget.onThemeChanged(entry.key),
+            onTap: () => widget.onThemeChanged(option.id),
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
-                // Primary color chip
-                _colorChip(palette.primary, isActive),
+                _colorChip(previewColors.primary, isActive),
                 const SizedBox(height: 4),
-                // Secondary color chip
-                _colorChip(palette.secondary, isActive, stroke: true, size: 22),
+                _colorChip(
+                  previewColors.secondary,
+                  isActive,
+                  stroke: true,
+                  size: 22,
+                ),
                 const SizedBox(height: 4),
                 Text(
-                  entry.key,
+                  option.id,
                   style: TextStyle(
                     fontWeight: isActive ? FontWeight.bold : FontWeight.w400,
                   ),
