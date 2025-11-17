@@ -24,3 +24,7 @@ flutter:
   uses-material-design: false
   assets:
     - assets/images/
+  fonts:
+    - family: ComicShanns
+      fonts:
+        - asset: assets/fonts/ComicShanns-Regular.ttf

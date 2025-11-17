@@ -119,6 +119,18 @@ class _SketchyAppState extends State<SketchyApp> {
       title: 'Sketchy Design System',
       debugShowCheckedModeBanner: false,
       theme: materialTheme,
+      builder: (context, child) {
+        final content = child ?? const SizedBox.shrink();
+        return SketchyTheme(
+          data: sketchyTheme,
+          child: DefaultTextStyle(
+            style: sketchyTheme.typography.body.copyWith(
+              color: sketchyTheme.colors.ink,
+            ),
+            child: content,
+          ),
+        );
+      },
       home: SketchyDesignSystemPage(
         palette: _activePalette,
         palettes: _palettes,
