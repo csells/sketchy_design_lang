@@ -1,6 +1,7 @@
 // ignore_for_file: public_member_api_docs
 
 import 'dart:async';
+import 'dart:math' as math;
 
 import 'package:flutter/material.dart';
 import 'package:sketchy_design_lang/sketchy_design_lang.dart';
@@ -169,6 +170,7 @@ class SketchyDesignSystemPage extends StatefulWidget {
 
 class _SketchyDesignSystemPageState extends State<SketchyDesignSystemPage>
     with TickerProviderStateMixin {
+  static const double _cardWidth = 520;
   // State for the "sketchy" components
   String _selectedRadio = 'Lafayette';
   double _sliderValue = 0.2;
@@ -241,23 +243,18 @@ class _SketchyDesignSystemPageState extends State<SketchyDesignSystemPage>
       appBar: AppBar(title: const Text('Sketchy Design System')),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(16),
-        child: Center(
-          child: ConstrainedBox(
-            constraints: const BoxConstraints(maxWidth: 1100),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                _buildHeaderRow(context, palette),
-                const SizedBox(height: 24),
-                _buildThemeRow(palette),
-                const SizedBox(height: 24),
-                _buildModeToggleRow(),
-                const SizedBox(height: 32),
-                _buildShowcaseBoard(),
-                const SizedBox(height: 32),
-              ],
-            ),
-          ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            _buildHeaderRow(context, palette),
+            const SizedBox(height: 24),
+            _buildThemeRow(palette),
+            const SizedBox(height: 24),
+            _buildModeToggleRow(),
+            const SizedBox(height: 32),
+            _buildShowcaseBoard(),
+            const SizedBox(height: 32),
+          ],
         ),
       ),
     );
@@ -435,30 +432,25 @@ class _SketchyDesignSystemPageState extends State<SketchyDesignSystemPage>
       _buildDialogSection(),
     ];
 
-    final left = <Widget>[];
-    final right = <Widget>[];
-
-    for (var i = 0; i < cards.length; i++) {
-      final target = i.isEven ? left : right;
-      if (target.isNotEmpty) {
-        target.add(const SizedBox(height: 24));
-      }
-      target.add(cards[i]);
-    }
-
-    return Row(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Expanded(child: Column(children: left)),
-        const SizedBox(width: 24),
-        Expanded(child: Column(children: right)),
-      ],
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        final availableWidth = constraints.maxWidth.isFinite
+            ? constraints.maxWidth
+            : MediaQuery.of(context).size.width;
+        final cardWidth = math.min(_cardWidth, availableWidth);
+        return Wrap(
+          spacing: 24,
+          runSpacing: 24,
+          children: cards
+              .map((card) => SizedBox(width: cardWidth, child: card))
+              .toList(),
+        );
+      },
     );
   }
 
   Widget _buildButtonsSection() => _sectionCard(
     title: 'Sketchy buttons',
-    height: 230,
     child: Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -511,15 +503,12 @@ class _SketchyDesignSystemPageState extends State<SketchyDesignSystemPage>
 
   Widget _buildDividerSection() => _sectionCard(
     title: 'Sketchy divider',
-    height: 320,
     child: Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
           'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do '
-          'eiusmod tempor incididunt ut labore et dolore magna aliqua. '
-          'Ut enim ad minim veniam, quis nostrud exercitation ullamco '
-          'laboris nisi ut aliquip ex ea commodo consequat.',
+          'eiusmod tempor incididunt ut labore et dolore magna aliqua. ',
           style: _bodyStyle(context),
         ),
         const SizedBox(height: 12),
@@ -527,9 +516,7 @@ class _SketchyDesignSystemPageState extends State<SketchyDesignSystemPage>
         const SizedBox(height: 12),
         Text(
           'Duis aute irure dolor in reprehenderit in voluptate velit esse '
-          'cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat '
-          'cupidatat non proident, sunt in culpa qui officia deserunt '
-          'mollit anim id est laborum.',
+          'cillum dolore eu fugiat nulla pariatur.',
           style: _bodyStyle(context),
         ),
       ],
@@ -538,7 +525,7 @@ class _SketchyDesignSystemPageState extends State<SketchyDesignSystemPage>
 
   Widget _buildInputsSection() => _sectionCard(
     title: 'Sketchy input',
-    height: 280,
+    height: 340,
     child: Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -574,7 +561,6 @@ class _SketchyDesignSystemPageState extends State<SketchyDesignSystemPage>
 
   Widget _buildRadioSection() => _sectionCard(
     title: 'Sketchy radio',
-    height: 180,
     child: Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -603,7 +589,6 @@ class _SketchyDesignSystemPageState extends State<SketchyDesignSystemPage>
 
   Widget _buildSliderSection() => _sectionCard(
     title: 'Sketchy slider',
-    height: 160,
     child: Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -627,7 +612,6 @@ class _SketchyDesignSystemPageState extends State<SketchyDesignSystemPage>
 
   Widget _buildProgressSection() => _sectionCard(
     title: 'Sketchy progress',
-    height: 180,
     child: Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -675,7 +659,7 @@ class _SketchyDesignSystemPageState extends State<SketchyDesignSystemPage>
 
   Widget _buildCalendarSection() => _sectionCard(
     title: 'Sketchy calendar',
-    height: 350,
+    height: 420,
     child: Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -710,7 +694,6 @@ class _SketchyDesignSystemPageState extends State<SketchyDesignSystemPage>
 
   Widget _buildCheckboxSection() => _sectionCard(
     title: 'Sketchy checkbox',
-    height: 210,
     child: Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -733,7 +716,6 @@ class _SketchyDesignSystemPageState extends State<SketchyDesignSystemPage>
 
   Widget _buildToggleSection() => _sectionCard(
     title: 'Sketchy toggle',
-    height: 180,
     child: Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -760,7 +742,6 @@ class _SketchyDesignSystemPageState extends State<SketchyDesignSystemPage>
 
   Widget _buildComboSection() => _sectionCard(
     title: 'Sketchy combo',
-    height: 210,
     child: Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -796,7 +777,6 @@ class _SketchyDesignSystemPageState extends State<SketchyDesignSystemPage>
 
   Widget _buildDialogSection() => _sectionCard(
     title: 'Sketchy dialog',
-    height: 200,
     child: Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -824,13 +804,19 @@ class _SketchyDesignSystemPageState extends State<SketchyDesignSystemPage>
     required Widget child,
     double? height,
   }) {
-    final theme = Theme.of(context);
-    final textColor = theme.colorScheme.onSurface;
-    return WiredCard(
-      height: height ?? 250,
-      fill: false,
-      child: Padding(
+    final sketchy = SketchyTheme.of(context);
+    final borderColor = _cardBorderColor(sketchy);
+    final fillColor = widget.isDark
+        ? Color.lerp(sketchy.colors.paper, sketchy.colors.secondary, 0.2)!
+        : sketchy.colors.paper;
+    final textColor = Theme.of(context).colorScheme.onSurface;
+    return SizedBox(
+      width: double.infinity,
+      child: SketchySurface(
+        height: height ?? 250,
         padding: const EdgeInsets.all(16),
+        strokeColor: borderColor,
+        fillColor: fillColor,
         child: DefaultTextStyle(
           style: _bodyStyle(context, color: textColor),
           child: Column(
@@ -838,7 +824,7 @@ class _SketchyDesignSystemPageState extends State<SketchyDesignSystemPage>
             children: [
               Text(
                 title,
-                style: theme.textTheme.titleLarge?.copyWith(
+                style: Theme.of(context).textTheme.titleLarge?.copyWith(
                   fontWeight: FontWeight.bold,
                   color: textColor,
                 ),
@@ -850,6 +836,14 @@ class _SketchyDesignSystemPageState extends State<SketchyDesignSystemPage>
         ),
       ),
     );
+  }
+
+  Color _cardBorderColor(SketchyThemeData sketchy) {
+    if (!widget.isDark) return sketchy.colors.ink;
+    if (sketchy.mode == SketchyColorMode.white) {
+      return sketchy.colors.ink;
+    }
+    return sketchy.colors.secondary;
   }
 
   Widget _buildCheckboxOption({
@@ -890,6 +884,7 @@ class _SketchyDesignSystemPageState extends State<SketchyDesignSystemPage>
       builder: (dialogContext) => Center(
         child: SizedBox(
           width: 420,
+          height: 340,
           child: WiredDialog(
             padding: const EdgeInsets.all(24),
             child: Column(
@@ -897,7 +892,7 @@ class _SketchyDesignSystemPageState extends State<SketchyDesignSystemPage>
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  'Rough dialog',
+                  'Sketchy dialog title',
                   style: Theme.of(context).textTheme.titleLarge?.copyWith(
                     fontWeight: FontWeight.bold,
                     color: colors.onSurface,
