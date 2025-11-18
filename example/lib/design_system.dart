@@ -432,107 +432,105 @@ class _SketchyDesignSystemPageState extends State<SketchyDesignSystemPage>
     final colors = Theme.of(context).colorScheme;
     final isLightActive = !widget.isDark;
     final isDarkActive = widget.isDark;
-    final modeLabel = Text(
-      'Mode',
-      style: Theme.of(
-        context,
-      ).textTheme.titleMedium?.copyWith(fontWeight: FontWeight.bold),
-    );
-    final toggleButtons = Row(
-      mainAxisSize: MainAxisSize.min,
+    final labelStyle = Theme.of(
+      context,
+    ).textTheme.titleMedium?.copyWith(fontWeight: FontWeight.bold);
+
+    Widget buildModeControls() => Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        SketchyButton(
-          onPressed: isLightActive ? () {} : widget.onToggleDarkMode,
-          child: Text(
-            'Light',
-            style: _buttonLabelStyle(
-              context,
-              color: isLightActive
-                  ? colors.primary
-                  : colors.onSurface.withValues(alpha: 0.5),
+        Text('Mode', style: labelStyle),
+        const SizedBox(height: 8),
+        Row(
+          children: [
+            SketchyButton(
+              onPressed: isLightActive ? () {} : widget.onToggleDarkMode,
+              child: Text(
+                'Light',
+                style: _buttonLabelStyle(
+                  context,
+                  color: isLightActive
+                      ? colors.primary
+                      : colors.onSurface.withValues(alpha: 0.5),
+                ),
+              ),
             ),
-          ),
-        ),
-        const SizedBox(width: 12),
-        SketchyButton(
-          onPressed: isDarkActive ? () {} : widget.onToggleDarkMode,
-          child: Text(
-            'Dark',
-            style: _buttonLabelStyle(
-              context,
-              color: isDarkActive
-                  ? colors.primary
-                  : colors.onSurface.withValues(alpha: 0.5),
+            const SizedBox(width: 12),
+            SketchyButton(
+              onPressed: isDarkActive ? () {} : widget.onToggleDarkMode,
+              child: Text(
+                'Dark',
+                style: _buttonLabelStyle(
+                  context,
+                  color: isDarkActive
+                      ? colors.primary
+                      : colors.onSurface.withValues(alpha: 0.5),
+                ),
+              ),
             ),
-          ),
+          ],
         ),
       ],
     );
-    final roughControls = SizedBox(
-      width: 240,
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-            'Rough',
-            style: Theme.of(
-              context,
-            ).textTheme.titleMedium?.copyWith(fontWeight: FontWeight.bold),
-          ),
-          const SizedBox(height: 8),
-          Row(
-            children: [
-              Expanded(
-                child: SketchySlider(
-                  value: widget.roughness,
-                  onChanged: (value) =>
-                      widget.onRoughnessChanged(value.clamp(0.0, 1.0)),
+
+    Widget buildRoughControls() => Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text('Rough', style: labelStyle),
+        const SizedBox(height: 8),
+        SketchySlider(
+          value: widget.roughness,
+          onChanged: (value) =>
+              widget.onRoughnessChanged(value.clamp(0.0, 1.0)),
+        ),
+      ],
+    );
+
+    Widget buildFontControls() => Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text('Font', style: labelStyle),
+        const SizedBox(height: 8),
+        DropdownButton<String>(
+          value: widget.fontFamily,
+          items: _fontOptions.entries
+              .map(
+                (entry) => DropdownMenuItem<String>(
+                  value: entry.value,
+                  child: Text(entry.key, style: _bodyStyle(context)),
                 ),
-              ),
-              const SizedBox(width: 12),
-              DropdownButton<String>(
-                value: widget.fontFamily,
-                items: _fontOptions.entries
-                    .map(
-                      (entry) => DropdownMenuItem<String>(
-                        value: entry.value,
-                        child: Text(entry.key, style: _bodyStyle(context)),
-                      ),
-                    )
-                    .toList(),
-                onChanged: (value) {
-                  if (value != null) widget.onFontChanged(value);
-                },
-              ),
-            ],
-          ),
-        ],
-      ),
+              )
+              .toList(),
+          onChanged: (value) {
+            if (value != null) widget.onFontChanged(value);
+          },
+        ),
+      ],
     );
 
     return LayoutBuilder(
       builder: (context, constraints) {
-        final isNarrow = constraints.maxWidth < 520;
+        final isNarrow = constraints.maxWidth < 720;
         if (isNarrow) {
           return Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              modeLabel,
-              const SizedBox(height: 8),
-              toggleButtons,
+              buildModeControls(),
               const SizedBox(height: 16),
-              roughControls,
+              buildRoughControls(),
+              const SizedBox(height: 16),
+              buildFontControls(),
             ],
           );
         }
         return Row(
-          crossAxisAlignment: CrossAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            modeLabel,
-            const SizedBox(width: 12),
-            toggleButtons,
+            SizedBox(width: 200, child: buildModeControls()),
             const SizedBox(width: 24),
-            roughControls,
+            SizedBox(width: 200, child: buildRoughControls()),
+            const SizedBox(width: 24),
+            SizedBox(width: 200, child: buildFontControls()),
           ],
         );
       },

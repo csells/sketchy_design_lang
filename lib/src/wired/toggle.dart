@@ -24,7 +24,7 @@ class SketchyToggle extends StatefulWidget {
 class _SketchyToggleState extends State<SketchyToggle>
     with SingleTickerProviderStateMixin {
   bool _isSwitched = false;
-  final double _thumbRadius = 24;
+  final double _thumbRadius = 18;
   late Animation<double> _animation;
   late AnimationController _controller;
 

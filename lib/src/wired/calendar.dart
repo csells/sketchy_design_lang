@@ -216,8 +216,8 @@ class _SketchyCalendarState extends State<SketchyCalendar> {
             selected: isSelected,
             dimmed: day.month != firstDayInMonth.month,
             color: day.month == firstDayInMonth.month
-                ? _theme.textColor
-                : _theme.disabledTextColor,
+                ? _theme.colors.ink
+                : _theme.colors.ink.withValues(alpha: 0.35),
             disabled: false,
           ),
         );
@@ -279,7 +279,7 @@ class _SketchyCalendarState extends State<SketchyCalendar> {
       fontFamily: _theme.fontFamily,
       fontWeight: fontWeight,
       fontSize: fontSize,
-      color: color ?? _theme.textColor,
+      color: color ?? _theme.colors.ink,
     ),
   );
 }
