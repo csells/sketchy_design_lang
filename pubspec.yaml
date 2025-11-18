@@ -13,9 +13,6 @@ dependencies:
   flutter:
     sdk: flutter
   rough_flutter: ^0.1.2
-  rough_notation: ^0.0.1
-  wired_elements:
-    path: third_party/wired_elements
 
 dev_dependencies:
   all_lint_rules_community: ^0.0.38

@@ -38,37 +38,44 @@ class _WhiteboardPaletteExampleState extends State<WhiteboardPaletteExample> {
             child: Padding(
               padding: const EdgeInsets.all(24),
               child: SketchyCard(
-                padding: const EdgeInsets.all(16),
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    const Text('Tools'),
-                    const SizedBox(height: 12),
-                    const Row(
-                      children: [
-                        SketchyIconButton(icon: SketchyIcons.pen),
-                        SizedBox(width: 8),
-                        SketchyIconButton(icon: SketchyIcons.rectangle),
-                        SizedBox(width: 8),
-                        SketchyIconButton(icon: SketchyIcons.eraser),
-                      ],
-                    ),
-                    const SizedBox(height: 16),
-                    Text('Stroke width: ${_stroke.toStringAsFixed(1)}'),
-                    SketchySlider(
-                      value: _stroke,
-                      min: 0.5,
-                      max: 4,
-                      onChanged: (value) => setState(() => _stroke = value),
-                    ),
-                    const SizedBox(height: 12),
-                    SketchySwitchTile(
-                      label: 'Show grid',
-                      value: _showGrid,
-                      onChanged: (value) => setState(() => _showGrid = value),
-                    ),
-                  ],
+                child: Padding(
+                  padding: const EdgeInsets.all(16),
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      const Text('Tools'),
+                      const SizedBox(height: 12),
+                      const Row(
+                        children: [
+                          SketchyIconButton(icon: SketchyIcons.pen),
+                          SizedBox(width: 8),
+                          SketchyIconButton(icon: SketchyIcons.rectangle),
+                          SizedBox(width: 8),
+                          SketchyIconButton(icon: SketchyIcons.eraser),
+                        ],
+                      ),
+                      const SizedBox(height: 16),
+                      Text('Stroke width: ${_stroke.toStringAsFixed(1)}'),
+                      SketchySlider(
+                        value: _stroke,
+                        min: 0.5,
+                        max: 4,
+                        onChanged: (value) => setState(() => _stroke = value),
+                      ),
+                      const SizedBox(height: 12),
+                      Row(
+                        children: [
+                          const Expanded(child: Text('Show grid')),
+                          SketchyToggle(
+                            value: _showGrid,
+                            onChanged: (value) =>
+                                setState(() => _showGrid = value),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
                 ),
               ),
             ),

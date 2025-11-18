@@ -29,26 +29,31 @@ class _SketchyDialogPlaygroundExampleState
           Padding(
             padding: const EdgeInsets.all(24),
             child: SketchyCard(
-              padding: const EdgeInsets.all(20),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text('Design sessions', style: typography.headline),
-                  const SizedBox(height: 12),
-                  const SketchyListTile(
-                    title: Text('Onboarding flow retrofit'),
-                    subtitle: Text('Shared sprint with growth team.'),
-                    trailing: SketchyBadge(
-                      label: 'Due soon',
-                      tone: SketchyBadgeTone.accent,
+              child: Padding(
+                padding: const EdgeInsets.all(20),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text('Design sessions', style: typography.headline),
+                    const SizedBox(height: 12),
+                    const SketchyListTile(
+                      title: Text('Onboarding flow retrofit'),
+                      subtitle: Text('Shared sprint with growth team.'),
+                      trailing: SketchyBadge(
+                        label: 'Due soon',
+                        tone: SketchyBadgeTone.accent,
+                      ),
                     ),
-                  ),
-                  const SizedBox(height: 16),
-                  SketchyButton.primary(
-                    label: 'Review checklist dialog',
-                    onPressed: _toggleDialog,
-                  ),
-                ],
+                    const SizedBox(height: 16),
+                    SketchyButton(
+                      onPressed: _toggleDialog,
+                      child: Text(
+                        'Review checklist dialog',
+                        style: typography.label,
+                      ),
+                    ),
+                  ],
+                ),
               ),
             ),
           ),
@@ -81,14 +86,17 @@ class _SketchyDialogPlaygroundExampleState
                         Row(
                           mainAxisAlignment: MainAxisAlignment.end,
                           children: [
-                            SketchyButton.ghost(
-                              label: 'Cancel',
+                            SketchyButton(
                               onPressed: _toggleDialog,
+                              child: Text('Cancel', style: typography.label),
                             ),
                             const SizedBox(width: 8),
-                            SketchyButton.primary(
-                              label: 'Mark complete',
+                            SketchyButton(
                               onPressed: _toggleDialog,
+                              child: Text(
+                                'Mark complete',
+                                style: typography.label,
+                              ),
                             ),
                           ],
                         ),

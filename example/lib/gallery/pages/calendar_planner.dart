@@ -36,21 +36,23 @@ class _SketchyCalendarPlannerExampleState
             Expanded(
               flex: 3,
               child: SketchyCard(
-                padding: const EdgeInsets.all(20),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text('Pick a review slot', style: typography.headline),
-                    const SizedBox(height: 16),
-                    SizedBox(
-                      height: 320,
-                      child: SketchyCalendar(
-                        selected: _selected,
-                        onSelected: (value) =>
-                            setState(() => _selected = value),
+                child: Padding(
+                  padding: const EdgeInsets.all(20),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text('Pick a review slot', style: typography.headline),
+                      const SizedBox(height: 16),
+                      SizedBox(
+                        height: 320,
+                        child: SketchyCalendar(
+                          selected: _selected,
+                          onSelected: (value) =>
+                              setState(() => _selected = value),
+                        ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
               ),
             ),
@@ -58,28 +60,30 @@ class _SketchyCalendarPlannerExampleState
             Expanded(
               flex: 2,
               child: SketchyCard(
-                padding: const EdgeInsets.all(20),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      DateFormat('EEEE, MMM d').format(_selected),
-                      style: typography.title,
-                    ),
-                    const SizedBox(height: 16),
-                    for (final item in _agenda) ...[
-                      SketchyListTile(
-                        title: Text(item),
-                        subtitle: const Text('Prep notes and handouts ready.'),
+                child: Padding(
+                  padding: const EdgeInsets.all(20),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        DateFormat('EEEE, MMM d').format(_selected),
+                        style: typography.title,
                       ),
-                      const SizedBox(height: 12),
+                      const SizedBox(height: 16),
+                      for (final item in _agenda) ...[
+                        SketchyListTile(
+                          title: Text(item),
+                          subtitle: const Text('Prep notes ready.'),
+                        ),
+                        const SizedBox(height: 12),
+                      ],
+                      const SizedBox(height: 8),
+                      SketchyButton(
+                        onPressed: () {},
+                        child: Text('Send invites', style: typography.label),
+                      ),
                     ],
-                    const SizedBox(height: 8),
-                    SketchyButton.primary(
-                      label: 'Send invites',
-                      onPressed: () {},
-                    ),
-                  ],
+                  ),
                 ),
               ),
             ),

@@ -34,25 +34,27 @@ class WireframeDashboardExample extends StatelessWidget {
                 SizedBox(
                   width: isWide ? 240 : double.infinity,
                   child: SketchyCard(
-                    padding: const EdgeInsets.all(20),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text('Spaces', style: typography.title),
-                        const SizedBox(height: 12),
-                        ...['Inbox', 'Team board', 'Ideas', 'Archive'].map(
-                          (item) => SketchyListTile(
-                            title: Text(item),
-                            leading: const Text('—'),
-                            onTap: () {},
+                    child: Padding(
+                      padding: const EdgeInsets.all(20),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text('Spaces', style: typography.title),
+                          const SizedBox(height: 12),
+                          ...['Inbox', 'Team board', 'Ideas', 'Archive'].map(
+                            (item) => SketchyListTile(
+                              title: Text(item),
+                              leading: const Text('—'),
+                              onTap: () {},
+                            ),
                           ),
-                        ),
-                        const SketchyDivider(),
-                        const SketchyButton.ghost(
-                          label: 'Add space',
-                          onPressed: null,
-                        ),
-                      ],
+                          const SketchyDivider(),
+                          SketchyButton(
+                            onPressed: () {},
+                            child: Text('Add space', style: typography.label),
+                          ),
+                        ],
+                      ),
                     ),
                   ),
                 ),
@@ -132,14 +134,16 @@ class _DashboardCard extends StatelessWidget {
   Widget build(BuildContext context) {
     final typography = SketchyTypography.of(context);
     return SketchyCard(
-      padding: const EdgeInsets.all(20),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(title, style: typography.title),
-          const SizedBox(height: 12),
-          child,
-        ],
+      child: Padding(
+        padding: const EdgeInsets.all(20),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(title, style: typography.title),
+            const SizedBox(height: 12),
+            child,
+          ],
+        ),
       ),
     );
   }

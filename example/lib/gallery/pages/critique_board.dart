@@ -25,47 +25,46 @@ class CollaborativeCritiqueBoardExample extends StatelessWidget {
           children: List.generate(
             6,
             (index) => SketchyCard(
-              padding: const EdgeInsets.all(16),
-              child: Stack(
-                children: [
-                  Container(
-                    decoration: BoxDecoration(
-                      color: colors.paper,
-                      borderRadius: BorderRadius.circular(8),
+              child: Padding(
+                padding: const EdgeInsets.all(16),
+                child: Stack(
+                  children: [
+                    Container(
+                      decoration: BoxDecoration(
+                        color: colors.paper,
+                        borderRadius: BorderRadius.circular(8),
+                      ),
                     ),
-                  ),
-                  Align(
-                    alignment: Alignment.topLeft,
-                    child: SketchyBadge(
-                      label: 'v${index + 1}',
-                      tone: index.isEven
-                          ? SketchyBadgeTone.info
-                          : SketchyBadgeTone.accent,
+                    Align(
+                      alignment: Alignment.topLeft,
+                      child: SketchyBadge(
+                        label: 'v${index + 1}',
+                        tone: index.isEven
+                            ? SketchyBadgeTone.info
+                            : SketchyBadgeTone.accent,
+                      ),
                     ),
-                  ),
-                  Positioned(
-                    bottom: 12,
-                    left: 12,
-                    right: 12,
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          'Mobile shell concept #$index',
-                          style: typography.title,
-                        ),
-                        const SizedBox(height: 4),
-                        SketchyAnnotate.circle(
-                          label: 'Discuss contrast',
-                          child: Text(
+                    Positioned(
+                      bottom: 12,
+                      left: 12,
+                      right: 12,
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            'Mobile shell concept #$index',
+                            style: typography.title,
+                          ),
+                          const SizedBox(height: 4),
+                          Text(
                             'Need a stronger ink fill here to pop.',
                             style: typography.caption,
                           ),
-                        ),
-                      ],
+                        ],
+                      ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
             ),
           ),

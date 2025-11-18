@@ -24,49 +24,48 @@ class _QuizCardExampleState extends State<QuizCardExample> {
         child: ConstrainedBox(
           constraints: const BoxConstraints(maxWidth: 480),
           child: SketchyCard(
-            padding: const EdgeInsets.all(24),
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text('Question 2 of 5', style: typography.caption),
-                const SizedBox(height: 8),
-                const SketchyProgressBar(value: 0.4),
-                const SizedBox(height: 16),
-                Text(
-                  'Which statements describe the benefits of sketch-style '
-                  'interfaces?',
-                  style: typography.title,
-                ),
-                const SizedBox(height: 16),
-                ...List.generate(
-                  _answers.length,
-                  (index) => Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 6),
-                    child: SketchyChip.choice(
-                      label: _answers[index],
-                      selected: _selected.contains(index),
-                      onSelected: () {
-                        setState(() {
-                          if (_selected.contains(index)) {
-                            _selected.remove(index);
-                          } else {
-                            _selected.add(index);
-                          }
-                        });
-                      },
+            child: Padding(
+              padding: const EdgeInsets.all(24),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text('Question 2 of 5', style: typography.caption),
+                  const SizedBox(height: 8),
+                  const SketchyProgressBar(value: 0.4),
+                  const SizedBox(height: 16),
+                  Text(
+                    'Which statements describe the benefits of sketch-style '
+                    'interfaces?',
+                    style: typography.title,
+                  ),
+                  const SizedBox(height: 16),
+                  ...List.generate(
+                    _answers.length,
+                    (index) => Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 6),
+                      child: SketchyChip.choice(
+                        label: _answers[index],
+                        selected: _selected.contains(index),
+                        onSelected: () {
+                          setState(() {
+                            if (_selected.contains(index)) {
+                              _selected.remove(index);
+                            } else {
+                              _selected.add(index);
+                            }
+                          });
+                        },
+                      ),
                     ),
                   ),
-                ),
-                const SizedBox(height: 24),
-                SketchyAnnotate.highlight(
-                  label: 'Celebration',
-                  child: SketchyButton.primary(
-                    label: 'Check answer',
+                  const SizedBox(height: 24),
+                  SketchyButton(
                     onPressed: _selected.isEmpty ? null : () {},
+                    child: Text('Check answer', style: typography.label),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
           ),
         ),

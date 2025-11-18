@@ -139,14 +139,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "0.1.2"
-  rough_notation:
-    dependency: transitive
-    description:
-      name: rough_notation
-      sha256: c2e1d2f93376a3771ae0a6888de6675d77d52ded097c2c00609c10add7a21831
-      url: "https://pub.dev"
-    source: hosted
-    version: "0.0.1"
   sketchy_design_lang:
     dependency: "direct main"
     description:
@@ -223,13 +215,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "15.0.2"
-  wired_elements:
-    dependency: "direct main"
-    description:
-      path: "../third_party/wired_elements"
-      relative: true
-    source: path
-    version: "0.1.4"
 sdks:
   dart: ">=3.10.0 <4.0.0"
   flutter: ">=3.18.0-18.0.pre.54"

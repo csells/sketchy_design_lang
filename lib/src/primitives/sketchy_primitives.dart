@@ -2,7 +2,7 @@ import 'dart:math';
 import 'dart:ui';
 
 import 'package:flutter/widgets.dart';
-import 'package:wired_elements/rough/rough.dart';
+import 'package:rough_flutter/rough_flutter.dart';
 
 /// Fill strategies available for [SketchyPrimitive] shapes.
 enum SketchyFill {

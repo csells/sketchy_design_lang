@@ -12,8 +12,6 @@ dependencies:
   intl: ^0.20.2
   sketchy_design_lang:
     path: ../
-  wired_elements:
-    path: ../third_party/wired_elements
 
 dev_dependencies:
   all_lint_rules_community: ^0.0.38

@@ -1,0 +1,24 @@
+| Name          | Hex Code |
+| ------------- | -------- |
+| black         | #000000  |
+| white         | #ffffff  |
+| scarlet       | #981200  |
+| ember-rose    | #e6b9b0  |
+| red           | #ff2500  |
+| blush-red     | #f5cccc  |
+| orange        | #ff9a02  |
+| apricot-wash  | #fce5cc  |
+| yellow        | #fffb03  |
+| pollen-haze   | #fffb03  |
+| green         | #09f902  |
+| mint-mist     | #d9ead3  |
+| cyan          | #0afdff  |
+| ice-cyan      | #d0e1e3  |
+| blue          | #4a86e8  |
+| breeze-blue   | #c9daf8  |
+| dark-blue     | #0133ff  |
+| frost-navy    | #d0e3f2  |
+| indigo        | #9938ff  |
+| lavender-veil | #d9d1e9  |
+| violet        | #ff40ff  |
+| petal-violet  | #ead1dc  |

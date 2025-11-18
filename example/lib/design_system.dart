@@ -5,7 +5,6 @@ import 'dart:math' as math;
 
 import 'package:flutter/material.dart';
 import 'package:sketchy_design_lang/sketchy_design_lang.dart';
-import 'package:wired_elements/wired_elements.dart';
 
 const Map<String, String> _fontOptions = <String, String>{
   'Comic Shanns': 'ComicShanns',
@@ -90,25 +89,6 @@ SketchyTypographyData _applyFont(
   label: base.label.copyWith(fontFamily: fontFamily),
 );
 
-WiredThemeData _wiredThemeFromSketchy(
-  SketchyThemeData sketchyTheme,
-  bool isDark,
-) {
-  final primary = sketchyTheme.colors.primary;
-  final fill = sketchyTheme.colors.paper;
-  final disabled = primary.withValues(alpha: 0.4);
-  final wiredRoughness = 0.2 + sketchyTheme.roughness * 1.6;
-  return WiredThemeData(
-    borderColor: primary,
-    fillColor: fill,
-    textColor: primary,
-    disabledTextColor: disabled,
-    strokeWidth: sketchyTheme.strokeWidth,
-    fontFamily: sketchyTheme.typography.body.fontFamily ?? 'ComicShanns',
-    roughness: wiredRoughness,
-  );
-}
-
 class PaletteOption {
   const PaletteOption({
     required this.id,
@@ -172,17 +152,13 @@ class _SketchyAppState extends State<SketchyApp> {
       theme: materialTheme,
       builder: (context, child) {
         final content = child ?? const SizedBox.shrink();
-        final wired = WiredTheme(
-          data: _wiredThemeFromSketchy(sketchyTheme, _isDark),
-          child: content,
-        );
         return SketchyTheme(
           data: sketchyTheme,
           child: DefaultTextStyle(
             style: sketchyTheme.typography.body.copyWith(
               color: sketchyTheme.colors.ink,
             ),
-            child: wired,
+            child: content,
           ),
         );
       },
@@ -467,7 +443,7 @@ class _SketchyDesignSystemPageState extends State<SketchyDesignSystemPage>
             context,
           ).textTheme.titleMedium?.copyWith(fontWeight: FontWeight.bold),
         ),
-        WiredButton(
+        SketchyButton(
           onPressed: isLightActive ? () {} : widget.onToggleDarkMode,
           child: Text(
             'Light',
@@ -479,7 +455,7 @@ class _SketchyDesignSystemPageState extends State<SketchyDesignSystemPage>
             ),
           ),
         ),
-        WiredButton(
+        SketchyButton(
           onPressed: isDarkActive ? () {} : widget.onToggleDarkMode,
           child: Text(
             'Dark',
@@ -506,12 +482,10 @@ class _SketchyDesignSystemPageState extends State<SketchyDesignSystemPage>
               Row(
                 children: [
                   Expanded(
-                    child: WiredSlider(
+                    child: SketchySlider(
                       value: widget.roughness,
-                      onChanged: (value) {
-                        widget.onRoughnessChanged(value.clamp(0.0, 1.0));
-                        return true;
-                      },
+                      onChanged: (value) =>
+                          widget.onRoughnessChanged(value.clamp(0.0, 1.0)),
                     ),
                   ),
                   const SizedBox(width: 12),
@@ -575,14 +549,14 @@ class _SketchyDesignSystemPageState extends State<SketchyDesignSystemPage>
     child: Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        WiredButton(
+        SketchyButton(
           child: Text('Sketchy Button', style: _buttonLabelStyle(context)),
           onPressed: () {},
         ),
         const SizedBox(height: 12),
         Row(
           children: [
-            WiredButton(
+            SketchyButton(
               child: Text(
                 'Submit',
                 style: _buttonLabelStyle(
@@ -593,7 +567,7 @@ class _SketchyDesignSystemPageState extends State<SketchyDesignSystemPage>
               onPressed: () {},
             ),
             const SizedBox(width: 12),
-            WiredButton(
+            SketchyButton(
               child: Text(
                 'Cancel',
                 style: _buttonLabelStyle(context, color: Colors.grey.shade500),
@@ -603,7 +577,7 @@ class _SketchyDesignSystemPageState extends State<SketchyDesignSystemPage>
           ],
         ),
         const SizedBox(height: 12),
-        WiredButton(
+        SketchyButton(
           child: Text(
             'Long text button … hah',
             style: _buttonLabelStyle(context),
@@ -625,7 +599,7 @@ class _SketchyDesignSystemPageState extends State<SketchyDesignSystemPage>
           style: _bodyStyle(context),
         ),
         const SizedBox(height: 12),
-        const WiredDivider(),
+        const SketchyDivider(),
         const SizedBox(height: 12),
         Text(
           'Duis aute irure dolor in reprehenderit in voluptate velit esse '
@@ -644,7 +618,7 @@ class _SketchyDesignSystemPageState extends State<SketchyDesignSystemPage>
       children: [
         Text('Name', style: _fieldLabelStyle(context)),
         const SizedBox(height: 4),
-        WiredInput(
+        SketchyTextInput(
           controller: _nameController,
           hintText: 'Hello sketchy input',
           style: _bodyStyle(context),
@@ -653,7 +627,7 @@ class _SketchyDesignSystemPageState extends State<SketchyDesignSystemPage>
         const SizedBox(height: 12),
         Text('User Email', style: _fieldLabelStyle(context)),
         const SizedBox(height: 4),
-        WiredInput(
+        SketchyTextInput(
           controller: _emailController,
           hintText: 'Please enter user email',
           style: _bodyStyle(context),
@@ -662,7 +636,7 @@ class _SketchyDesignSystemPageState extends State<SketchyDesignSystemPage>
         const SizedBox(height: 12),
         Text('Your age', style: _fieldLabelStyle(context)),
         const SizedBox(height: 4),
-        WiredInput(
+        SketchyTextInput(
           controller: _ageController,
           hintText: 'Your age please!',
           style: _bodyStyle(context),
@@ -686,13 +660,12 @@ class _SketchyDesignSystemPageState extends State<SketchyDesignSystemPage>
 
   Widget _buildRadioOption(String label) => Row(
     children: [
-      WiredRadio<String>(
+      SketchyRadio<String>(
         value: label,
         groupValue: _selectedRadio,
         onChanged: (value) {
-          if (value == null) return false;
+          if (value == null) return;
           setState(() => _selectedRadio = value);
-          return true;
         },
       ),
       const SizedBox(width: 8),
@@ -712,12 +685,10 @@ class _SketchyDesignSystemPageState extends State<SketchyDesignSystemPage>
           ).copyWith(color: Theme.of(context).colorScheme.secondary),
         ),
         const SizedBox(height: 8),
-        WiredSlider(
+        SketchySlider(
           value: _sliderValue,
-          onChanged: (newValue) {
-            setState(() => _sliderValue = newValue.clamp(0.0, 1.0));
-            return true;
-          },
+          onChanged: (newValue) =>
+              setState(() => _sliderValue = newValue.clamp(0.0, 1.0)),
         ),
       ],
     ),
@@ -728,11 +699,11 @@ class _SketchyDesignSystemPageState extends State<SketchyDesignSystemPage>
     child: Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        WiredProgress(controller: _progressController, value: 0),
+        SketchyProgressBar(controller: _progressController, value: 0),
         const SizedBox(height: 12),
         Row(
           children: [
-            WiredButton(
+            SketchyButton(
               onPressed: _startProgress,
               child: Text(
                 'Start',
@@ -743,7 +714,7 @@ class _SketchyDesignSystemPageState extends State<SketchyDesignSystemPage>
               ),
             ),
             const SizedBox(width: 8),
-            WiredButton(
+            SketchyButton(
               onPressed: _stopProgress,
               child: Text(
                 'Stop',
@@ -754,7 +725,7 @@ class _SketchyDesignSystemPageState extends State<SketchyDesignSystemPage>
               ),
             ),
             const SizedBox(width: 8),
-            WiredButton(
+            SketchyButton(
               onPressed: _resetProgress,
               child: Text('Reset', style: _buttonLabelStyle(context)),
             ),
@@ -781,18 +752,9 @@ class _SketchyDesignSystemPageState extends State<SketchyDesignSystemPage>
         // adjust attributes as needed once you wire it up.
         SizedBox(
           height: 385,
-          child: WiredCalendar(
-            selected:
-                '${_selectedDate.year}'
-                '${_selectedDate.month.toString().padLeft(2, '0')}'
-                '${_selectedDate.day.toString().padLeft(2, '0')}',
-            onSelected: (dateStr) {
-              // Parse YYYYMMDD format
-              final year = int.parse(dateStr.substring(0, 4));
-              final month = int.parse(dateStr.substring(4, 6));
-              final day = int.parse(dateStr.substring(6, 8));
-              setState(() => _selectedDate = DateTime(year, month, day));
-            },
+          child: SketchyCalendar(
+            selected: _selectedDate,
+            onSelected: (date) => setState(() => _selectedDate = date),
           ),
         ),
       ],
@@ -831,12 +793,9 @@ class _SketchyDesignSystemPageState extends State<SketchyDesignSystemPage>
           style: _fieldLabelStyle(context),
         ),
         const SizedBox(height: 12),
-        WiredToggle(
+        SketchyToggle(
           value: _notificationsOn,
-          onChange: (value) {
-            setState(() => _notificationsOn = value);
-            return true;
-          },
+          onChanged: (value) => setState(() => _notificationsOn = value),
         ),
         const SizedBox(height: 8),
         Text(
@@ -854,7 +813,7 @@ class _SketchyDesignSystemPageState extends State<SketchyDesignSystemPage>
       children: [
         Text('Cadence', style: _fieldLabelStyle(context)),
         const SizedBox(height: 8),
-        WiredCombo(
+        SketchyCombo(
           value: _selectedCadence,
           items: _cadenceOptions
               .map(
@@ -892,7 +851,7 @@ class _SketchyDesignSystemPageState extends State<SketchyDesignSystemPage>
           style: _bodyStyle(context),
         ),
         const SizedBox(height: 12),
-        WiredButton(
+        SketchyButton(
           onPressed: _showSketchyDialog,
           child: Text(
             'Open dialog',
@@ -955,7 +914,7 @@ class _SketchyDesignSystemPageState extends State<SketchyDesignSystemPage>
   }) => Row(
     crossAxisAlignment: CrossAxisAlignment.start,
     children: [
-      WiredCheckbox(
+      SketchyCheckbox(
         value: value,
         onChanged: (checked) {
           if (checked == null) return;
@@ -986,7 +945,7 @@ class _SketchyDesignSystemPageState extends State<SketchyDesignSystemPage>
         child: SizedBox(
           width: 420,
           height: 340,
-          child: WiredDialog(
+          child: SketchyDialog(
             padding: const EdgeInsets.all(24),
             child: Column(
               mainAxisSize: MainAxisSize.min,
@@ -1008,7 +967,7 @@ class _SketchyDesignSystemPageState extends State<SketchyDesignSystemPage>
                 const SizedBox(height: 16),
                 Align(
                   alignment: Alignment.centerRight,
-                  child: WiredButton(
+                  child: SketchyButton(
                     onPressed: () => Navigator.of(dialogContext).pop(),
                     child: Text(
                       'Got it',

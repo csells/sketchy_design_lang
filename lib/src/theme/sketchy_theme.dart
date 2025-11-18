@@ -143,3 +143,26 @@ class SketchyTheme extends InheritedWidget {
   @override
   bool updateShouldNotify(SketchyTheme oldWidget) => data != oldWidget.data;
 }
+
+/// Convenience accessors consumed by the Sketchy widgets that originated from
+/// wired_elements. They translate the generic theme data into the colors and
+/// metrics those widgets expect without duplicating configuration objects.
+extension SketchyThemeTokens on SketchyThemeData {
+  /// Outlines/text always use the active ink color.
+  Color get borderColor => colors.ink;
+
+  /// Default fill used for primitive backgrounds.
+  Color get fillColor => colors.paper;
+
+  /// Primary text color (also the ink tone).
+  Color get textColor => colors.ink;
+
+  /// Disabled text inherits ink with reduced opacity so it remains on-brand.
+  Color get disabledTextColor => colors.ink.withValues(alpha: 0.35);
+
+  /// Font family extracted from the body style with a sensible fallback.
+  String get fontFamily =>
+      typography.body.fontFamily ??
+      typography.title.fontFamily ??
+      'ComicShanns';
+}

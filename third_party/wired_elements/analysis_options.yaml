@@ -1,9 +1,0 @@
-analyzer:
-  exclude:
-    - lib/rough/**
-
-linter:
-  rules:
-    public_member_api_docs: false
-    sort_constructors_first: false
-    avoid_equals_and_hash_code_on_mutable_classes: false

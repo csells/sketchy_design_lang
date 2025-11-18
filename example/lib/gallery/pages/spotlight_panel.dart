@@ -19,9 +19,8 @@ class SketchySpotlightPanelExample extends StatelessWidget {
         child: Center(
           child: ConstrainedBox(
             constraints: const BoxConstraints(maxWidth: 520),
-            child: SketchyAnnotate.highlight(
-              label: 'New workspace onboarding',
-              child: SketchyCard(
+            child: SketchyCard(
+              child: Padding(
                 padding: const EdgeInsets.all(24),
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
@@ -41,21 +40,18 @@ class SketchySpotlightPanelExample extends StatelessWidget {
                     Row(
                       children: [
                         Expanded(
-                          child: SketchyAnnotate.underline(
-                            label: 'Primary action',
-                            child: SketchyButton.primary(
-                              label: 'Create hub',
-                              onPressed: () {},
-                            ),
+                          child: SketchyButton(
+                            onPressed: () {},
+                            child: Text('Create hub', style: typography.label),
                           ),
                         ),
                         const SizedBox(width: 12),
                         Expanded(
-                          child: SketchyAnnotate.circle(
-                            label: 'Secondary action',
-                            child: SketchyButton.secondary(
-                              label: 'Browse templates',
-                              onPressed: () {},
+                          child: SketchyButton(
+                            onPressed: () {},
+                            child: Text(
+                              'Browse templates',
+                              style: typography.label,
                             ),
                           ),
                         ),

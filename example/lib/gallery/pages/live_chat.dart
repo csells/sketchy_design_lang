@@ -41,31 +41,30 @@ class LiveChatExample extends StatelessWidget {
             ),
           ),
           SketchyCard(
-            padding: const EdgeInsets.all(16),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                const Text('Suggested replies'),
-                const SizedBox(height: 8),
-                Wrap(
-                  spacing: 8,
-                  children: [
-                    for (final suggestion in _suggestions)
-                      SketchyAnnotate.circle(
-                        label: 'Auto-complete',
-                        child: SketchyChip.suggestion(label: suggestion),
-                      ),
-                  ],
-                ),
-                const SizedBox(height: 12),
-                const Row(
-                  children: [
-                    Expanded(child: SketchyTextField(label: 'Message')),
-                    SizedBox(width: 8),
-                    SketchyIconButton(icon: SketchyIcons.send),
-                  ],
-                ),
-              ],
+            child: Padding(
+              padding: const EdgeInsets.all(16),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const Text('Suggested replies'),
+                  const SizedBox(height: 8),
+                  Wrap(
+                    spacing: 8,
+                    children: [
+                      for (final suggestion in _suggestions)
+                        SketchyChip.suggestion(label: suggestion),
+                    ],
+                  ),
+                  const SizedBox(height: 12),
+                  const Row(
+                    children: [
+                      Expanded(child: SketchyTextInput(labelText: 'Message')),
+                      SizedBox(width: 8),
+                      SketchyIconButton(icon: SketchyIcons.send),
+                    ],
+                  ),
+                ],
+              ),
             ),
           ),
         ],
@@ -101,7 +100,7 @@ const _sampleMessages = [
     isAgent: false,
   ),
   _ChatMessage(
-    text: 'Great—we can wrap it with SketchyAnnotate.highlight.',
+    text: 'Great—we can wrap it with a rough highlight.',
     timestamp: '09:20',
     isAgent: true,
     isTyping: true,
