@@ -13,10 +13,10 @@
 | green         | #09f902  |
 | mint-mist     | #d9ead3  |
 | cyan          | #0afdff  |
-| ice-cyan      | #d0e1e3  |
+| powder-blue   | #d0e1e3  |
 | blue          | #4a86e8  |
-| breeze-blue   | #c9daf8  |
-| dark-blue     | #0133ff  |
+| periwinkle    | #c9daf8  |
+| ultramarine   | #0133ff  |
 | frost-navy    | #d0e3f2  |
 | indigo        | #9938ff  |
 | lavender-veil | #d9d1e9  |

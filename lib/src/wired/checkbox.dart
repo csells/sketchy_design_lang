@@ -1,8 +1,9 @@
 // ignore_for_file: public_member_api_docs
 import 'package:flutter/material.dart';
-import 'package:rough_flutter/rough_flutter.dart';
-import 'wired_base.dart';
+import '../primitives/sketchy_primitives.dart';
 import '../theme/sketchy_theme.dart';
+import '../widgets/surface.dart';
+import 'wired_base.dart';
 
 /// Wired checkbox.
 ///
@@ -48,18 +49,17 @@ class _SketchyCheckboxState extends State<SketchyCheckbox>
 
   Widget _buildWidget(BuildContext context) {
     final theme = SketchyTheme.of(context);
-    return Container(
-      padding: EdgeInsets.zero,
-      height: 27,
+    return SketchySurface(
       width: 27,
-      decoration: RoughBoxDecoration(
-        shape: RoughBoxShape.rectangle,
-        borderStyle: RoughDrawingStyle(
-          width: theme.strokeWidth,
-          color: theme.borderColor,
-        ),
-      ),
+      height: 27,
+      strokeColor: theme.borderColor,
+      strokeWidth: theme.strokeWidth,
+      fillColor: theme.colors.secondary,
+      padding: EdgeInsets.zero,
+      alignment: Alignment.center,
+      createPrimitive: () => SketchyPrimitive.rectangle(fill: SketchyFill.none),
       child: SizedBox(
+        width: double.infinity,
         height: double.infinity,
         child: Transform.scale(
           scale: 1.5,

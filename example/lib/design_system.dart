@@ -432,17 +432,15 @@ class _SketchyDesignSystemPageState extends State<SketchyDesignSystemPage>
     final colors = Theme.of(context).colorScheme;
     final isLightActive = !widget.isDark;
     final isDarkActive = widget.isDark;
-    return Wrap(
-      crossAxisAlignment: WrapCrossAlignment.center,
-      spacing: 12,
-      runSpacing: 12,
+    final modeLabel = Text(
+      'Mode',
+      style: Theme.of(
+        context,
+      ).textTheme.titleMedium?.copyWith(fontWeight: FontWeight.bold),
+    );
+    final toggleButtons = Row(
+      mainAxisSize: MainAxisSize.min,
       children: [
-        Text(
-          'Mode',
-          style: Theme.of(
-            context,
-          ).textTheme.titleMedium?.copyWith(fontWeight: FontWeight.bold),
-        ),
         SketchyButton(
           onPressed: isLightActive ? () {} : widget.onToggleDarkMode,
           child: Text(
@@ -455,6 +453,7 @@ class _SketchyDesignSystemPageState extends State<SketchyDesignSystemPage>
             ),
           ),
         ),
+        const SizedBox(width: 12),
         SketchyButton(
           onPressed: isDarkActive ? () {} : widget.onToggleDarkMode,
           child: Text(
@@ -467,48 +466,76 @@ class _SketchyDesignSystemPageState extends State<SketchyDesignSystemPage>
             ),
           ),
         ),
-        SizedBox(
-          width: 240,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
+      ],
+    );
+    final roughControls = SizedBox(
+      width: 240,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            'Rough',
+            style: Theme.of(
+              context,
+            ).textTheme.titleMedium?.copyWith(fontWeight: FontWeight.bold),
+          ),
+          const SizedBox(height: 8),
+          Row(
             children: [
-              Text(
-                'Rough',
-                style: Theme.of(
-                  context,
-                ).textTheme.titleMedium?.copyWith(fontWeight: FontWeight.bold),
+              Expanded(
+                child: SketchySlider(
+                  value: widget.roughness,
+                  onChanged: (value) =>
+                      widget.onRoughnessChanged(value.clamp(0.0, 1.0)),
+                ),
               ),
-              const SizedBox(height: 8),
-              Row(
-                children: [
-                  Expanded(
-                    child: SketchySlider(
-                      value: widget.roughness,
-                      onChanged: (value) =>
-                          widget.onRoughnessChanged(value.clamp(0.0, 1.0)),
-                    ),
-                  ),
-                  const SizedBox(width: 12),
-                  DropdownButton<String>(
-                    value: widget.fontFamily,
-                    items: _fontOptions.entries
-                        .map(
-                          (entry) => DropdownMenuItem<String>(
-                            value: entry.value,
-                            child: Text(entry.key, style: _bodyStyle(context)),
-                          ),
-                        )
-                        .toList(),
-                    onChanged: (value) {
-                      if (value != null) widget.onFontChanged(value);
-                    },
-                  ),
-                ],
+              const SizedBox(width: 12),
+              DropdownButton<String>(
+                value: widget.fontFamily,
+                items: _fontOptions.entries
+                    .map(
+                      (entry) => DropdownMenuItem<String>(
+                        value: entry.value,
+                        child: Text(entry.key, style: _bodyStyle(context)),
+                      ),
+                    )
+                    .toList(),
+                onChanged: (value) {
+                  if (value != null) widget.onFontChanged(value);
+                },
               ),
             ],
           ),
-        ),
-      ],
+        ],
+      ),
+    );
+
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        final isNarrow = constraints.maxWidth < 520;
+        if (isNarrow) {
+          return Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              modeLabel,
+              const SizedBox(height: 8),
+              toggleButtons,
+              const SizedBox(height: 16),
+              roughControls,
+            ],
+          );
+        }
+        return Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            modeLabel,
+            const SizedBox(width: 12),
+            toggleButtons,
+            const SizedBox(width: 24),
+            roughControls,
+          ],
+        );
+      },
     );
   }
 

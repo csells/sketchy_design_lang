@@ -1,6 +1,7 @@
 // ignore_for_file: public_member_api_docs, constant_identifier_names
 
 import 'dart:math';
+import 'dart:ui' show lerpDouble;
 
 import 'package:flutter/material.dart';
 import 'package:rough_flutter/rough_flutter.dart';
@@ -28,10 +29,13 @@ class WiredCanvas extends StatelessWidget {
   Widget build(BuildContext context) {
     final wiredTheme = SketchyTheme.of(context);
     final baseConfig = drawConfig ?? DrawConfig.defaultValues;
+    final mappedRoughness =
+        lerpDouble(0.25, 2.1, wiredTheme.roughness) ?? wiredTheme.roughness;
+    final mappedRandomness =
+        lerpDouble(0.6, 3.6, wiredTheme.roughness) ?? wiredTheme.roughness;
     final effectiveDrawConfig = baseConfig.copyWith(
-      roughness: wiredTheme.roughness,
-      maxRandomnessOffset:
-          baseConfig.maxRandomnessOffset * wiredTheme.roughness,
+      roughness: mappedRoughness,
+      maxRandomnessOffset: mappedRandomness,
       randomizer: Randomizer(seed: Random().nextInt(1 << 31)),
     );
     final effectiveFillerConfig = fillerConfig ?? FillerConfig.defaultConfig;
