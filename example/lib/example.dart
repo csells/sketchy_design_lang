@@ -28,7 +28,11 @@ SketchyThemeData _resolveSketchyTheme(
   }
   colors = colors.copyWith(ink: colors.primary, paper: colors.secondary);
   final typography = _applyFont(base.typography, fontFamily);
-  return base.copyWith(colors: colors, typography: typography);
+  return base.copyWith(
+    colors: colors,
+    typography: typography,
+    borderRadius: 0,
+  );
 }
 
 SketchyTypographyData _applyFont(
@@ -102,16 +106,13 @@ class _SketchyAppState extends State<SketchyApp> {
       title: 'Sketchy Design System',
       debugShowCheckedModeBanner: false,
       color: sketchyTheme.colors.primary,
-      pageRouteBuilder: <T>(settings, builder) {
-        return PageRouteBuilder<T>(
-          settings: settings,
-          pageBuilder: (context, animation, secondaryAnimation) =>
-              builder(context),
-          transitionsBuilder: (context, animation, secondaryAnimation, child) {
-            return FadeTransition(opacity: animation, child: child);
-          },
-        );
-      },
+      pageRouteBuilder: <T>(settings, builder) => PageRouteBuilder<T>(
+        settings: settings,
+        pageBuilder: (context, animation, secondaryAnimation) =>
+            builder(context),
+        transitionsBuilder: (context, animation, secondaryAnimation, child) =>
+            FadeTransition(opacity: animation, child: child),
+      ),
       builder: (context, child) {
         final content = child ?? const SizedBox.shrink();
         return SketchyTheme(

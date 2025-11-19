@@ -16,18 +16,34 @@ enum SketchyFill {
   solid,
 }
 
+/// Customization options for how hachure/solid fills are rendered.
+class SketchyFillOptions {
+  const SketchyFillOptions({
+    this.hachureGap,
+    this.fillWeight,
+  });
+
+  /// Overrides the spacing between hachure lines.
+  final double? hachureGap;
+
+  /// Overrides how thick individual hachure lines are.
+  final double? fillWeight;
+}
+
 /// Deterministic rough shape that caches its seed at construction time.
 class SketchyPrimitive {
-  SketchyPrimitive._(this._builder, this._fill, {int? seed})
+  SketchyPrimitive._(this._builder, this._fill, this._fillOptions, {int? seed})
     : _seed = seed ?? _seedSource.nextInt(0x7fffffff);
 
   /// Rectangle primitive.
   factory SketchyPrimitive.rectangle({
     SketchyFill fill = SketchyFill.none,
     int? seed,
+    SketchyFillOptions? fillOptions,
   }) => SketchyPrimitive._(
     (generator, size) => generator.rectangle(0, 0, size.width, size.height),
     fill,
+    fillOptions,
     seed: seed,
   );
 
@@ -36,10 +52,12 @@ class SketchyPrimitive {
     SketchyFill fill = SketchyFill.none,
     double cornerRadius = 12,
     int? seed,
+    SketchyFillOptions? fillOptions,
   }) => SketchyPrimitive._(
     (generator, size) =>
         generator.polygon(_roundedRectPoints(size, cornerRadius)),
     fill,
+    fillOptions,
     seed: seed,
   );
 
@@ -47,16 +65,19 @@ class SketchyPrimitive {
   factory SketchyPrimitive.pill({
     SketchyFill fill = SketchyFill.none,
     int? seed,
+    SketchyFillOptions? fillOptions,
   }) => SketchyPrimitive.roundedRectangle(
     fill: fill,
     cornerRadius: double.infinity,
     seed: seed,
+    fillOptions: fillOptions,
   );
 
   /// Circle primitive that fits the available size.
   factory SketchyPrimitive.circle({
     SketchyFill fill = SketchyFill.none,
     int? seed,
+    SketchyFillOptions? fillOptions,
   }) => SketchyPrimitive._(
     (generator, size) => generator.ellipse(
       size.width / 2,
@@ -65,11 +86,13 @@ class SketchyPrimitive {
       size.height,
     ),
     fill,
+    fillOptions,
     seed: seed,
   );
 
   final Drawable Function(Generator, Size) _builder;
   final SketchyFill _fill;
+  final SketchyFillOptions? _fillOptions;
   final int _seed;
 
   Drawable? _cachedDrawable;
@@ -87,7 +110,7 @@ class SketchyPrimitive {
     }
 
     final config = _buildConfig(roughness.clamp(0, 1));
-    final filler = _buildFiller(config, _fill, roughness);
+    final filler = _buildFiller(config, _fill, roughness, _fillOptions);
     final generator = Generator(config, filler);
 
     _cachedDrawable = _builder(generator, size);
@@ -96,7 +119,7 @@ class SketchyPrimitive {
     return _cachedDrawable!;
   }
 
-  DrawConfig _buildConfig(double roughness) => DrawConfig.build(
+DrawConfig _buildConfig(double roughness) => DrawConfig.build(
     seed: _seed,
     roughness: lerpDouble(0.35, 2.2, roughness),
     bowing: lerpDouble(0.04, 1.1, roughness),
@@ -156,11 +179,18 @@ class SketchyShapePainter extends CustomPainter {
       roughness != oldDelegate.roughness;
 }
 
-Filler _buildFiller(DrawConfig config, SketchyFill fill, double roughness) {
+Filler _buildFiller(
+  DrawConfig config,
+  SketchyFill fill,
+  double roughness,
+  SketchyFillOptions? options,
+) {
   final fillerConfig = FillerConfig.build(
     drawConfig: config,
-    hachureGap: lerpDouble(6, 16, 1 - roughness) ?? 10,
-    fillWeight: lerpDouble(0.6, 1.8, roughness) ?? 1,
+    hachureGap:
+        options?.hachureGap ?? (lerpDouble(6, 16, 1 - roughness) ?? 10),
+    fillWeight:
+        options?.fillWeight ?? (lerpDouble(0.6, 1.8, roughness) ?? 1),
   );
 
   switch (fill) {

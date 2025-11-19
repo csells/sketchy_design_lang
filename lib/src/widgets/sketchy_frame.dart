@@ -25,6 +25,7 @@ class SketchyFrame extends StatelessWidget {
     this.shape = SketchyFrameShape.rectangle,
     this.cornerRadius,
     this.alignment = Alignment.center,
+    this.fillOptions,
   });
 
   final Widget child;
@@ -38,6 +39,7 @@ class SketchyFrame extends StatelessWidget {
   final SketchyFrameShape shape;
   final double? cornerRadius;
   final AlignmentGeometry? alignment;
+  final SketchyFillOptions? fillOptions;
 
   @override
   Widget build(BuildContext context) {
@@ -59,16 +61,23 @@ class SketchyFrame extends StatelessWidget {
   SketchyPrimitive Function() _buildPrimitive() {
     switch (shape) {
       case SketchyFrameShape.circle:
-        return () => SketchyPrimitive.circle(fill: fill);
+        return () => SketchyPrimitive.circle(
+          fill: fill,
+          fillOptions: fillOptions,
+        );
       case SketchyFrameShape.rectangle:
         final radius = cornerRadius ?? 0;
         if (radius > 0) {
           return () => SketchyPrimitive.roundedRectangle(
             fill: fill,
             cornerRadius: radius,
+            fillOptions: fillOptions,
           );
         }
-        return () => SketchyPrimitive.rectangle(fill: fill);
+        return () => SketchyPrimitive.rectangle(
+          fill: fill,
+          fillOptions: fillOptions,
+        );
     }
   }
 }
