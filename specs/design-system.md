@@ -1,21 +1,8 @@
 # Sketchy Design System (Flutter)
 
-Sketchy is a hand-drawn, xkcd-inspired **Flutter design system** for mobile,
-desktop, and web.
-
-It combines:
-
-- **Comic Shanns** as the primary typeface  
-- **`wired_elements`** as the sketchy widget engine  
-- A set of **color themes** based on ROYGBIV (+ monochrome)  
-- A bemused yellow-face **mascot** that represents the “low-fi but honest”
-  attitude of the system  
-
-Sketchy is ideal for:
-
-- Prototypes where you want to emphasize **ideas over pixels**
-- “Living wireframes” that behave like a real app
-- Production apps that intentionally lean into a playful, comic-style aesthetic
+Sketchy is ahand-drawn, xkcd-inspired design language for Flutter mobile,
+desktop and web. It's powered by the wired_elements code, the rough_flutter
+package and the Comic Shanns font.
 
 ---
 
@@ -23,19 +10,22 @@ Sketchy is ideal for:
 
 1. **Intentional roughness**  
    Straight lines are suspicious. Borders wobble and circles are lopsided on
-   purpose.
+   purpose. If you're gentle or performance-conscious, you can dial down the
+   roughness to your preference.
 
 2. **Clarity first**  
    Comic Shanns is fun but highly readable. Layout and hierarchy must stay clear
-   even when the lines are messy.
+   even when the lines are messy. The example shows how to swap in the official
+   xkcd or Excalifont fonts if you'd rather.
 
 3. **Low-stakes visuals**  
    Sketchy should make designs feel approachable and changeable. Nothing looks
    “finished” enough to be sacred.
 
 4. **Consistency under the chaos**  
-   Behind the loose look is a consistent set of tokens, themes, and widgets so
-   implementation stays solid.
+   Behind the loose look is a consistent set of colors, styles and and widgets
+   so the implementation stays solid. It may look rough, but each primitive gets
+   its own seed so that it re-draws itself uniquely but consistently.
 
 ---
 
@@ -90,20 +80,9 @@ Conceptually:
 
 ---
 
-### Mascot
-
-- **Name:** Sketchy’s “meh” face (actual name TBD)  
-- **Appearance:** Yellow circular face, simple eyes, horizontal “meh” mouth  
-- **Usage:**
-  - Prominent in design-system docs and “about” screens
-  - Optional avatar for empty states or playful onboarding
-  - Use sparingly in critical UX (errors, destructive confirmations)
-
----
-
 ### Line Style & Shapes
 
-The rough look is powered by **`wired_elements`**:
+The rough look is powered by the code from **`wired_elements`**:
 
 - Double-line, jittery rectangles and circles
 - Slight randomness in stroke path

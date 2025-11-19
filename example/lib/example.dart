@@ -28,11 +28,7 @@ SketchyThemeData _resolveSketchyTheme(
   }
   colors = colors.copyWith(ink: colors.primary, paper: colors.secondary);
   final typography = _applyFont(base.typography, fontFamily);
-  return base.copyWith(
-    colors: colors,
-    typography: typography,
-    borderRadius: 0,
-  );
+  return base.copyWith(colors: colors, typography: typography, borderRadius: 0);
 }
 
 SketchyTypographyData _applyFont(
@@ -308,11 +304,11 @@ class _SketchyDesignSystemPageState extends State<SketchyDesignSystemPage>
                   fontWeight: FontWeight.bold,
                 ),
               ),
-              Text(
-                'An xkcd-inspired design system powered by '
-                'wired_elements + Comic Shanns',
-                style: theme.typography.title,
-              ),
+              Text('''
+Sketchy is ahand-drawn, xkcd-inspired design language for Flutter mobile,
+desktop and web. It's powered by the wired_elements code, the rough_flutter
+package and the Comic Shanns font.
+''', style: theme.typography.title),
               const SizedBox(height: 8),
               Text(
                 'Current theme: ${palette.label} • '

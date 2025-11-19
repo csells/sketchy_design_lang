@@ -3,7 +3,6 @@ description: "A new Flutter package project."
 version: 0.1.0
 homepage: https://github.com/csells/sketchy_design_lang
 repository: https://github.com/csells/sketchy_design_lang
-publish_to: "none"
 
 environment:
   sdk: ^3.10.0
