@@ -23,9 +23,6 @@ flutter:
   assets:
     - assets/images/
   fonts:
-    - family: ComicShanns
-      fonts:
-        - asset: assets/fonts/comic-Shanns-2.ttf
     - family: Excalifont
       fonts:
         - asset: assets/fonts/Excalifont-Regular.ttf

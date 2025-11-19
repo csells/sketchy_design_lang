@@ -20,10 +20,9 @@ dev_dependencies:
     sdk: flutter
 
 flutter:
-  uses-material-design: false
   assets:
     - assets/images/
   fonts:
     - family: ComicShanns
       fonts:
-        - asset: assets/fonts/comic-Shanns-2.ttf
+        - asset: lib/fonts/comic-Shanns-2.ttf
