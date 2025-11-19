@@ -2,8 +2,9 @@
 
 # Sketchy Design Language for Flutter
 
-Hand–drawn Flutter widgets, themes, and primitives that make your product feel
-like a living wireframe.
+Sketchy is a hand-drawn, xkcd-inspired design language for Flutter on mobile,
+desktop, and web. It is powered by the wired_elements code, the flutter_rough
+package and the Comic Shanns font.
 
 </div>
 
@@ -119,13 +120,13 @@ widgets read the theme roughness and adapt automatically.
 
 Sketchy mirrors common UI building blocks. Highlights:
 
-| Category       | Widgets |
-| -------------- | ------- |
-| Inputs         | `SketchyTextInput`, `SketchyCombo`, `SketchySlider`, `SketchyCheckbox`, `SketchyToggle`, `SketchyRadio` |
-| Actions        | `SketchyButton`, `SketchyIconButton`, `SketchyChip` |
-| Containers     | `SketchyCard`, `SketchyPanel`, `SketchyListTile`, `SketchyDivider` |
-| Feedback       | `SketchyDialog`, `SketchyTooltip`, `SketchyBadge`, `SketchyTypingIndicator` |
-| Navigation     | `SketchyTabs`, `SketchyAppBar`, `SketchyScaffold` |
+| Category   | Widgets                                                                                                 |
+| ---------- | ------------------------------------------------------------------------------------------------------- |
+| Inputs     | `SketchyTextInput`, `SketchyCombo`, `SketchySlider`, `SketchyCheckbox`, `SketchyToggle`, `SketchyRadio` |
+| Actions    | `SketchyButton`, `SketchyIconButton`, `SketchyChip`                                                     |
+| Containers | `SketchyCard`, `SketchyPanel`, `SketchyListTile`, `SketchyDivider`                                      |
+| Feedback   | `SketchyDialog`, `SketchyTooltip`, `SketchyBadge`, `SketchyTypingIndicator`                             |
+| Navigation | `SketchyTabs`, `SketchyAppBar`, `SketchyScaffold`                                                       |
 
 ### Quick examples
 
@@ -175,8 +176,8 @@ change modes, and the roughness slider affects outlines/fills at once.
 ## Example gallery & docs
 
 - Run `flutter run` inside `/example` to explore the design system board: theme
-  picker, mode buttons, roughness slider, fonts, dialogs, demo forms, and all
-  migrated wired_elements scenarios.
+  picker, mode buttons, roughness slider, fonts, dialogs, demo forms, and every
+  Sketchy widget scenario.
 - Specs live under `specs/` (`design-system.md`, `technical_design.md`,
   `requirements.md`) with UX references and rationale.
 - `example/lib/gallery` hosts focused pages (calendar planner, expense tracker,
@@ -252,7 +253,7 @@ APIs, and keep lines ≤80 characters (per repo lint settings).
 ## Contributing
 
 1. Fork + branch from `main` or `rearchitect`.
-2. Add or update widgets inside `lib/src/wired/`. Re-export through
+2. Add or update widgets inside `lib/src/sketchy_widgets/`. Re-export through
    `lib/src/widgets/widgets.dart`.
 3. Update the gallery and specs when introducing new components or significant
    behavior changes.
@@ -261,3 +262,12 @@ APIs, and keep lines ≤80 characters (per repo lint settings).
 
 Ideas? Bug reports? Open an issue! We love seeing new rough widgets, color
 modes, and theme experiments. Let's keep wireframes fun. ✍️
+
+### Acknowledgements
+
+- [wired_elements](https://github.com/KevinZhang19870314/wired_elements) – MIT
+  License. The original hand-drawn widget kit that inspired Sketchy’s controls.
+- [rough_flutter](https://github.com/acyment/flutter_rough) – MIT License. Fork
+  of the rough renderer that powers our primitives.
+- [Comic Shanns font](https://github.com/shannpersand/comic-shanns) – MIT
+  License. The playful typeface bundled with Sketchy by default.

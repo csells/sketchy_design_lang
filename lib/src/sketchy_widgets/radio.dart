@@ -4,7 +4,7 @@ import 'package:flutter/widgets.dart';
 import '../theme/sketchy_theme.dart';
 import '../widgets/sketchy_frame.dart';
 
-/// Wired radio.
+/// Sketchy radio button group.
 ///
 /// Usage:
 /// ```dart

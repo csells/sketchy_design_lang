@@ -144,9 +144,9 @@ class SketchyTheme extends InheritedWidget {
   bool updateShouldNotify(SketchyTheme oldWidget) => data != oldWidget.data;
 }
 
-/// Convenience accessors consumed by the Sketchy widgets that originated from
-/// wired_elements. They translate the generic theme data into the colors and
-/// metrics those widgets expect without duplicating configuration objects.
+/// Convenience accessors consumed by the core Sketchy widgets. They translate
+/// the generic theme data into the colors and metrics those widgets expect
+/// without duplicating configuration objects.
 extension SketchyThemeTokens on SketchyThemeData {
   /// Outlines/text always use the active ink color.
   Color get borderColor => colors.ink;

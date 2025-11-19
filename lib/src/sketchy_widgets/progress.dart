@@ -7,7 +7,7 @@ import '../primitives/sketchy_primitives.dart';
 import '../theme/sketchy_theme.dart';
 import '../widgets/sketchy_frame.dart';
 
-/// Wired progress
+/// Sketchy progress bar.
 ///
 /// Usage:
 /// ```dart

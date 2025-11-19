@@ -121,7 +121,7 @@ const _docs = [
     _DocSection(
       'SketchyButton',
       'Primary, secondary, and ghost variants map cleanly onto '
-          'wired_elements primitives.',
+          'Sketchy primitives.',
     ),
     _DocSection(
       'SketchyCard',

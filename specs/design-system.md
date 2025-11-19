@@ -1,8 +1,8 @@
 # Sketchy Design System (Flutter)
 
-Sketchy is ahand-drawn, xkcd-inspired design language for Flutter mobile,
-desktop and web. It's powered by the wired_elements code, the rough_flutter
-package and the Comic Shanns font.
+Sketchy is a hand-drawn, xkcd-inspired design language for Flutter mobile,
+desktop, and web. It's powered by Sketchy primitives, the rough_flutter package,
+and the Comic Shanns font.
 
 ---
 
@@ -82,7 +82,7 @@ Conceptually:
 
 ### Line Style & Shapes
 
-The rough look is powered by the code from **`wired_elements`**:
+The rough look is powered by Sketchy primitives backed by `rough_flutter`:
 
 - Double-line, jittery rectangles and circles
 - Slight randomness in stroke path
@@ -90,7 +90,7 @@ The rough look is powered by the code from **`wired_elements`**:
 
 Guidelines:
 
-- Prefer Sketchy components (which wrap `wired_elements`) for all visible UI.
+- Prefer the built-in Sketchy widgets for all visible UI.
 - Keep layouts simple—too many outlined things crowded together becomes visually
   noisy.
 
@@ -167,8 +167,8 @@ depend on.
 It has three main layers:
 
 1. **Tokens layer** – Dart types and `ThemeData` / `ThemeExtension`s  
-2. **Components layer** – `Sketchy*` widgets built from tokens +
-   `wired_elements`  
+2. **Components layer** – `Sketchy*` widgets built from tokens and primitive
+   surfaces  
 3. **Docs layer** – the in-app “Sketchy Design System” screen itself  
 
 ### Package & Folder Structure
@@ -199,8 +199,8 @@ lib/
       sketchy_design_system_page.dart
 ````
 
-* **Apps import `package:sketchy/sketchy.dart`**, not `wired_elements` directly.
-* `wired_elements` is an implementation detail hidden in `components/`.
+* **Apps import `package:sketchy/sketchy.dart`** and stay unaware of the
+  rendering primitives under the hood.
 
 ### Tokens as Code
 
@@ -301,16 +301,16 @@ This keeps **tokens as the single source of truth** for all Sketchy components.
 
 ### Sketchy Components as the Public API
 
-Each public Sketchy widget wraps its `wired_elements` counterpart and
-automatically applies tokens:
+Each public Sketchy widget is the canonical implementation and automatically
+applies the active tokens:
 
-* `SketchyButton` → wraps `WiredButton`
-* `SketchyInput` → wraps `WiredInput`
-* `SketchyDivider` → wraps `WiredDivider`
-* `SketchyRadio<T>` → wraps `WiredRadio<T>`
-* `SketchySlider` → wraps `WiredSlider`
-* `SketchyProgress` → wraps `WiredProgress`
-* `SketchyCalendar` → wraps `WiredCalendar`
+* `SketchyButton`
+* `SketchyInput`
+* `SketchyDivider`
+* `SketchyRadio<T>`
+* `SketchySlider`
+* `SketchyProgress`
+* `SketchyCalendar`
 
 Example usage from an app:
 
@@ -321,8 +321,8 @@ SketchyButton.primary(
 );
 ```
 
-App code **never talks to `WiredButton` directly**; that lets Sketchy evolve
-internals without breaking consumers.
+App code **never talks to internal primitives directly**; that lets Sketchy
+evolve internals without breaking consumers.
 
 ### Docs as Part of the System
 
@@ -354,7 +354,8 @@ To keep Sketchy stable as it grows:
 
 ## Component Library
 
-All components are built on `wired_elements` and exposed as **Sketchy** widgets.
+All components share the same Sketchy primitives and are exposed as **Sketchy**
+widgets.
 
 ### 1. Sketchy Buttons
 
@@ -553,6 +554,6 @@ Potential future extensions:
 
 Sketchy is a Flutter-first design system that turns your app into a living
 comic-book UI: playful lines, clear Comic Shanns typography, ROYGBIV-powered
-themes, and a consistent set of tokens & widgets built on top of
-`wired_elements`. It’s intentionally rough, structurally solid, and designed to
-keep conversations centered on user flows and behavior—not pixel-perfect polish.
+themes, and a consistent set of tokens & widgets built on top of custom sketchy
+primitives. It’s intentionally rough, structurally solid, and designed to keep
+conversations centered on user flows and behavior—not pixel-perfect polish.

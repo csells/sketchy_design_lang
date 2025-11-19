@@ -5,14 +5,14 @@ import '../theme/sketchy_theme.dart';
 import '../widgets/icons.dart';
 import '../widgets/surface.dart';
 
-/// Wired checkbox.
+/// Sketchy checkbox.
 ///
 /// Usage:
 /// ```dart
 /// SketchyCheckbox(
 ///   value: false,
 ///   onChanged: (value) {
-/// 	print('Wired Checkbox $value');
+/// 	print('Checkbox toggled: $value');
 ///   },
 /// ),
 /// ```

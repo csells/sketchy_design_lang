@@ -18,7 +18,7 @@ class SketchyComboItem<T> {
   final Widget child;
 }
 
-/// Wired combo
+/// Sketchy combo box.
 ///
 /// Usage:
 /// ```dart
@@ -30,7 +30,7 @@ class SketchyComboItem<T> {
 /// 	  value: value,
 /// 	  child: Padding(
 /// 		padding: EdgeInsets.only(left: 5.0),
-/// 		child: WiredText(value),
+/// 		child: Text(value),
 /// 	  ),
 /// 	);
 ///   }).toList(),

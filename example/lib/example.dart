@@ -192,7 +192,7 @@ class _SketchyDesignSystemPageState extends State<SketchyDesignSystemPage>
   String _selectedCadence = 'Weekly';
   static const List<String> _cadenceOptions = ['Daily', 'Weekly', 'Monthly'];
 
-  // Controllers for wired elements
+  // Controllers for showcase widgets
   late final TextEditingController _nameController;
   late final TextEditingController _emailController;
   late final TextEditingController _ageController;
@@ -305,8 +305,8 @@ class _SketchyDesignSystemPageState extends State<SketchyDesignSystemPage>
                 ),
               ),
               Text('''
-Sketchy is ahand-drawn, xkcd-inspired design language for Flutter mobile,
-desktop and web. It's powered by the wired_elements code, the rough_flutter
+Sketchy is a hand-drawn, xkcd-inspired design language for Flutter on mobile,
+desktop, and web. It is powered by the wired_elements code, the flutter_rough
 package and the Comic Shanns font.
 ''', style: theme.typography.title),
               const SizedBox(height: 8),

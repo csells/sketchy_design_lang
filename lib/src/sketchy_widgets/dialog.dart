@@ -9,7 +9,7 @@ const _kDialogMinWidth = 280;
 const _kDialogMaxWidth = 560;
 const _kDialogMargin = 24.0;
 
-/// Wired dialog.
+/// Sketchy dialog.
 ///
 /// Usage:
 /// ```dart
@@ -25,13 +25,13 @@ const _kDialogMargin = 24.0;
 /// 				child: Column(
 /// 				  crossAxisAlignment: CrossAxisAlignment.start,
 /// 				  children: [
-/// 					WiredText(
+/// 					Text(
 /// 					  'Title',
 /// 					  fontSize: 20.0,
 /// 					  fontWeight: FontWeight.bold,
 /// 					),
 /// 					SizedBox(height: 15.0),
-/// 					WiredText(
+/// 					Text(
 /// 					  'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
 /// 					),
 /// 					SizedBox(height: 15.0),
@@ -54,7 +54,7 @@ const _kDialogMargin = 24.0;
 /// 		},
 /// 	  );
 /// 	},
-/// 	child: WiredText('Open wired dialog'),
+/// 	child: Text('Open dialog'),
 ///   ),
 /// ```
 class SketchyDialog extends StatelessWidget {

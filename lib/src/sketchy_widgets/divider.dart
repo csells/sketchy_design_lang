@@ -3,18 +3,18 @@ import 'package:flutter/widgets.dart';
 
 import '../widgets/sketchy_frame.dart';
 
-/// Wired divider.
+/// Sketchy divider.
 ///
 /// Usage:
 /// ```dart
-/// WiredText(
+/// Text(
 /// 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
 /// fontSize: 18.0,
 /// color: Colors.blueGrey,
 /// ),
 /// SizedBox(height: 15.0),
 /// SketchyDivider(),
-/// WiredText(
+/// Text(
 /// 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
 /// fontSize: 18.0,
 /// color: Colors.blueGrey,

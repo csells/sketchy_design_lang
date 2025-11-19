@@ -3,7 +3,7 @@ import 'package:flutter/widgets.dart';
 import '../theme/sketchy_theme.dart';
 import '../widgets/sketchy_frame.dart';
 
-/// Wired calendar.
+/// Sketchy calendar.
 ///
 /// Usage:
 /// ```dart
@@ -108,12 +108,12 @@ class _SketchyCalendarState extends State<SketchyCalendar> {
       children: [
         GestureDetector(
           onTap: _onPre,
-          child: _wiredText('<<', fontWeight: FontWeight.bold, fontSize: 24),
+          child: _sketchyText('<<', fontWeight: FontWeight.bold, fontSize: 24),
         ),
-        _wiredText(_monthYear, fontWeight: FontWeight.bold, fontSize: 22),
+        _sketchyText(_monthYear, fontWeight: FontWeight.bold, fontSize: 22),
         GestureDetector(
           onTap: _onNext,
-          child: _wiredText('>>', fontWeight: FontWeight.bold, fontSize: 24),
+          child: _sketchyText('>>', fontWeight: FontWeight.bold, fontSize: 24),
         ),
       ],
     ),
@@ -173,7 +173,7 @@ class _SketchyCalendarState extends State<SketchyCalendar> {
             selected: week.selected,
             color: week.color,
           ),
-        ),
+      ),
       );
     }
 
@@ -245,7 +245,7 @@ class _SketchyCalendarState extends State<SketchyCalendar> {
     Color? color,
   }) {
     final content = Center(
-      child: _wiredText(
+      child: _sketchyText(
         text,
         fontWeight: fontWeight,
         fontSize: fontSize,
@@ -275,7 +275,7 @@ class _SketchyCalendarState extends State<SketchyCalendar> {
     );
   }
 
-  Text _wiredText(
+  Text _sketchyText(
     String text, {
     FontWeight fontWeight = FontWeight.w500,
     double fontSize = 18.0,

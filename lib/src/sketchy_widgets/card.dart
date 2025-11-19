@@ -3,7 +3,7 @@ import 'package:flutter/widgets.dart';
 import '../theme/sketchy_theme.dart';
 import '../widgets/sketchy_frame.dart';
 
-/// Wired card.
+/// Sketchy card.
 ///
 /// Usage:
 /// ```dart
@@ -15,22 +15,15 @@ import '../widgets/sketchy_frame.dart';
 /// 	children: <Widget>[
 /// 	  const ListTile(
 /// 		leading: Icon(Icons.album),
-/// 		title: WiredText('The Enchanted Nightingale'),
-/// 		subtitle: WiredText(
-/// 			'Music by Julie Gable. Lyrics by Sidney Stein.'),
+/// 		title: Text('The Enchanted Nightingale'),
+/// 		subtitle: Text('Music by Julie Gable. Lyrics by Sidney Stein.'),
 /// 	  ),
 /// 	  Row(
 /// 		mainAxisAlignment: MainAxisAlignment.end,
 /// 		children: <Widget>[
-/// 		  SketchyButton(
-/// 			child: const WiredText('BUY TICKETS'),
-/// 			onPressed: () {/* ... */},
-/// 		  ),
+/// 		  SketchyButton(onPressed: () {/* ... */}, child: const Text('BUY TICKETS')),
 /// 		  const SizedBox(width: 8),
-/// 		  SketchyButton(
-/// 			child: const WiredText('LISTEN'),
-/// 			onPressed: () {/* ... */},
-/// 		  ),
+/// 		  SketchyButton(onPressed: () {/* ... */}, child: const Text('LISTEN')),
 /// 		  const SizedBox(width: 8),
 /// 		],
 /// 	  ),

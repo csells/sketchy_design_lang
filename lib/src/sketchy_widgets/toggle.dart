@@ -6,7 +6,7 @@ import 'package:flutter/widgets.dart';
 import '../theme/sketchy_theme.dart';
 import '../widgets/sketchy_frame.dart';
 
-/// Wired toggle
+/// Sketchy toggle
 class SketchyToggle extends StatefulWidget {
   const SketchyToggle({
     required this.value,
