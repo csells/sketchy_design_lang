@@ -1,9 +1,11 @@
 import 'package:flutter/widgets.dart';
 
 import '../primitives/sketchy_primitives.dart';
+import '../theme/sketchy_text_case.dart';
 import '../theme/sketchy_theme.dart';
 import '../theme/sketchy_typography.dart';
 import 'surface.dart';
+import 'text.dart';
 
 /// Choice chip rendered with rough outlines.
 class SketchyChip extends StatelessWidget {
@@ -12,6 +14,7 @@ class SketchyChip extends StatelessWidget {
     required this.selected,
     required this.onSelected,
     required this.filled,
+    this.textCase,
     super.key,
   });
 
@@ -20,6 +23,7 @@ class SketchyChip extends StatelessWidget {
     required String label,
     required bool selected,
     required VoidCallback onSelected,
+    TextCase? textCase,
     Key? key,
   }) : this._(
          key: key,
@@ -27,17 +31,22 @@ class SketchyChip extends StatelessWidget {
          selected: selected,
          onSelected: onSelected,
          filled: true,
+         textCase: textCase,
        );
 
   /// Non-interactive suggestion chip.
-  const SketchyChip.suggestion({required String label, Key? key})
-    : this._(
-        key: key,
-        label: label,
-        selected: false,
-        onSelected: null,
-        filled: false,
-      );
+  const SketchyChip.suggestion({
+    required String label,
+    TextCase? textCase,
+    Key? key,
+  }) : this._(
+         key: key,
+         label: label,
+         selected: false,
+         onSelected: null,
+         filled: false,
+         textCase: textCase,
+       );
 
   /// Chip label text.
   final String label;
@@ -50,6 +59,9 @@ class SketchyChip extends StatelessWidget {
 
   /// Whether the chip draws a filled background.
   final bool filled;
+
+  /// Text casing transformation. If null, uses theme default.
+  final TextCase? textCase;
 
   @override
   Widget build(BuildContext context) {
@@ -67,8 +79,9 @@ class SketchyChip extends StatelessWidget {
       fillColor: bgColor,
       strokeColor: theme.colors.ink,
       createPrimitive: () => SketchyPrimitive.pill(fill: fillStyle),
-      child: Text(
+      child: SketchyText(
         label,
+        textCase: textCase,
         style: typography.body.copyWith(
           color: theme.colors.ink,
           fontWeight: selected ? FontWeight.w700 : FontWeight.normal,

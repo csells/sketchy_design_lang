@@ -1,5 +1,5 @@
 /// Text casing options for transforming displayed text.
-enum TitleCasing {
+enum TextCase {
   /// No text transformation applied.
   none,
 
@@ -16,26 +16,26 @@ enum TitleCasing {
 /// Applies the specified [casing] transformation to [text].
 ///
 /// Returns the transformed text according to the casing rule:
-/// - [TitleCasing.none]: Returns text unchanged
-/// - [TitleCasing.allCaps]: Converts all characters to uppercase
-/// - [TitleCasing.titleCase]: Capitalizes first letter of each word
-/// - [TitleCasing.allLower]: Converts all characters to lowercase
+/// - [TextCase.none]: Returns text unchanged
+/// - [TextCase.allCaps]: Converts all characters to uppercase
+/// - [TextCase.titleCase]: Capitalizes first letter of each word
+/// - [TextCase.allLower]: Converts all characters to lowercase
 ///
 /// Example:
 /// ```dart
-/// applyTitleCasing('hello world', TitleCasing.titleCase); // 'Hello World'
-/// applyTitleCasing('hello world', TitleCasing.allCaps);   // 'HELLO WORLD'
-/// applyTitleCasing('HELLO WORLD', TitleCasing.allLower);  // 'hello world'
+/// applyTextCase('hello world', TextCase.titleCase); // 'Hello World'
+/// applyTextCase('hello world', TextCase.allCaps);   // 'HELLO WORLD'
+/// applyTextCase('HELLO WORLD', TextCase.allLower);  // 'hello world'
 /// ```
-String applyTitleCasing(String text, TitleCasing casing) {
+String applyTextCase(String text, TextCase casing) {
   switch (casing) {
-    case TitleCasing.none:
+    case TextCase.none:
       return text;
-    case TitleCasing.allCaps:
+    case TextCase.allCaps:
       return text.toUpperCase();
-    case TitleCasing.titleCase:
+    case TextCase.titleCase:
       return toTitleCase(text);
-    case TitleCasing.allLower:
+    case TextCase.allLower:
       return text.toLowerCase();
   }
 }
@@ -53,9 +53,12 @@ String applyTitleCasing(String text, TitleCasing casing) {
 String toTitleCase(String text) {
   if (text.isEmpty) return text;
 
-  return text.split(' ').map((word) {
-    if (word.isEmpty) return word;
-    return word[0].toUpperCase() +
-        (word.length > 1 ? word.substring(1).toLowerCase() : '');
-  }).join(' ');
+  return text
+      .split(' ')
+      .map((word) {
+        if (word.isEmpty) return word;
+        return word[0].toUpperCase() +
+            (word.length > 1 ? word.substring(1).toLowerCase() : '');
+      })
+      .join(' ');
 }

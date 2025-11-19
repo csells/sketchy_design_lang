@@ -91,6 +91,10 @@ The entire widget tree now uses the Sketchy palette, typography, and primitives.
   randomness (0 = crisp, 1 = sketchbook chaos).
 - **Typography** – defaults to Comic Shanns but you can swap entire families via
   `copyWith`.
+- **TextCase** – transforms all text display (labels, headers, tooltips, etc.)
+  with four options: `none` (default), `allCaps`, `titleCase`, `allLower`.
+  Does NOT affect actual user input. For maximum sketchy vibes, try
+  `xkcd` font + `TextCase.allCaps`.
 - **Stroke width & border radius** – consistent outlines for every widget.
 
 Access the theme with `SketchyTheme.of(context)` or granular helpers like

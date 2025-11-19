@@ -17,6 +17,7 @@ SketchyThemeData _resolveSketchyTheme(
   bool isDark,
   double roughness,
   String fontFamily,
+  TextCase titleCasing,
 ) {
   final base = SketchyThemeData.fromMode(mode, roughness: roughness);
   var colors = base.colors;
@@ -28,7 +29,12 @@ SketchyThemeData _resolveSketchyTheme(
   }
   colors = colors.copyWith(ink: colors.primary, paper: colors.secondary);
   final typography = _applyFont(base.typography, fontFamily);
-  return base.copyWith(colors: colors, typography: typography, borderRadius: 0);
+  return base.copyWith(
+    colors: colors,
+    typography: typography,
+    titleCasing: titleCasing,
+    borderRadius: 0,
+  );
 }
 
 SketchyTypographyData _applyFont(
@@ -69,7 +75,8 @@ class _SketchyAppState extends State<SketchyApp> {
   bool _isDark = false;
   String _activePaletteId = 'monochrome';
   double _roughness = 0.5;
-  String _fontFamily = _fontOptions.values.first;
+  String _fontFamily = 'XKCD';
+  TextCase _titleCasing = TextCase.allCaps;
 
   static const List<PaletteOption> _palettes = <PaletteOption>[
     PaletteOption(
@@ -96,6 +103,7 @@ class _SketchyAppState extends State<SketchyApp> {
       _isDark,
       _roughness,
       _fontFamily,
+      _titleCasing,
     );
 
     return WidgetsApp(
@@ -145,6 +153,10 @@ class _SketchyAppState extends State<SketchyApp> {
         onFontChanged: (family) {
           setState(() => _fontFamily = family);
         },
+        titleCasing: _titleCasing,
+        onTitleCasingChanged: (casing) {
+          setState(() => _titleCasing = casing);
+        },
       ),
     );
   }
@@ -161,6 +173,8 @@ class SketchyDesignSystemPage extends StatefulWidget {
     required this.onRoughnessChanged,
     required this.fontFamily,
     required this.onFontChanged,
+    required this.titleCasing,
+    required this.onTitleCasingChanged,
     super.key,
   });
 
@@ -173,6 +187,8 @@ class SketchyDesignSystemPage extends StatefulWidget {
   final ValueChanged<double> onRoughnessChanged;
   final String fontFamily;
   final ValueChanged<String> onFontChanged;
+  final TextCase titleCasing;
+  final ValueChanged<TextCase> onTitleCasingChanged;
 
   @override
   State<SketchyDesignSystemPage> createState() =>
@@ -275,7 +291,7 @@ class _SketchyDesignSystemPageState extends State<SketchyDesignSystemPage>
       title: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(
+          SketchyText(
             'Sketchy',
             style: theme.typography.headline.copyWith(
               fontSize: 32,
@@ -283,12 +299,11 @@ class _SketchyDesignSystemPageState extends State<SketchyDesignSystemPage>
             ),
           ),
           const SizedBox(height: 4),
-          Text(
-            'A hand-drawn, xkcd-inspired design language for Flutter on '
-            'mobile, desktop, and web. Powered by rough primitives and Comic '
-            'Shanns typography.',
-            style: theme.typography.title.copyWith(fontSize: 14),
-          ),
+          SketchyText('''
+A hand-drawn, xkcd-inspired design language for Flutter on mobile, desktop, and
+web. It is powered by the wired_elements code, the flutter_rough package and the
+Comic Shanns font.
+''', style: theme.typography.title.copyWith(fontSize: 14)),
         ],
       ),
     );
@@ -299,7 +314,7 @@ class _SketchyDesignSystemPageState extends State<SketchyDesignSystemPage>
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(
+        SketchyText(
           'Theme colors',
           style: theme.typography.title.copyWith(fontWeight: FontWeight.bold),
         ),
@@ -314,6 +329,7 @@ class _SketchyDesignSystemPageState extends State<SketchyDesignSystemPage>
               false,
               0.5,
               widget.fontFamily,
+              TextCase.none,
             ).colors;
             return GestureDetector(
               onTap: () => widget.onThemeChanged(option.id),
@@ -329,7 +345,7 @@ class _SketchyDesignSystemPageState extends State<SketchyDesignSystemPage>
                     size: 22,
                   ),
                   const SizedBox(height: 4),
-                  Text(
+                  SketchyText(
                     option.label,
                     style: TextStyle(
                       fontWeight: isActive ? FontWeight.bold : FontWeight.w400,
@@ -387,13 +403,13 @@ class _SketchyDesignSystemPageState extends State<SketchyDesignSystemPage>
     Widget buildModeControls() => Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text('Mode', style: labelStyle),
+        SketchyText('Mode', style: labelStyle),
         const SizedBox(height: 8),
         Row(
           children: [
             SketchyButton(
               onPressed: isLightActive ? () {} : widget.onToggleDarkMode,
-              child: Text(
+              child: SketchyText(
                 'Light',
                 style: _buttonLabelStyle(
                   context,
@@ -406,7 +422,7 @@ class _SketchyDesignSystemPageState extends State<SketchyDesignSystemPage>
             const SizedBox(width: 12),
             SketchyButton(
               onPressed: isDarkActive ? () {} : widget.onToggleDarkMode,
-              child: Text(
+              child: SketchyText(
                 'Dark',
                 style: _buttonLabelStyle(
                   context,
@@ -424,7 +440,7 @@ class _SketchyDesignSystemPageState extends State<SketchyDesignSystemPage>
     Widget buildRoughControls() => Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text('Rough', style: labelStyle),
+        SketchyText('Rough', style: labelStyle),
         const SizedBox(height: 8),
         SketchySlider(
           value: widget.roughness,
@@ -437,7 +453,7 @@ class _SketchyDesignSystemPageState extends State<SketchyDesignSystemPage>
     Widget buildFontControls() => Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text('Font', style: labelStyle),
+        SketchyText('Font', style: labelStyle),
         const SizedBox(height: 8),
         SketchyCombo<String>(
           value: widget.fontFamily,
@@ -445,7 +461,7 @@ class _SketchyDesignSystemPageState extends State<SketchyDesignSystemPage>
               .map(
                 (entry) => SketchyComboItem<String>(
                   value: entry.value,
-                  child: Text(entry.key, style: _bodyStyle(context)),
+                  child: SketchyText(entry.key, style: _bodyStyle(context)),
                 ),
               )
               .toList(),
@@ -456,9 +472,34 @@ class _SketchyDesignSystemPageState extends State<SketchyDesignSystemPage>
       ],
     );
 
+    Widget buildTitleCasingControls() => Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        SketchyText('Title Casing', style: labelStyle),
+        const SizedBox(height: 8),
+        SketchyCombo<TextCase>(
+          value: widget.titleCasing,
+          items: TextCase.values
+              .map(
+                (casing) => SketchyComboItem<TextCase>(
+                  value: casing,
+                  child: SketchyText(
+                    _titleCasingLabel(casing),
+                    style: _bodyStyle(context),
+                  ),
+                ),
+              )
+              .toList(),
+          onChanged: (value) {
+            if (value != null) widget.onTitleCasingChanged(value);
+          },
+        ),
+      ],
+    );
+
     return LayoutBuilder(
       builder: (context, constraints) {
-        final isNarrow = constraints.maxWidth < 720;
+        final isNarrow = constraints.maxWidth < 960;
         if (isNarrow) {
           return Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -468,6 +509,8 @@ class _SketchyDesignSystemPageState extends State<SketchyDesignSystemPage>
               buildRoughControls(),
               const SizedBox(height: 16),
               buildFontControls(),
+              const SizedBox(height: 16),
+              buildTitleCasingControls(),
             ],
           );
         }
@@ -479,6 +522,8 @@ class _SketchyDesignSystemPageState extends State<SketchyDesignSystemPage>
             SizedBox(width: 200, child: buildRoughControls()),
             const SizedBox(width: 24),
             SizedBox(width: 200, child: buildFontControls()),
+            const SizedBox(width: 24),
+            SizedBox(width: 200, child: buildTitleCasingControls()),
           ],
         );
       },
@@ -525,14 +570,17 @@ class _SketchyDesignSystemPageState extends State<SketchyDesignSystemPage>
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           SketchyButton(
-            child: Text('Sketchy Button', style: _buttonLabelStyle(context)),
+            child: SketchyText(
+              'Sketchy Button',
+              style: _buttonLabelStyle(context),
+            ),
             onPressed: () {},
           ),
           const SizedBox(height: 12),
           Row(
             children: [
               SketchyButton(
-                child: Text(
+                child: SketchyText(
                   'Submit',
                   style: _buttonLabelStyle(
                     context,
@@ -543,7 +591,7 @@ class _SketchyDesignSystemPageState extends State<SketchyDesignSystemPage>
               ),
               const SizedBox(width: 12),
               SketchyButton(
-                child: Text(
+                child: SketchyText(
                   'Cancel',
                   style: _buttonLabelStyle(
                     context,
@@ -556,7 +604,7 @@ class _SketchyDesignSystemPageState extends State<SketchyDesignSystemPage>
           ),
           const SizedBox(height: 12),
           SketchyButton(
-            child: Text(
+            child: SketchyText(
               'Long text button … hah',
               style: _buttonLabelStyle(context),
             ),
@@ -572,7 +620,7 @@ class _SketchyDesignSystemPageState extends State<SketchyDesignSystemPage>
     child: Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(
+        SketchyText(
           'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do '
           'eiusmod tempor incididunt ut labore et dolore magna aliqua. ',
           style: _bodyStyle(context),
@@ -580,7 +628,7 @@ class _SketchyDesignSystemPageState extends State<SketchyDesignSystemPage>
         const SizedBox(height: 12),
         const SketchyDivider(),
         const SizedBox(height: 12),
-        Text(
+        SketchyText(
           'Duis aute irure dolor in reprehenderit in voluptate velit esse '
           'cillum dolore eu fugiat nulla pariatur.',
           style: _bodyStyle(context),
@@ -595,7 +643,7 @@ class _SketchyDesignSystemPageState extends State<SketchyDesignSystemPage>
     child: Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text('Name', style: _fieldLabelStyle(context)),
+        SketchyText('Name', style: _fieldLabelStyle(context)),
         const SizedBox(height: 4),
         SketchyTextInput(
           controller: _nameController,
@@ -604,7 +652,7 @@ class _SketchyDesignSystemPageState extends State<SketchyDesignSystemPage>
           hintStyle: _mutedStyle(context),
         ),
         const SizedBox(height: 12),
-        Text('User Email', style: _fieldLabelStyle(context)),
+        SketchyText('User Email', style: _fieldLabelStyle(context)),
         const SizedBox(height: 4),
         SketchyTextInput(
           controller: _emailController,
@@ -613,7 +661,7 @@ class _SketchyDesignSystemPageState extends State<SketchyDesignSystemPage>
           hintStyle: _mutedStyle(context),
         ),
         const SizedBox(height: 12),
-        Text('Your age', style: _fieldLabelStyle(context)),
+        SketchyText('Your age', style: _fieldLabelStyle(context)),
         const SizedBox(height: 4),
         SketchyTextInput(
           controller: _ageController,
@@ -648,7 +696,7 @@ class _SketchyDesignSystemPageState extends State<SketchyDesignSystemPage>
         },
       ),
       const SizedBox(width: 8),
-      Expanded(child: Text(label, style: _bodyStyle(context))),
+      Expanded(child: SketchyText(label, style: _bodyStyle(context))),
     ],
   );
 
@@ -659,7 +707,7 @@ class _SketchyDesignSystemPageState extends State<SketchyDesignSystemPage>
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(
+          SketchyText(
             'Value: ${(100 * _sliderValue).round()}',
             style: _fieldLabelStyle(
               context,
@@ -689,7 +737,7 @@ class _SketchyDesignSystemPageState extends State<SketchyDesignSystemPage>
             children: [
               SketchyButton(
                 onPressed: _startProgress,
-                child: Text(
+                child: SketchyText(
                   'Start',
                   style: _buttonLabelStyle(
                     context,
@@ -700,7 +748,7 @@ class _SketchyDesignSystemPageState extends State<SketchyDesignSystemPage>
               const SizedBox(width: 8),
               SketchyButton(
                 onPressed: _stopProgress,
-                child: Text(
+                child: SketchyText(
                   'Stop',
                   style: _buttonLabelStyle(
                     context,
@@ -711,7 +759,7 @@ class _SketchyDesignSystemPageState extends State<SketchyDesignSystemPage>
               const SizedBox(width: 8),
               SketchyButton(
                 onPressed: _resetProgress,
-                child: Text('Reset', style: _buttonLabelStyle(context)),
+                child: SketchyText('Reset', style: _buttonLabelStyle(context)),
               ),
             ],
           ),
@@ -726,7 +774,7 @@ class _SketchyDesignSystemPageState extends State<SketchyDesignSystemPage>
     child: Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(
+        SketchyText(
           '${_selectedDate.year} – '
           '${_selectedDate.month.toString().padLeft(2, '0')} – '
           '${_selectedDate.day.toString().padLeft(2, '0')}',
@@ -783,8 +831,8 @@ class _SketchyDesignSystemPageState extends State<SketchyDesignSystemPage>
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(label, style: _bodyStyle(context)),
-            Text(helper, style: _mutedStyle(context)),
+            SketchyText(label, style: _bodyStyle(context)),
+            SketchyText(helper, style: _mutedStyle(context)),
           ],
         ),
       ),
@@ -802,7 +850,7 @@ class _SketchyDesignSystemPageState extends State<SketchyDesignSystemPage>
           onChanged: (val) => setState(() => _notificationsOn = val),
         ),
         const SizedBox(height: 12),
-        Text(
+        SketchyText(
           'Use toggles for quick binary actions—no material switch required.',
           style: _mutedStyle(context),
         ),
@@ -818,7 +866,7 @@ class _SketchyDesignSystemPageState extends State<SketchyDesignSystemPage>
     children: [
       SketchyToggle(value: value, onChanged: onChanged),
       const SizedBox(width: 12),
-      Expanded(child: Text(label, style: _bodyStyle(context))),
+      Expanded(child: SketchyText(label, style: _bodyStyle(context))),
     ],
   );
 
@@ -827,7 +875,7 @@ class _SketchyDesignSystemPageState extends State<SketchyDesignSystemPage>
     child: Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text('Cadence', style: _fieldLabelStyle(context)),
+        SketchyText('Cadence', style: _fieldLabelStyle(context)),
         const SizedBox(height: 4),
         SketchyCombo<String>(
           value: _selectedCadence,
@@ -835,7 +883,7 @@ class _SketchyDesignSystemPageState extends State<SketchyDesignSystemPage>
               .map(
                 (c) => SketchyComboItem<String>(
                   value: c,
-                  child: Text(c, style: _bodyStyle(context)),
+                  child: SketchyText(c, style: _bodyStyle(context)),
                 ),
               )
               .toList(),
@@ -844,7 +892,7 @@ class _SketchyDesignSystemPageState extends State<SketchyDesignSystemPage>
           },
         ),
         const SizedBox(height: 8),
-        Text(
+        SketchyText(
           'Currently sending a $_selectedCadence digest.',
           style: _mutedStyle(context),
         ),
@@ -859,13 +907,17 @@ class _SketchyDesignSystemPageState extends State<SketchyDesignSystemPage>
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(
-            'Dialogs keep the same rough frame and Comic Shanns tone.',
+          SketchyText(
+            'Dialogs keep the same rough frame and '
+            'Comic Shanns tone.',
             style: _mutedStyle(context),
           ),
           const SizedBox(height: 12),
           SketchyButton(
-            child: Text('Open dialog', style: _buttonLabelStyle(context)),
+            child: SketchyText(
+              'Open dialog',
+              style: _buttonLabelStyle(context),
+            ),
             onPressed: () {
               unawaited(
                 showGeneralDialog(
@@ -888,7 +940,7 @@ class _SketchyDesignSystemPageState extends State<SketchyDesignSystemPage>
                           mainAxisSize: MainAxisSize.min,
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Text(
+                            SketchyText(
                               'This is a sketchy dialog. '
                               'It has a title and some content.',
                               style: _bodyStyle(context),
@@ -899,7 +951,7 @@ class _SketchyDesignSystemPageState extends State<SketchyDesignSystemPage>
                               children: [
                                 SketchyButton(
                                   onPressed: () => Navigator.of(context).pop(),
-                                  child: Text(
+                                  child: SketchyText(
                                     'Close',
                                     style: _buttonLabelStyle(context),
                                   ),
@@ -932,7 +984,7 @@ class _SketchyDesignSystemPageState extends State<SketchyDesignSystemPage>
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(
+            SketchyText(
               title,
               style: theme.typography.title.copyWith(
                 fontWeight: FontWeight.bold,
@@ -961,4 +1013,17 @@ class _SketchyDesignSystemPageState extends State<SketchyDesignSystemPage>
       SketchyTheme.of(
         context,
       ).typography.label.copyWith(fontWeight: FontWeight.bold, color: color);
+
+  String _titleCasingLabel(TextCase casing) {
+    switch (casing) {
+      case TextCase.none:
+        return 'None';
+      case TextCase.allCaps:
+        return 'All Caps';
+      case TextCase.titleCase:
+        return 'Title Case';
+      case TextCase.allLower:
+        return 'All Lower';
+    }
+  }
 }

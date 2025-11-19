@@ -4,6 +4,7 @@ export 'src/primitives/sketchy_primitives.dart';
 export 'src/theme/sketchy_color_mode.dart';
 export 'src/theme/sketchy_colors.dart';
 export 'src/theme/sketchy_palette.dart';
+export 'src/theme/sketchy_text_case.dart';
 export 'src/theme/sketchy_theme.dart';
 export 'src/theme/sketchy_typography.dart';
 export 'src/widgets/message.dart';

@@ -1,9 +1,11 @@
 import 'package:flutter/widgets.dart';
 
 import '../primitives/sketchy_primitives.dart';
+import '../theme/sketchy_text_case.dart';
 import '../theme/sketchy_theme.dart';
 import '../theme/sketchy_typography.dart';
 import 'surface.dart';
+import 'text.dart';
 
 /// Segmented control used to switch between sections.
 class SketchyTabs extends StatelessWidget {
@@ -12,6 +14,7 @@ class SketchyTabs extends StatelessWidget {
     required this.tabs,
     required this.selectedIndex,
     required this.onChanged,
+    this.textCase,
     super.key,
   });
 
@@ -23,6 +26,9 @@ class SketchyTabs extends StatelessWidget {
 
   /// Callback invoked when a tab is selected.
   final ValueChanged<int> onChanged;
+
+  /// Text casing transformation. If null, uses theTextCasing
+  final TextCase? textCase;
 
   @override
   Widget build(BuildContext context) {
@@ -51,8 +57,9 @@ class SketchyTabs extends StatelessWidget {
                       ? SketchyFill.solid
                       : SketchyFill.none,
                 ),
-                child: Text(
+                child: SketchyText(
                   tabs[i],
+                  textCase: textCase,
                   style: typography.body.copyWith(
                     fontWeight: i == selectedIndex
                         ? FontWeight.w700

@@ -2,6 +2,7 @@ import 'package:flutter/widgets.dart';
 
 import 'sketchy_color_mode.dart';
 import 'sketchy_colors.dart';
+import 'sketchy_text_case.dart';
 import 'sketchy_typography.dart';
 
 /// Complete Sketchy configuration (colors, typography, metrics).
@@ -14,6 +15,7 @@ class SketchyThemeData {
     this.strokeWidth = 2.0,
     this.borderRadius = 12.0,
     this.roughness = 0.5,
+    this.titleCasing = TextCase.none,
   });
 
   /// Default white theme used by the examples.
@@ -57,6 +59,9 @@ class SketchyThemeData {
   /// Normalized roughness control (0 = straight, 1 = max wobble).
   final double roughness;
 
+  /// Text casing transformation applied to labels and UI text.
+  final TextCase titleCasing;
+
   /// Returns a new theme with the provided overrides.
   SketchyThemeData copyWith({
     SketchyColorMode? mode,
@@ -65,6 +70,7 @@ class SketchyThemeData {
     double? strokeWidth,
     double? borderRadius,
     double? roughness,
+    TextCase? titleCasing,
   }) {
     final resolvedMode = mode ?? this.mode;
     final resolvedColors =
@@ -79,6 +85,7 @@ class SketchyThemeData {
       strokeWidth: strokeWidth ?? this.strokeWidth,
       borderRadius: borderRadius ?? this.borderRadius,
       roughness: roughness ?? this.roughness,
+      titleCasing: titleCasing ?? this.titleCasing,
     );
   }
 }

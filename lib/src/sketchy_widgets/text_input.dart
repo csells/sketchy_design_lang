@@ -1,5 +1,6 @@
 import 'package:flutter/widgets.dart';
 
+import '../theme/sketchy_text_case.dart';
 import '../theme/sketchy_theme.dart';
 import '../widgets/sketchy_frame.dart';
 
@@ -31,6 +32,7 @@ class SketchyTextInput extends StatefulWidget {
     this.hintText,
     this.hintStyle,
     this.onChanged,
+    this.textCase,
   });
 
   /// Controls the text being edited.
@@ -54,6 +56,11 @@ class SketchyTextInput extends StatefulWidget {
 
   /// Called when the text changes.
   final void Function(String)? onChanged;
+
+  /// Text casing transformation for label and hint. If null, uses theme
+  /// default. Note: This does NOT affect the actual input text, only the
+  /// label and hint.
+  final TextCase? textCase;
 
   @override
   State<SketchyTextInput> createState() => _SketchyTextInputState();
@@ -90,6 +97,7 @@ class _SketchyTextInputState extends State<SketchyTextInput> {
   @override
   Widget build(BuildContext context) {
     final theme = SketchyTheme.of(context);
+    final casing = widget.textCase ?? theme.titleCasing;
     final effectiveLabelStyle =
         widget.labelStyle ??
         TextStyle(fontFamily: theme.fontFamily, color: theme.textColor);
@@ -100,11 +108,18 @@ class _SketchyTextInputState extends State<SketchyTextInput> {
         widget.hintStyle ??
         TextStyle(fontFamily: theme.fontFamily, color: theme.disabledTextColor);
 
+    final displayLabel = widget.labelText != null
+        ? applyTextCase(widget.labelText!, casing)
+        : null;
+    final displayHint = widget.hintText != null
+        ? applyTextCase(widget.hintText!, casing)
+        : null;
+
     return Row(
       children: [
-        if (widget.labelText != null)
-          Text('${widget.labelText}', style: effectiveLabelStyle),
-        if (widget.labelText != null) const SizedBox(width: 10),
+        if (displayLabel != null)
+          Text(displayLabel, style: effectiveLabelStyle),
+        if (displayLabel != null) const SizedBox(width: 10),
         Expanded(
           child: SketchyFrame(
             height: 48,
@@ -114,8 +129,8 @@ class _SketchyTextInputState extends State<SketchyTextInput> {
               child: Stack(
                 alignment: Alignment.centerLeft,
                 children: [
-                  if (widget.hintText != null && _controller.text.isEmpty)
-                    Text(widget.hintText!, style: effectiveHintStyle),
+                  if (displayHint != null && _controller.text.isEmpty)
+                    Text(displayHint, style: effectiveHintStyle),
                   EditableText(
                     controller: _controller,
                     focusNode: _focusNode,

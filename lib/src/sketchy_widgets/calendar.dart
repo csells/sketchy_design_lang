@@ -1,5 +1,6 @@
 import 'package:flutter/widgets.dart';
 
+import '../theme/sketchy_text_case.dart';
 import '../theme/sketchy_theme.dart';
 import '../widgets/calendar_utils.dart';
 import '../widgets/sketchy_frame.dart';
@@ -22,13 +23,22 @@ import '../widgets/sketchy_frame.dart';
 /// ```
 class SketchyCalendar extends StatefulWidget {
   /// Creates a sketchy-styled calendar optionally pre-selecting [selected].
-  const SketchyCalendar({super.key, this.selected, this.onSelected});
+  const SketchyCalendar({
+    super.key,
+    this.selected,
+    this.onSelected,
+    this.textCase,
+  });
 
   /// The date to be selected.
   final DateTime? selected;
 
   /// Called when the selected date changed.
   final ValueChanged<DateTime>? onSelected;
+
+  /// Text casing transformation for month/year and weekday headers. If null,
+  /// uses theme default. Note: This does NOT affect date numbers.
+  final TextCase? textCase;
 
   @override
   State<SketchyCalendar> createState() => _SketchyCalendarState();
@@ -86,23 +96,39 @@ class _SketchyCalendarState extends State<SketchyCalendar> {
     _computeCalendar();
   }
 
-  Padding _buildWeekdaysNav() => Padding(
-    padding: const EdgeInsets.symmetric(horizontal: 10),
-    child: Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: [
-        GestureDetector(
-          onTap: _onPre,
-          child: _sketchyText('<<', fontWeight: FontWeight.bold, fontSize: 24),
-        ),
-        _sketchyText(_monthYear, fontWeight: FontWeight.bold, fontSize: 22),
-        GestureDetector(
-          onTap: _onNext,
-          child: _sketchyText('>>', fontWeight: FontWeight.bold, fontSize: 24),
-        ),
-      ],
-    ),
-  );
+  Padding _buildWeekdaysNav() {
+    final casing = widget.textCase ?? _theme.titleCasing;
+    final displayMonthYear = applyTextCase(_monthYear, casing);
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 10),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          GestureDetector(
+            onTap: _onPre,
+            child: _sketchyText(
+              '<<',
+              fontWeight: FontWeight.bold,
+              fontSize: 24,
+            ),
+          ),
+          _sketchyText(
+            displayMonthYear,
+            fontWeight: FontWeight.bold,
+            fontSize: 22,
+          ),
+          GestureDetector(
+            onTap: _onNext,
+            child: _sketchyText(
+              '>>',
+              fontWeight: FontWeight.bold,
+              fontSize: 24,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
 
   void _onPre() {
     _firstOfMonthDate = getPreviousMonth(_firstOfMonthDate);
@@ -117,10 +143,12 @@ class _SketchyCalendarState extends State<SketchyCalendar> {
   }
 
   Row _buildWeeksHeaderUI() {
+    final casing = widget.textCase ?? _theme.titleCasing;
     final headers = <Widget>[];
     for (final weekday in weekdaysShort) {
+      final displayWeekday = applyTextCase(weekday, casing);
       headers.add(
-        _buildCell(weekday, fontWeight: FontWeight.bold, fontSize: 18),
+        _buildCell(displayWeekday, fontWeight: FontWeight.bold, fontSize: 18),
       );
     }
 
@@ -150,7 +178,7 @@ class _SketchyCalendarState extends State<SketchyCalendar> {
             selected: cell.selected,
             color: cell.color,
           ),
-      ),
+        ),
       );
     }
 

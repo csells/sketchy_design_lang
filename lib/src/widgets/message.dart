@@ -2,16 +2,19 @@ import 'dart:async';
 
 import 'package:flutter/widgets.dart';
 
+import '../theme/sketchy_text_case.dart';
 import '../theme/sketchy_theme.dart';
 import 'surface.dart';
+import 'text.dart';
 
-/// Displays transient “Sketchy message” banners.
+/// Displays transient "Sketchy message" banners.
 class SketchyMessage {
   /// Shows a top-anchored message that slides into view.
   static void show(
     BuildContext context, {
     required String message,
-    Duration duration = const Duration(seconds: 2),
+    Duration duration = const Duration(seconds: 4),
+    TextCase? textCase,
   }) {
     final overlay = Overlay.maybeOf(context, rootOverlay: true);
     if (overlay == null) return;
@@ -22,6 +25,7 @@ class SketchyMessage {
         message: message,
         duration: duration,
         onDismissed: () => entry.remove(),
+        textCase: textCase,
       ),
     );
 
@@ -34,10 +38,12 @@ class _SketchyMessageBanner extends StatefulWidget {
     required this.message,
     required this.duration,
     required this.onDismissed,
+    this.textCase,
   });
 
   final String message;
   final Duration duration;
+  final TextCase? textCase;
   final VoidCallback onDismissed;
 
   @override
@@ -98,8 +104,9 @@ class _SketchyMessageBannerState extends State<_SketchyMessageBanner>
                 ),
                 fillColor: theme.colors.paper,
                 strokeColor: theme.colors.ink,
-                child: Text(
+                child: SketchyText(
                   widget.message,
+                  textCase: widget.textCase,
                   style: theme.typography.body.copyWith(
                     fontWeight: FontWeight.w600,
                   ),

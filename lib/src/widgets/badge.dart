@@ -1,9 +1,11 @@
 import 'package:flutter/widgets.dart';
 
 import '../primitives/sketchy_primitives.dart';
+import '../theme/sketchy_text_case.dart';
 import '../theme/sketchy_theme.dart';
 import '../theme/sketchy_typography.dart';
 import 'surface.dart';
+import 'text.dart';
 
 /// Tones supported by [SketchyBadge].
 enum SketchyBadgeTone {
@@ -27,6 +29,7 @@ class SketchyBadge extends StatelessWidget {
     required this.label,
     super.key,
     this.tone = SketchyBadgeTone.info,
+    this.textCase,
   });
 
   /// Text displayed inside the badge.
@@ -34,6 +37,9 @@ class SketchyBadge extends StatelessWidget {
 
   /// Visual tone applied to the badge fill.
   final SketchyBadgeTone tone;
+
+  /// Text casing transformation. If null, uses theme default.
+  final TextCase? textCase;
 
   @override
   Widget build(BuildContext context) {
@@ -51,8 +57,9 @@ class SketchyBadge extends StatelessWidget {
       fillColor: color.withValues(alpha: 0.18),
       strokeColor: theme.colors.ink,
       createPrimitive: () => SketchyPrimitive.pill(fill: SketchyFill.hachure),
-      child: Text(
+      child: SketchyText(
         label,
+        textCase: textCase,
         style: typography.label.copyWith(color: theme.colors.ink),
       ),
     );

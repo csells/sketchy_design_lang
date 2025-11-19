@@ -20,5 +20,6 @@ export 'scaffold.dart';
 export 'sketchy_frame.dart';
 export 'surface.dart';
 export 'tabs.dart';
+export 'text.dart';
 export 'tooltip.dart';
 export 'typing_indicator.dart';

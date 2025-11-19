@@ -3,8 +3,10 @@ import 'dart:math' as math;
 
 import 'package:flutter/widgets.dart';
 
+import '../theme/sketchy_text_case.dart';
 import '../theme/sketchy_theme.dart';
 import '../theme/sketchy_typography.dart';
+import 'text.dart';
 
 /// Basic tooltip that appears on hover similar to Flutter's Material tooltip.
 class SketchyTooltip extends StatefulWidget {
@@ -13,6 +15,7 @@ class SketchyTooltip extends StatefulWidget {
     required this.message,
     required this.child,
     this.preferBelow = false,
+    this.titleCasing,
     super.key,
   });
 
@@ -25,6 +28,9 @@ class SketchyTooltip extends StatefulWidget {
   /// Whether the tooltip should render below the pointer instead of above.
   final bool preferBelow;
 
+  /// Text casing transformation. If null, uses theme default.
+  final TextCase? titleCasing;
+
   @override
   State<SketchyTooltip> createState() => _SketchyTooltipState();
 }
@@ -36,12 +42,12 @@ class _SketchyTooltipState extends State<SketchyTooltip> {
 
   @override
   Widget build(BuildContext context) => MouseRegion(
-        opaque: true,
-        onEnter: (event) => _showTooltip(event.position),
-        onHover: (event) => _updatePosition(event.position),
-        onExit: (_) => _hideTooltip(),
-        child: widget.child,
-      );
+    opaque: true,
+    onEnter: (event) => _showTooltip(event.position),
+    onHover: (event) => _updatePosition(event.position),
+    onExit: (_) => _hideTooltip(),
+    child: widget.child,
+  );
 
   void _updatePosition(Offset position) {
     _pointerPosition = position;
@@ -57,13 +63,14 @@ class _SketchyTooltipState extends State<SketchyTooltip> {
           message: widget.message,
           target: _pointerPosition ?? _fallbackPosition(),
           preferBelow: widget.preferBelow,
+          textCase: widget.titleCasing,
         ),
       );
       Overlay.of(context, rootOverlay: true).insert(_entry!);
     } else {
       _entry!.markNeedsBuild();
     }
-    _hideTimer = Timer(const Duration(seconds: 2), _hideTooltip);
+    _hideTimer = Timer(const Duration(seconds: 4), _hideTooltip);
   }
 
   Offset _fallbackPosition() {
@@ -92,33 +99,46 @@ class _SketchyTooltipOverlay extends StatelessWidget {
     required this.message,
     required this.target,
     required this.preferBelow,
+    this.textCase,
   });
 
   final String message;
   final Offset target;
   final bool preferBelow;
+  final TextCase? textCase;
 
   @override
   Widget build(BuildContext context) {
     final theme = SketchyTheme.of(context);
     final typography = SketchyTypography.of(context);
-    return Positioned.fill(
+    final casing = textCase ?? theme.titleCasing;
+    final displayMessage = applyTextCase(message, casing);
+    final textPainter = TextPainter(
+      text: TextSpan(text: displayMessage, style: typography.label),
+      textDirection: TextDirection.ltr,
+    )..layout(maxWidth: MediaQuery.of(context).size.width * 0.8);
+    final tooltipSize = Size(textPainter.width + 16, textPainter.height + 8);
+    final offset = _computeTooltipOffset(
+      target,
+      tooltipSize,
+      MediaQuery.of(context).size,
+      preferBelow,
+    );
+
+    return Positioned(
+      left: offset.dx,
+      top: offset.dy,
       child: IgnorePointer(
-        child: CustomSingleChildLayout(
-          delegate: _SketchyTooltipPositionDelegate(
-            target: target,
-            preferBelow: preferBelow,
+        child: Container(
+          padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+          decoration: BoxDecoration(
+            color: theme.colors.ink,
+            borderRadius: BorderRadius.circular(4),
           ),
-          child: Container(
-            padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-            decoration: BoxDecoration(
-              color: theme.colors.ink,
-              borderRadius: BorderRadius.circular(4),
-            ),
-            child: Text(
-              message,
-              style: typography.label.copyWith(color: theme.colors.paper),
-            ),
+          child: SketchyText(
+            message,
+            textCase: textCase,
+            style: typography.label.copyWith(color: theme.colors.paper),
           ),
         ),
       ),
@@ -126,42 +146,34 @@ class _SketchyTooltipOverlay extends StatelessWidget {
   }
 }
 
-class _SketchyTooltipPositionDelegate extends SingleChildLayoutDelegate {
-  const _SketchyTooltipPositionDelegate({
-    required this.target,
-    required this.preferBelow,
-  });
+Offset _computeTooltipOffset(
+  Offset target,
+  Size tooltipSize,
+  Size screenSize,
+  bool preferBelow,
+) {
+  const horizontalOffset = 8.0;
+  const verticalOffset = 8.0;
+  const padding = EdgeInsets.all(8);
 
-  final Offset target;
-  final bool preferBelow;
-  static const double _verticalOffset = 18;
-  static const EdgeInsets _screenPadding = EdgeInsets.all(8);
+  var x = target.dx + horizontalOffset;
+  x = math.min(
+    math.max(x, padding.left),
+    screenSize.width - tooltipSize.width - padding.right,
+  );
 
-  @override
-  Offset getPositionForChild(Size size, Size childSize) {
-    final availableWidth =
-        size.width - _screenPadding.horizontal - childSize.width;
-    final x = math.min(
-      math.max(target.dx - childSize.width / 2, _screenPadding.left),
-      _screenPadding.left + availableWidth,
-    );
+  var y = preferBelow
+      ? target.dy + verticalOffset
+      : target.dy - verticalOffset - tooltipSize.height;
 
-    final belowY = target.dy + _verticalOffset;
-    final aboveY = target.dy - _verticalOffset - childSize.height;
-
-    var y = preferBelow ? belowY : aboveY;
-    if (y < _screenPadding.top) y = belowY;
-    if (y + childSize.height + _screenPadding.bottom > size.height) {
-      y = math.max(
-        _screenPadding.top,
-        size.height - childSize.height - _screenPadding.bottom,
-      );
-    }
-    return Offset(x, y);
+  if (y < padding.top) {
+    y = target.dy + verticalOffset;
   }
 
-  @override
-  bool shouldRelayout(_SketchyTooltipPositionDelegate oldDelegate) =>
-      target != oldDelegate.target ||
-      preferBelow != oldDelegate.preferBelow;
+  final maxY = screenSize.height - tooltipSize.height - padding.bottom;
+  if (y > maxY) {
+    y = math.max(padding.top, maxY);
+  }
+
+  return Offset(x, y);
 }
