@@ -3,6 +3,18 @@ import 'package:flutter/widgets.dart';
 import '../theme/sketchy_theme.dart';
 import 'sketchy_page_route.dart';
 
+/// Controls which Sketchy theme variant should be used.
+enum SketchyThemeMode {
+  /// Follows the current platform brightness.
+  system,
+
+  /// Forces Sketchy to use the provided light theme.
+  light,
+
+  /// Forces Sketchy to use the provided dark theme when available.
+  dark,
+}
+
 /// Signature for building Sketchy routes.
 typedef SketchyRouteBuilder = WidgetBuilder;
 
@@ -14,7 +26,8 @@ class SketchyApp extends StatelessWidget {
     required this.theme,
     required this.home,
     super.key,
-    this.color,
+    this.darkTheme,
+    this.themeMode = SketchyThemeMode.system,
     this.routes,
     this.onGenerateRoute,
     this.onGenerateInitialRoutes,
@@ -39,14 +52,17 @@ class SketchyApp extends StatelessWidget {
   /// Title exposed to Flutter’s window bindings.
   final String title;
 
-  /// Global theme configuration consumed by Sketchy widgets.
+  /// Global light theme configuration consumed by Sketchy widgets.
   final SketchyThemeData theme;
+
+  /// Optional dark theme configuration.
+  final SketchyThemeData? darkTheme;
+
+  /// Theme mode controlling which theme is active.
+  final SketchyThemeMode themeMode;
 
   /// Widget shown for the default `/` route.
   final Widget home;
-
-  /// Base color used for the app (defaults to paper).
-  final Color? color;
 
   /// Optional static route table.
   final Map<String, SketchyRouteBuilder>? routes;
@@ -109,7 +125,7 @@ class SketchyApp extends StatelessWidget {
   Widget build(BuildContext context) => WidgetsApp(
     navigatorKey: navigatorKey,
     title: title,
-    color: color ?? theme.colors.paper,
+    color: theme.colors.paper,
     locale: locale,
     supportedLocales: supportedLocales,
     localizationsDelegates: localizationsDelegates,
@@ -122,11 +138,14 @@ class SketchyApp extends StatelessWidget {
     actions: actions,
     restorationScopeId: restorationScopeId,
     builder: (context, child) {
+      final activeTheme = _resolveTheme(context);
       final content = child ?? const SizedBox.shrink();
       final themed = SketchyTheme(
-        data: theme,
+        data: activeTheme,
         child: DefaultTextStyle(
-          style: theme.typography.body.copyWith(color: theme.colors.ink),
+          style: activeTheme.typography.body.copyWith(
+            color: activeTheme.colors.ink,
+          ),
           child: content,
         ),
       );
@@ -153,4 +172,30 @@ class SketchyApp extends StatelessWidget {
     },
     onUnknownRoute: onUnknownRoute,
   );
+
+  SketchyThemeData _resolveTheme(BuildContext context) {
+    final platformBrightness =
+        MediaQuery.maybeOf(context)?.platformBrightness ?? Brightness.light;
+    final effectiveMode = switch (themeMode) {
+      SketchyThemeMode.system =>
+        platformBrightness == Brightness.dark
+            ? SketchyThemeMode.dark
+            : SketchyThemeMode.light,
+      _ => themeMode,
+    };
+    if (effectiveMode == SketchyThemeMode.dark) {
+      return darkTheme ?? _deriveDarkTheme(theme);
+    }
+    return theme;
+  }
+
+  SketchyThemeData _deriveDarkTheme(SketchyThemeData base) {
+    final colors = base.colors.copyWith(
+      ink: base.colors.paper,
+      paper: base.colors.ink,
+      primary: base.colors.secondary,
+      secondary: base.colors.primary,
+    );
+    return base.copyWith(colors: colors);
+  }
 }

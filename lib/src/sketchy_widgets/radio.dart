@@ -54,36 +54,37 @@ class _SketchyRadioState<T> extends State<SketchyRadio<T>> {
   Widget build(BuildContext context) {
     _groupValue = widget.groupValue;
     _isSelected = _groupValue == widget.value;
-    final theme = SketchyTheme.of(context);
-    return GestureDetector(
-      behavior: HitTestBehavior.translucent,
-      onTap: _handleTap,
-      child: SizedBox(
-        height: 48,
-        width: 48,
-        child: Stack(
-          alignment: Alignment.center,
-          children: [
-            const SketchyFrame(
-              width: 36,
-              height: 36,
-              shape: SketchyFrameShape.circle,
-              fill: SketchyFill.none,
-              child: SizedBox.expand(),
-            ),
-            AnimatedOpacity(
-              opacity: _isSelected ? 1 : 0,
-              duration: const Duration(milliseconds: 150),
-              child: SketchyFrame(
-                width: 20,
-                height: 20,
+    return SketchyTheme.consumer(
+      builder: (context, theme) => GestureDetector(
+        behavior: HitTestBehavior.translucent,
+        onTap: _handleTap,
+        child: SizedBox(
+          height: 48,
+          width: 48,
+          child: Stack(
+            alignment: Alignment.center,
+            children: [
+              const SketchyFrame(
+                width: 36,
+                height: 36,
                 shape: SketchyFrameShape.circle,
-                fill: SketchyFill.solid,
-                fillColor: theme.colors.ink,
-                child: const SizedBox.expand(),
+                fill: SketchyFill.none,
+                child: SizedBox.expand(),
               ),
-            ),
-          ],
+              AnimatedOpacity(
+                opacity: _isSelected ? 1 : 0,
+                duration: const Duration(milliseconds: 150),
+                child: SketchyFrame(
+                  width: 20,
+                  height: 20,
+                  shape: SketchyFrameShape.circle,
+                  fill: SketchyFill.solid,
+                  fillColor: theme.colors.ink,
+                  child: const SizedBox.expand(),
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );

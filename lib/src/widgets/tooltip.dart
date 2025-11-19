@@ -5,7 +5,6 @@ import 'package:flutter/widgets.dart';
 
 import '../theme/sketchy_text_case.dart';
 import '../theme/sketchy_theme.dart';
-import '../theme/sketchy_typography.dart';
 import 'text.dart';
 
 /// Basic tooltip that appears on hover similar to Flutter's Material tooltip.
@@ -15,7 +14,7 @@ class SketchyTooltip extends StatefulWidget {
     required this.message,
     required this.child,
     this.preferBelow = false,
-    this.titleCasing,
+    this.textCase,
     super.key,
   });
 
@@ -29,7 +28,7 @@ class SketchyTooltip extends StatefulWidget {
   final bool preferBelow;
 
   /// Text casing transformation. If null, uses theme default.
-  final TextCase? titleCasing;
+  final TextCase? textCase;
 
   @override
   State<SketchyTooltip> createState() => _SketchyTooltipState();
@@ -63,7 +62,7 @@ class _SketchyTooltipState extends State<SketchyTooltip> {
           message: widget.message,
           target: _pointerPosition ?? _fallbackPosition(),
           preferBelow: widget.preferBelow,
-          textCase: widget.titleCasing,
+          textCase: widget.textCase,
         ),
       );
       Overlay.of(context, rootOverlay: true).insert(_entry!);
@@ -108,42 +107,45 @@ class _SketchyTooltipOverlay extends StatelessWidget {
   final TextCase? textCase;
 
   @override
-  Widget build(BuildContext context) {
-    final theme = SketchyTheme.of(context);
-    final typography = SketchyTypography.of(context);
-    final casing = textCase ?? theme.titleCasing;
-    final displayMessage = applyTextCase(message, casing);
-    final textPainter = TextPainter(
-      text: TextSpan(text: displayMessage, style: typography.label),
-      textDirection: TextDirection.ltr,
-    )..layout(maxWidth: MediaQuery.of(context).size.width * 0.8);
-    final tooltipSize = Size(textPainter.width + 16, textPainter.height + 8);
-    final offset = _computeTooltipOffset(
-      target,
-      tooltipSize,
-      MediaQuery.of(context).size,
-      preferBelow,
-    );
+  Widget build(BuildContext context) => SketchyTheme.consumer(
+        builder: (context, theme) {
+          final casing = textCase ?? theme.textCase;
+          final displayMessage = applyTextCase(message, casing);
+          final textPainter = TextPainter(
+            text: TextSpan(text: displayMessage, style: theme.typography.label),
+            textDirection: TextDirection.ltr,
+          )..layout(maxWidth: MediaQuery.of(context).size.width * 0.8);
+          final tooltipSize =
+              Size(textPainter.width + 16, textPainter.height + 8);
+          final offset = _computeTooltipOffset(
+            target,
+            tooltipSize,
+            MediaQuery.of(context).size,
+            preferBelow,
+          );
 
-    return Positioned(
-      left: offset.dx,
-      top: offset.dy,
-      child: IgnorePointer(
-        child: Container(
-          padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-          decoration: BoxDecoration(
-            color: theme.colors.ink,
-            borderRadius: BorderRadius.circular(4),
-          ),
-          child: SketchyText(
-            message,
-            textCase: textCase,
-            style: typography.label.copyWith(color: theme.colors.paper),
-          ),
-        ),
-      ),
-    );
-  }
+          return Positioned(
+            left: offset.dx,
+            top: offset.dy,
+            child: IgnorePointer(
+              child: Container(
+                padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                decoration: BoxDecoration(
+                  color: theme.colors.ink,
+                  borderRadius: BorderRadius.circular(4),
+                ),
+                child: SketchyText(
+                  message,
+                  textCase: textCase,
+                  style: theme.typography.label.copyWith(
+                    color: theme.colors.paper,
+                  ),
+                ),
+              ),
+            ),
+          );
+        },
+      );
 }
 
 Offset _computeTooltipOffset(

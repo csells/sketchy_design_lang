@@ -95,59 +95,60 @@ class _SketchyTextInputState extends State<SketchyTextInput> {
   }
 
   @override
-  Widget build(BuildContext context) {
-    final theme = SketchyTheme.of(context);
-    final casing = widget.textCase ?? theme.titleCasing;
-    final effectiveLabelStyle =
-        widget.labelStyle ??
-        TextStyle(fontFamily: theme.fontFamily, color: theme.textColor);
-    final effectiveStyle =
-        widget.style ??
-        TextStyle(fontFamily: theme.fontFamily, color: theme.textColor);
-    final effectiveHintStyle =
-        widget.hintStyle ??
-        TextStyle(fontFamily: theme.fontFamily, color: theme.disabledTextColor);
+  Widget build(BuildContext context) => SketchyTheme.consumer(
+        builder: (context, theme) {
+          final casing = widget.textCase ?? theme.textCase;
+          final effectiveLabelStyle = widget.labelStyle ??
+              TextStyle(fontFamily: theme.fontFamily, color: theme.textColor);
+          final effectiveStyle = widget.style ??
+              TextStyle(fontFamily: theme.fontFamily, color: theme.textColor);
+          final effectiveHintStyle = widget.hintStyle ??
+              TextStyle(
+                fontFamily: theme.fontFamily,
+                color: theme.disabledTextColor,
+              );
 
-    final displayLabel = widget.labelText != null
-        ? applyTextCase(widget.labelText!, casing)
-        : null;
-    final displayHint = widget.hintText != null
-        ? applyTextCase(widget.hintText!, casing)
-        : null;
+          final displayLabel = widget.labelText != null
+              ? applyTextCase(widget.labelText!, casing)
+              : null;
+          final displayHint = widget.hintText != null
+              ? applyTextCase(widget.hintText!, casing)
+              : null;
 
-    return Row(
-      children: [
-        if (displayLabel != null)
-          Text(displayLabel, style: effectiveLabelStyle),
-        if (displayLabel != null) const SizedBox(width: 10),
-        Expanded(
-          child: SketchyFrame(
-            height: 48,
-            padding: const EdgeInsets.symmetric(horizontal: 8),
-            fill: SketchyFill.none,
-            child: Center(
-              child: Stack(
-                alignment: Alignment.centerLeft,
-                children: [
-                  if (displayHint != null && _controller.text.isEmpty)
-                    Text(displayHint, style: effectiveHintStyle),
-                  EditableText(
-                    controller: _controller,
-                    focusNode: _focusNode,
-                    style: effectiveStyle,
-                    cursorColor: theme.colors.ink,
-                    backgroundCursorColor: theme.colors.paper,
-                    onChanged: (value) {
-                      setState(() {}); // To update hint visibility
-                      widget.onChanged?.call(value);
-                    },
+          return Row(
+            children: [
+              if (displayLabel != null)
+                Text(displayLabel, style: effectiveLabelStyle),
+              if (displayLabel != null) const SizedBox(width: 10),
+              Expanded(
+                child: SketchyFrame(
+                  height: 48,
+                  padding: const EdgeInsets.symmetric(horizontal: 8),
+                  fill: SketchyFill.none,
+                  child: Center(
+                    child: Stack(
+                      alignment: Alignment.centerLeft,
+                      children: [
+                        if (displayHint != null && _controller.text.isEmpty)
+                          Text(displayHint, style: effectiveHintStyle),
+                        EditableText(
+                          controller: _controller,
+                          focusNode: _focusNode,
+                          style: effectiveStyle,
+                          cursorColor: theme.colors.ink,
+                          backgroundCursorColor: theme.colors.paper,
+                          onChanged: (value) {
+                            setState(() {}); // To update hint visibility
+                            widget.onChanged?.call(value);
+                          },
+                        ),
+                      ],
+                    ),
                   ),
-                ],
+                ),
               ),
-            ),
-          ),
-        ),
-      ],
-    );
-  }
+            ],
+          );
+        },
+      );
 }

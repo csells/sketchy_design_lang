@@ -45,34 +45,33 @@ class _SketchyCheckboxState extends State<SketchyCheckbox>
   bool getOldWidgetValue(SketchyCheckbox oldWidget) => oldWidget.value!;
 
   @override
-  Widget build(BuildContext context) {
-    final theme = SketchyTheme.of(context);
-    return GestureDetector(
-      onTap: () {
-        final newValue = !value;
-        updateValue(newValue);
-        widget.onChanged(newValue);
-      },
-      child: SketchySurface(
-        width: 27,
-        height: 27,
-        strokeColor: theme.borderColor,
-        strokeWidth: theme.strokeWidth,
-        fillColor: theme.colors.secondary,
-        padding: EdgeInsets.zero,
-        alignment: Alignment.center,
-        createPrimitive: () =>
-            SketchyPrimitive.rectangle(fill: SketchyFill.none),
-        child: value
-            ? Transform.scale(
-                scale: 0.7,
-                child: SketchyIcon(
-                  icon: SketchyIcons.check,
-                  color: theme.colors.ink,
-                ),
-              )
-            : const SizedBox(),
-      ),
-    );
-  }
+  Widget build(BuildContext context) => SketchyTheme.consumer(
+        builder: (context, theme) => GestureDetector(
+          onTap: () {
+            final newValue = !value;
+            updateValue(newValue);
+            widget.onChanged(newValue);
+          },
+          child: SketchySurface(
+            width: 27,
+            height: 27,
+            strokeColor: theme.borderColor,
+            strokeWidth: theme.strokeWidth,
+            fillColor: theme.colors.secondary,
+            padding: EdgeInsets.zero,
+            alignment: Alignment.center,
+            createPrimitive: () =>
+                SketchyPrimitive.rectangle(fill: SketchyFill.none),
+            child: value
+                ? Transform.scale(
+                    scale: 0.7,
+                    child: SketchyIcon(
+                      icon: SketchyIcons.check,
+                      color: theme.colors.ink,
+                    ),
+                  )
+                : const SizedBox(),
+          ),
+        ),
+      );
 }

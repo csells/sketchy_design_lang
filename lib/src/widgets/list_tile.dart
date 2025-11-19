@@ -2,7 +2,6 @@ import 'package:flutter/widgets.dart';
 
 import '../primitives/sketchy_primitives.dart';
 import '../theme/sketchy_theme.dart';
-import '../theme/sketchy_typography.dart';
 import 'surface.dart';
 
 /// Alignment options for [SketchyListTile].
@@ -46,53 +45,54 @@ class SketchyListTile extends StatelessWidget {
   final SketchyTileAlignment alignment;
 
   @override
-  Widget build(BuildContext context) {
-    final theme = SketchyTheme.of(context);
-    final typography = SketchyTypography.of(context);
-    final bubbleFill = alignment == SketchyTileAlignment.start
-        ? theme.colors.paper
-        : theme.colors.secondary.withValues(alpha: 0.5);
+  Widget build(BuildContext context) => SketchyTheme.consumer(
+        builder: (context, theme) {
+          final bubbleFill = alignment == SketchyTileAlignment.start
+              ? theme.colors.paper
+              : theme.colors.secondary.withValues(alpha: 0.5);
 
-    final content = SketchySurface(
-      padding: const EdgeInsets.all(12),
-      fillColor: bubbleFill,
-      strokeColor: theme.colors.ink,
-      createPrimitive: () => SketchyPrimitive.roundedRectangle(
-        cornerRadius: theme.borderRadius,
-        fill: SketchyFill.solid,
-      ),
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          if (leading != null) ...[leading!, const SizedBox(width: 12)],
-          Expanded(
-            child: Column(
+          final content = SketchySurface(
+            padding: const EdgeInsets.all(12),
+            fillColor: bubbleFill,
+            strokeColor: theme.colors.ink,
+            createPrimitive: () => SketchyPrimitive.roundedRectangle(
+              cornerRadius: theme.borderRadius,
+              fill: SketchyFill.solid,
+            ),
+            child: Row(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                if (title != null)
-                  DefaultTextStyle(
-                    style: typography.body.copyWith(
-                      fontWeight: FontWeight.w600,
-                    ),
-                    child: title!,
+                if (leading != null) ...[leading!, const SizedBox(width: 12)],
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      if (title != null)
+                        DefaultTextStyle(
+                          style: theme.typography.body.copyWith(
+                            fontWeight: FontWeight.w600,
+                          ),
+                          child: title!,
+                        ),
+                      if (subtitle != null) ...[
+                        const SizedBox(height: 4),
+                        DefaultTextStyle(
+                            style: theme.typography.caption, child: subtitle!),
+                      ],
+                    ],
                   ),
-                if (subtitle != null) ...[
-                  const SizedBox(height: 4),
-                  DefaultTextStyle(style: typography.caption, child: subtitle!),
-                ],
+                ),
+                if (trailing != null) ...[const SizedBox(width: 12), trailing!],
               ],
             ),
-          ),
-          if (trailing != null) ...[const SizedBox(width: 12), trailing!],
-        ],
-      ),
-    );
+          );
 
-    final bubble = alignment == SketchyTileAlignment.end
-        ? Align(alignment: Alignment.centerRight, child: content)
-        : Align(alignment: Alignment.centerLeft, child: content);
+          final bubble = alignment == SketchyTileAlignment.end
+              ? Align(alignment: Alignment.centerRight, child: content)
+              : Align(alignment: Alignment.centerLeft, child: content);
 
-    if (onTap == null) return bubble;
-    return GestureDetector(onTap: onTap, child: bubble);
-  }
+          if (onTap == null) return bubble;
+          return GestureDetector(onTap: onTap, child: bubble);
+        },
+      );
 }

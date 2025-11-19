@@ -25,21 +25,23 @@ class SketchyIconButton extends StatelessWidget {
   final double size;
 
   @override
-  Widget build(BuildContext context) {
-    final theme = SketchyTheme.of(context);
-    final content = SketchySurface(
-      width: size,
-      height: size,
-      fillColor: theme.colors.paper,
-      strokeColor: theme.colors.ink,
-      createPrimitive: () => SketchyPrimitive.rectangle(fill: SketchyFill.none),
-      child: SketchyIcon(icon: icon),
-    );
+  Widget build(BuildContext context) => SketchyTheme.consumer(
+    builder: (context, theme) {
+      final content = SketchySurface(
+        width: size,
+        height: size,
+        fillColor: theme.colors.paper,
+        strokeColor: theme.colors.ink,
+        createPrimitive: () =>
+            SketchyPrimitive.rectangle(fill: SketchyFill.none),
+        child: SketchyIcon(icon: icon),
+      );
 
-    if (onPressed == null) {
-      return Opacity(opacity: 0.4, child: IgnorePointer(child: content));
-    }
+      if (onPressed == null) {
+        return Opacity(opacity: 0.4, child: IgnorePointer(child: content));
+      }
 
-    return GestureDetector(onTap: onPressed, child: content);
-  }
+      return GestureDetector(onTap: onPressed, child: content);
+    },
+  );
 }

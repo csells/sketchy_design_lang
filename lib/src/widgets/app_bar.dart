@@ -39,42 +39,44 @@ class SketchyAppBar extends StatelessWidget implements PreferredSizeWidget {
   }
 
   @override
-  Widget build(BuildContext context) {
-    final theme = SketchyTheme.of(context);
-    final direction = Directionality.maybeOf(context) ?? TextDirection.ltr;
-    final resolvedPadding = padding.resolve(direction);
-    return Padding(
-      padding: margin.resolve(direction),
-      child: SketchySurface(
-        padding: resolvedPadding,
-        fillColor: theme.colors.paper,
-        strokeColor: theme.colors.ink,
-        createPrimitive: () => SketchyPrimitive.roundedRectangle(
-          cornerRadius: theme.borderRadius,
-          fill: SketchyFill.none,
-        ),
-        child: Row(
-          children: [
-            leading ?? const SizedBox.shrink(),
-            if (leading != null) const SizedBox(width: 12),
-            Expanded(
-              child: DefaultTextStyle(
-                style: theme.typography.title.copyWith(color: theme.colors.ink),
-                child: title,
-              ),
-            ),
-            if (actions != null && actions!.isNotEmpty) ...[
-              const SizedBox(width: 8),
-              ...actions!.map(
-                (widget) => Padding(
-                  padding: const EdgeInsets.only(left: 8),
-                  child: widget,
+  Widget build(BuildContext context) => SketchyTheme.consumer(
+    builder: (context, theme) {
+      final direction = Directionality.maybeOf(context) ?? TextDirection.ltr;
+      final resolvedPadding = padding.resolve(direction);
+      return Padding(
+        padding: margin.resolve(direction),
+        child: SketchySurface(
+          padding: resolvedPadding,
+          fillColor: theme.colors.paper,
+          strokeColor: theme.colors.ink,
+          createPrimitive: () => SketchyPrimitive.roundedRectangle(
+            cornerRadius: theme.borderRadius,
+            fill: SketchyFill.none,
+          ),
+          child: Row(
+            children: [
+              leading ?? const SizedBox.shrink(),
+              if (leading != null) const SizedBox(width: 12),
+              Expanded(
+                child: DefaultTextStyle(
+                  style:
+                      theme.typography.title.copyWith(color: theme.colors.ink),
+                  child: title,
                 ),
               ),
+              if (actions != null && actions!.isNotEmpty) ...[
+                const SizedBox(width: 8),
+                ...actions!.map(
+                  (widget) => Padding(
+                    padding: const EdgeInsets.only(left: 8),
+                    child: widget,
+                  ),
+                ),
+              ],
             ],
-          ],
+          ),
         ),
-      ),
-    );
-  }
+      );
+    },
+  );
 }

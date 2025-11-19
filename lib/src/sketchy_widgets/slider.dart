@@ -75,59 +75,59 @@ class _SketchySliderState extends State<SketchySlider>
   }
 
   @override
-  Widget build(BuildContext context) {
-    final theme = SketchyTheme.of(context);
-    return SizedBox(
-      height: 48,
-      child: LayoutBuilder(
-        builder: (context, constraints) {
-          const knobSize = 24.0;
-          final trackWidth = (constraints.maxWidth - knobSize).clamp(
-            0.0,
-            double.infinity,
-          );
-          final range = (widget.max - widget.min).abs();
-          final normalized = range == 0
-              ? 0.0
-              : ((value - widget.min) / range).clamp(0.0, 1.0);
-          final knobLeft = trackWidth * normalized;
+  Widget build(BuildContext context) => SketchyTheme.consumer(
+        builder: (context, theme) => SizedBox(
+          height: 48,
+          child: LayoutBuilder(
+            builder: (context, constraints) {
+              const knobSize = 24.0;
+              final trackWidth = (constraints.maxWidth - knobSize).clamp(
+                0.0,
+                double.infinity,
+              );
+              final range = (widget.max - widget.min).abs();
+              final normalized = range == 0
+                  ? 0.0
+                  : ((value - widget.min) / range).clamp(0.0, 1.0);
+              final knobLeft = trackWidth * normalized;
 
-          return GestureDetector(
-            behavior: HitTestBehavior.opaque,
-            onHorizontalDragUpdate: (details) {
-              _updateValue(details.localPosition.dx, constraints.maxWidth);
-            },
-            onTapDown: (details) {
-              _updateValue(details.localPosition.dx, constraints.maxWidth);
-            },
-            child: Stack(
-              alignment: Alignment.centerLeft,
-              children: [
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: knobSize / 2),
-                  child: SketchyFrame(
-                    height: theme.strokeWidth,
-                    fill: SketchyFill.none,
-                    child: const SizedBox.expand(),
-                  ),
+              return GestureDetector(
+                behavior: HitTestBehavior.opaque,
+                onHorizontalDragUpdate: (details) {
+                  _updateValue(details.localPosition.dx, constraints.maxWidth);
+                },
+                onTapDown: (details) {
+                  _updateValue(details.localPosition.dx, constraints.maxWidth);
+                },
+                child: Stack(
+                  alignment: Alignment.centerLeft,
+                  children: [
+                    Padding(
+                      padding:
+                          const EdgeInsets.symmetric(horizontal: knobSize / 2),
+                      child: SketchyFrame(
+                        height: theme.strokeWidth,
+                        fill: SketchyFill.none,
+                        child: const SizedBox.expand(),
+                      ),
+                    ),
+                    Positioned(
+                      left: knobLeft,
+                      top: (constraints.maxHeight - knobSize) / 2,
+                      child: SketchyFrame(
+                        width: knobSize,
+                        height: knobSize,
+                        shape: SketchyFrameShape.circle,
+                        fill: SketchyFill.solid,
+                        fillColor: theme.colors.ink,
+                        child: const SizedBox.expand(),
+                      ),
+                    ),
+                  ],
                 ),
-                Positioned(
-                  left: knobLeft,
-                  top: (constraints.maxHeight - knobSize) / 2,
-                  child: SketchyFrame(
-                    width: knobSize,
-                    height: knobSize,
-                    shape: SketchyFrameShape.circle,
-                    fill: SketchyFill.solid,
-                    fillColor: theme.colors.ink,
-                    child: const SizedBox.expand(),
-                  ),
-                ),
-              ],
-            ),
-          );
-        },
-      ),
-    );
-  }
+              );
+            },
+          ),
+        ),
+      );
 }

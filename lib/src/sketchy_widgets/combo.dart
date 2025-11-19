@@ -74,46 +74,48 @@ class _SketchyComboState<T> extends State<SketchyCombo<T>>
   T? getOldWidgetValue(SketchyCombo<T> oldWidget) => oldWidget.value;
 
   @override
-  Widget build(BuildContext context) {
-    final selectedItem = widget.items.firstWhere(
-      (item) => item.value == value,
-      orElse: () => widget.items.first,
-    );
+  Widget build(BuildContext context) => SketchyTheme.consumer(
+        builder: (context, theme) {
+          final selectedItem = widget.items.firstWhere(
+            (item) => item.value == value,
+            orElse: () => widget.items.first,
+          );
 
-    return GestureDetector(
-      onTap: _showPopup,
-      child: SizedBox(
-        height: _height,
-        child: Stack(
-          children: [
-            SketchyFrame(
+          return GestureDetector(
+            onTap: () => _showPopup(theme),
+            child: SizedBox(
               height: _height,
-              padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-              fill: SketchyFill.none,
-              child: Align(
-                alignment: Alignment.centerLeft,
-                child: selectedItem.child,
+              child: Stack(
+                children: [
+                  SketchyFrame(
+                    height: _height,
+                    padding:
+                        const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+                    fill: SketchyFill.none,
+                    child: Align(
+                      alignment: Alignment.centerLeft,
+                      child: selectedItem.child,
+                    ),
+                  ),
+                  Positioned(
+                    right: 12,
+                    top: (_height - 20) / 2,
+                    child: Transform.rotate(
+                      angle: math.pi / 2,
+                      child: const SketchyIcon(icon: SketchyIcons.chevronRight),
+                    ),
+                  ),
+                ],
               ),
             ),
-            Positioned(
-              right: 12,
-              top: (_height - 20) / 2,
-              child: Transform.rotate(
-                angle: math.pi / 2,
-                child: const SketchyIcon(icon: SketchyIcons.chevronRight),
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
+          );
+        },
+      );
 
-  void _showPopup() {
+  void _showPopup(SketchyThemeData theme) {
     final box = context.findRenderObject()! as RenderBox;
     final position = box.localToGlobal(Offset.zero);
     final size = box.size;
-    final theme = SketchyTheme.of(context);
 
     unawaited(
       showGeneralDialog(

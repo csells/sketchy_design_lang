@@ -79,6 +79,15 @@ class _SketchyCalendarState extends State<SketchyCalendar> {
   }
 
   @override
+  void didUpdateWidget(SketchyCalendar oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (widget.selected != oldWidget.selected) {
+      _selected = widget.selected;
+      _refresh();
+    }
+  }
+
+  @override
   Widget build(BuildContext context) => Container(
     padding: const EdgeInsets.all(10),
     child: Column(
@@ -97,7 +106,7 @@ class _SketchyCalendarState extends State<SketchyCalendar> {
   }
 
   Padding _buildWeekdaysNav() {
-    final casing = widget.textCase ?? _theme.titleCasing;
+    final casing = widget.textCase ?? _theme.textCase;
     final displayMonthYear = applyTextCase(_monthYear, casing);
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 10),
@@ -143,7 +152,7 @@ class _SketchyCalendarState extends State<SketchyCalendar> {
   }
 
   Row _buildWeeksHeaderUI() {
-    final casing = widget.textCase ?? _theme.titleCasing;
+    final casing = widget.textCase ?? _theme.textCase;
     final headers = <Widget>[];
     for (final weekday in weekdaysShort) {
       final displayWeekday = applyTextCase(weekday, casing);

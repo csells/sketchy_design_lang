@@ -1,5 +1,3 @@
-// ignore_for_file: public_member_api_docs
-
 import 'dart:async';
 import 'dart:math' as math;
 
@@ -12,41 +10,28 @@ const Map<String, String> _fontOptions = <String, String>{
   'xkcd': 'XKCD',
 };
 
-SketchyThemeData _resolveSketchyTheme(
-  SketchyColorMode mode,
-  bool isDark,
-  double roughness,
-  String fontFamily,
-  TextCase titleCasing,
-) {
-  final base = SketchyThemeData.fromMode(mode, roughness: roughness);
-  var colors = base.colors;
-  if (isDark) {
-    colors = colors.copyWith(
-      primary: colors.secondary,
-      secondary: colors.primary,
-    );
-  }
-  colors = colors.copyWith(ink: colors.primary, paper: colors.secondary);
-  final typography = _applyFont(base.typography, fontFamily);
-  return base.copyWith(
-    colors: colors,
-    typography: typography,
-    titleCasing: titleCasing,
-    borderRadius: 0,
+SketchyThemeData _resolveSketchyTheme({
+  required SketchyColorMode mode,
+  required double roughness,
+  required String fontFamily,
+  required TextCase textCase,
+}) {
+  final data = SketchyThemeData.fromMode(
+    mode,
+    roughness: roughness,
+    textCase: textCase,
+  );
+
+  return data.copyWith(
+    typography: data.typography.copyWith(
+      headline: data.typography.headline.copyWith(fontFamily: fontFamily),
+      title: data.typography.title.copyWith(fontFamily: fontFamily),
+      body: data.typography.body.copyWith(fontFamily: fontFamily),
+      caption: data.typography.caption.copyWith(fontFamily: fontFamily),
+      label: data.typography.label.copyWith(fontFamily: fontFamily),
+    ),
   );
 }
-
-SketchyTypographyData _applyFont(
-  SketchyTypographyData base,
-  String fontFamily,
-) => base.copyWith(
-  headline: base.headline.copyWith(fontFamily: fontFamily),
-  title: base.title.copyWith(fontFamily: fontFamily),
-  body: base.body.copyWith(fontFamily: fontFamily),
-  caption: base.caption.copyWith(fontFamily: fontFamily),
-  label: base.label.copyWith(fontFamily: fontFamily),
-);
 
 class PaletteOption {
   const PaletteOption({
@@ -61,22 +46,22 @@ class PaletteOption {
 }
 
 void main() {
-  runApp(const SketchyApp());
+  runApp(const SketchyDesignSystemApp());
 }
 
-class SketchyApp extends StatefulWidget {
-  const SketchyApp({super.key});
+class SketchyDesignSystemApp extends StatefulWidget {
+  const SketchyDesignSystemApp({super.key});
 
   @override
-  State<SketchyApp> createState() => _SketchyAppState();
+  State<SketchyDesignSystemApp> createState() => _SketchyDesignSystemAppState();
 }
 
-class _SketchyAppState extends State<SketchyApp> {
-  bool _isDark = false;
+class _SketchyDesignSystemAppState extends State<SketchyDesignSystemApp> {
+  SketchyThemeMode _themeMode = SketchyThemeMode.system;
   String _activePaletteId = 'monochrome';
   double _roughness = 0.5;
   String _fontFamily = 'XKCD';
-  TextCase _titleCasing = TextCase.allCaps;
+  TextCase _textCase = TextCase.allCaps;
 
   static const List<PaletteOption> _palettes = <PaletteOption>[
     PaletteOption(
@@ -97,97 +82,68 @@ class _SketchyAppState extends State<SketchyApp> {
       _palettes.firstWhere((option) => option.id == _activePaletteId);
 
   @override
-  Widget build(BuildContext context) {
-    final sketchyTheme = _resolveSketchyTheme(
-      _activePalette.mode,
-      _isDark,
-      _roughness,
-      _fontFamily,
-      _titleCasing,
-    );
-
-    return WidgetsApp(
-      title: 'Sketchy Design System',
-      debugShowCheckedModeBanner: false,
-      color: sketchyTheme.colors.primary,
-      pageRouteBuilder: <T>(settings, builder) => PageRouteBuilder<T>(
-        settings: settings,
-        pageBuilder: (context, animation, secondaryAnimation) =>
-            builder(context),
-        transitionsBuilder: (context, animation, secondaryAnimation, child) =>
-            FadeTransition(opacity: animation, child: child),
-      ),
-      builder: (context, child) {
-        final content = child ?? const SizedBox.shrink();
-        return SketchyTheme(
-          data: sketchyTheme,
-          child: Directionality(
-            textDirection: TextDirection.ltr,
-            child: DefaultTextStyle(
-              style: sketchyTheme.typography.body.copyWith(
-                color: sketchyTheme.colors.ink,
-              ),
-              child: ColoredBox(
-                color: sketchyTheme.colors.paper,
-                child: content,
-              ),
-            ),
-          ),
-        );
+  Widget build(BuildContext context) => SketchyApp(
+    title: 'Sketchy Design System',
+    theme: _resolveSketchyTheme(
+      mode: _activePalette.mode,
+      roughness: _roughness,
+      fontFamily: _fontFamily,
+      textCase: _textCase,
+    ),
+    themeMode: _themeMode,
+    debugShowCheckedModeBanner: false,
+    home: SketchyDesignSystemPage(
+      palette: _activePalette,
+      palettes: _palettes,
+      themeMode: _themeMode,
+      roughness: _roughness,
+      onThemeChanged: (id) {
+        setState(() => _activePaletteId = id);
       },
-      home: SketchyDesignSystemPage(
-        palette: _activePalette,
-        palettes: _palettes,
-        isDark: _isDark,
-        roughness: _roughness,
-        onThemeChanged: (id) {
-          setState(() => _activePaletteId = id);
-        },
-        onToggleDarkMode: () {
-          setState(() => _isDark = !_isDark);
-        },
-        onRoughnessChanged: (value) {
-          setState(() => _roughness = value.clamp(0.0, 1.0));
-        },
-        fontFamily: _fontFamily,
-        onFontChanged: (family) {
-          setState(() => _fontFamily = family);
-        },
-        titleCasing: _titleCasing,
-        onTitleCasingChanged: (casing) {
-          setState(() => _titleCasing = casing);
-        },
-      ),
-    );
-  }
+      onThemeModeChanged: (mode) {
+        setState(() => _themeMode = mode);
+      },
+      onRoughnessChanged: (value) {
+        setState(() => _roughness = value.clamp(0.0, 1.0));
+      },
+      fontFamily: _fontFamily,
+      onFontChanged: (family) {
+        setState(() => _fontFamily = family);
+      },
+      textCase: _textCase,
+      onTitleCasingChanged: (casing) {
+        setState(() => _textCase = casing);
+      },
+    ),
+  );
 }
 
 class SketchyDesignSystemPage extends StatefulWidget {
   const SketchyDesignSystemPage({
     required this.palette,
     required this.palettes,
-    required this.isDark,
-    required this.onToggleDarkMode,
+    required this.themeMode,
+    required this.onThemeModeChanged,
     required this.onThemeChanged,
     required this.roughness,
     required this.onRoughnessChanged,
     required this.fontFamily,
     required this.onFontChanged,
-    required this.titleCasing,
+    required this.textCase,
     required this.onTitleCasingChanged,
     super.key,
   });
 
   final PaletteOption palette;
   final List<PaletteOption> palettes;
-  final bool isDark;
-  final VoidCallback onToggleDarkMode;
+  final SketchyThemeMode themeMode;
+  final ValueChanged<SketchyThemeMode> onThemeModeChanged;
   final ValueChanged<String> onThemeChanged;
   final double roughness;
   final ValueChanged<double> onRoughnessChanged;
   final String fontFamily;
   final ValueChanged<String> onFontChanged;
-  final TextCase titleCasing;
+  final TextCase textCase;
   final ValueChanged<TextCase> onTitleCasingChanged;
 
   @override
@@ -301,7 +257,7 @@ class _SketchyDesignSystemPageState extends State<SketchyDesignSystemPage>
           const SizedBox(height: 4),
           SketchyText('''
 A hand-drawn, xkcd-inspired design language for Flutter on mobile, desktop, and
-web. It is powered by the wired_elements code, the flutter_rough package and the
+web powered by the wired_elements code, the flutter_rough package and the
 Comic Shanns font.
 ''', style: theme.typography.title.copyWith(fontSize: 14)),
         ],
@@ -309,56 +265,50 @@ Comic Shanns font.
     );
   }
 
-  Widget _buildThemeRow(PaletteOption active) {
-    final theme = SketchyTheme.of(context);
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        SketchyText(
-          'Theme colors',
-          style: theme.typography.title.copyWith(fontWeight: FontWeight.bold),
-        ),
-        const SizedBox(height: 12),
-        Wrap(
-          spacing: 12,
-          runSpacing: 12,
-          children: widget.palettes.map((option) {
-            final isActive = option.id == active.id;
-            final previewColors = _resolveSketchyTheme(
-              option.mode,
-              false,
-              0.5,
-              widget.fontFamily,
-              TextCase.none,
-            ).colors;
-            return GestureDetector(
-              onTap: () => widget.onThemeChanged(option.id),
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  _colorChip(previewColors.primary, isActive),
-                  const SizedBox(height: 4),
-                  _colorChip(
-                    previewColors.secondary,
-                    isActive,
-                    stroke: true,
-                    size: 22,
+  Widget _buildThemeRow(PaletteOption active) => Column(
+    crossAxisAlignment: CrossAxisAlignment.start,
+    children: [
+      SketchyText('Theme colors', style: _titleStyle(context)),
+      const SizedBox(height: 12),
+      Wrap(
+        spacing: 12,
+        runSpacing: 12,
+        children: widget.palettes.map((option) {
+          final isActive = option.id == active.id;
+          final previewColors = _resolveSketchyTheme(
+            mode: option.mode,
+            roughness: 0.5,
+            fontFamily: widget.fontFamily,
+            textCase: TextCase.none,
+          ).colors;
+
+          return GestureDetector(
+            onTap: () => widget.onThemeChanged(option.id),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                _colorChip(previewColors.primary, isActive),
+                const SizedBox(height: 4),
+                _colorChip(
+                  previewColors.secondary,
+                  isActive,
+                  stroke: true,
+                  size: 22,
+                ),
+                const SizedBox(height: 4),
+                SketchyText(
+                  option.label,
+                  style: TextStyle(
+                    fontWeight: isActive ? FontWeight.bold : FontWeight.w400,
                   ),
-                  const SizedBox(height: 4),
-                  SketchyText(
-                    option.label,
-                    style: TextStyle(
-                      fontWeight: isActive ? FontWeight.bold : FontWeight.w400,
-                    ),
-                  ),
-                ],
-              ),
-            );
-          }).toList(),
-        ),
-      ],
-    );
-  }
+                ),
+              ],
+            ),
+          );
+        }).toList(),
+      ),
+    ],
+  );
 
   Widget _colorChip(
     Color color,
@@ -394,11 +344,29 @@ Comic Shanns font.
 
   Widget _buildModeToggleRow() {
     final theme = SketchyTheme.of(context);
-    final isLightActive = !widget.isDark;
-    final isDarkActive = widget.isDark;
+    final activeMode = widget.themeMode;
     final labelStyle = theme.typography.title.copyWith(
       fontWeight: FontWeight.bold,
     );
+
+    Widget modeButton(String label, SketchyThemeMode mode) {
+      final isActive = activeMode == mode;
+      return Padding(
+        padding: const EdgeInsets.only(right: 12),
+        child: SketchyButton(
+          onPressed: isActive ? null : () => widget.onThemeModeChanged(mode),
+          child: SketchyText(
+            label,
+            style: _buttonLabelStyle(
+              context,
+              color: isActive
+                  ? theme.colors.primary
+                  : theme.colors.ink.withValues(alpha: 0.5),
+            ),
+          ),
+        ),
+      );
+    }
 
     Widget buildModeControls() => Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -407,31 +375,8 @@ Comic Shanns font.
         const SizedBox(height: 8),
         Row(
           children: [
-            SketchyButton(
-              onPressed: isLightActive ? () {} : widget.onToggleDarkMode,
-              child: SketchyText(
-                'Light',
-                style: _buttonLabelStyle(
-                  context,
-                  color: isLightActive
-                      ? theme.colors.primary
-                      : theme.colors.ink.withValues(alpha: 0.5),
-                ),
-              ),
-            ),
-            const SizedBox(width: 12),
-            SketchyButton(
-              onPressed: isDarkActive ? () {} : widget.onToggleDarkMode,
-              child: SketchyText(
-                'Dark',
-                style: _buttonLabelStyle(
-                  context,
-                  color: isDarkActive
-                      ? theme.colors.primary
-                      : theme.colors.ink.withValues(alpha: 0.5),
-                ),
-              ),
-            ),
+            modeButton('Light', SketchyThemeMode.light),
+            modeButton('Dark', SketchyThemeMode.dark),
           ],
         ),
       ],
@@ -478,13 +423,13 @@ Comic Shanns font.
         SketchyText('Title Casing', style: labelStyle),
         const SizedBox(height: 8),
         SketchyCombo<TextCase>(
-          value: widget.titleCasing,
+          value: widget.textCase,
           items: TextCase.values
               .map(
                 (casing) => SketchyComboItem<TextCase>(
                   value: casing,
                   child: SketchyText(
-                    _titleCasingLabel(casing),
+                    _textCaseLabel(casing),
                     style: _bodyStyle(context),
                   ),
                 ),
@@ -941,7 +886,11 @@ Comic Shanns font.
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             SketchyText(
-                              'This is a sketchy dialog. '
+                              'This is a sketchy dialog.',
+                              style: _titleStyle(context),
+                            ),
+                            const SizedBox(height: 24),
+                            SketchyText(
                               'It has a title and some content.',
                               style: _bodyStyle(context),
                             ),
@@ -974,29 +923,25 @@ Comic Shanns font.
     required String title,
     required Widget child,
     double? height,
-  }) {
-    final theme = SketchyTheme.of(context);
-    return SketchyCard(
-      height: height,
-      child: Padding(
-        padding: const EdgeInsets.all(16),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            SketchyText(
-              title,
-              style: theme.typography.title.copyWith(
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-            const SizedBox(height: 16),
-            child,
-          ],
-        ),
+  }) => SketchyCard(
+    height: height,
+    child: Padding(
+      padding: const EdgeInsets.all(16),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          SketchyText(title, style: _titleStyle(context)),
+          const SizedBox(height: 16),
+          child,
+        ],
       ),
-    );
-  }
+    ),
+  );
+
+  TextStyle _titleStyle(BuildContext context) => SketchyTheme.of(
+    context,
+  ).typography.title.copyWith(fontWeight: FontWeight.bold);
 
   TextStyle _bodyStyle(BuildContext context) =>
       SketchyTheme.of(context).typography.body;
@@ -1014,7 +959,7 @@ Comic Shanns font.
         context,
       ).typography.label.copyWith(fontWeight: FontWeight.bold, color: color);
 
-  String _titleCasingLabel(TextCase casing) {
+  String _textCaseLabel(TextCase casing) {
     switch (casing) {
       case TextCase.none:
         return 'None';

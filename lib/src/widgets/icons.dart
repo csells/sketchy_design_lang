@@ -76,9 +76,8 @@ class SketchyIcon extends StatelessWidget {
   final Color? color;
 
   @override
-  Widget build(BuildContext context) {
-    final theme = SketchyTheme.of(context);
-    return SizedBox(
+  Widget build(BuildContext context) => SketchyTheme.consumer(
+    builder: (context, theme) => SizedBox(
       width: size,
       height: size,
       child: CustomPaint(
@@ -87,8 +86,8 @@ class SketchyIcon extends StatelessWidget {
           color: color ?? theme.colors.ink,
         ),
       ),
-    );
-  }
+    ),
+  );
 }
 
 class _SketchyIconPainter extends CustomPainter {

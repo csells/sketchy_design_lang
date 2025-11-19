@@ -13,9 +13,9 @@ class SketchyThemeData {
     required this.colors,
     required this.typography,
     this.strokeWidth = 2.0,
-    this.borderRadius = 12.0,
+    this.borderRadius = 0,
     this.roughness = 0.5,
-    this.titleCasing = TextCase.none,
+    this.textCase = TextCase.none,
   });
 
   /// Default white theme used by the examples.
@@ -31,11 +31,17 @@ class SketchyThemeData {
     SketchyColorMode mode, {
     double roughness = 0.5,
     SketchyTypographyData? typography,
+    TextCase textCase = TextCase.none,
+    double strokeWidth = 2.0,
+    double borderRadius = 0,
   }) => SketchyThemeData(
     mode: mode,
     colors: SketchyColors.forMode(mode),
     typography: typography ?? SketchyTypographyData.comicShanns(),
     roughness: roughness,
+    strokeWidth: strokeWidth,
+    textCase: textCase,
+    borderRadius: borderRadius,
   );
 
   /// Named mode factories (e.g. `SketchyThemeData.modes.blue()`).
@@ -60,7 +66,7 @@ class SketchyThemeData {
   final double roughness;
 
   /// Text casing transformation applied to labels and UI text.
-  final TextCase titleCasing;
+  final TextCase textCase;
 
   /// Returns a new theme with the provided overrides.
   SketchyThemeData copyWith({
@@ -70,7 +76,7 @@ class SketchyThemeData {
     double? strokeWidth,
     double? borderRadius,
     double? roughness,
-    TextCase? titleCasing,
+    TextCase? textCase,
   }) {
     final resolvedMode = mode ?? this.mode;
     final resolvedColors =
@@ -85,7 +91,7 @@ class SketchyThemeData {
       strokeWidth: strokeWidth ?? this.strokeWidth,
       borderRadius: borderRadius ?? this.borderRadius,
       roughness: roughness ?? this.roughness,
-      titleCasing: titleCasing ?? this.titleCasing,
+      textCase: textCase ?? this.textCase,
     );
   }
 }
@@ -146,6 +152,24 @@ class SketchyTheme extends InheritedWidget {
     }
     return theme.data;
   }
+
+  /// Builds a widget that depends on the current theme.
+  ///
+  /// This is a convenience method that provides cleaner syntax for accessing
+  /// the theme without explicitly calling [of]:
+  ///
+  /// ```dart
+  /// SketchyTheme.consumer(
+  ///   builder: (context, theme) => Text(
+  ///     'Hello',
+  ///     style: TextStyle(color: theme.colors.ink),
+  ///   ),
+  /// )
+  /// ```
+  static Widget consumer({
+    required Widget Function(BuildContext, SketchyThemeData) builder,
+  }) =>
+      Builder(builder: (context) => builder(context, SketchyTheme.of(context)));
 
   @override
   bool updateShouldNotify(SketchyTheme oldWidget) => data != oldWidget.data;

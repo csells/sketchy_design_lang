@@ -55,32 +55,33 @@ class _SketchySurfaceState extends State<SketchySurface> {
       widget.createPrimitive?.call() ?? SketchyPrimitive.rectangle();
 
   @override
-  Widget build(BuildContext context) {
-    final theme = SketchyTheme.of(context);
-    final painted = CustomPaint(
-      painter: SketchyShapePainter(
-        primitive: _primitive,
-        strokeColor: widget.strokeColor ?? theme.colors.ink,
-        fillColor: widget.fillColor ?? theme.colors.paper,
-        strokeWidth: widget.strokeWidth ?? theme.strokeWidth,
-        roughness: theme.roughness,
-      ),
-      child: Padding(
-        padding: widget.padding,
-        child: widget.alignment != null
-            ? Align(alignment: widget.alignment!, child: widget.child)
-            : widget.child,
-      ),
-    );
+  Widget build(BuildContext context) => SketchyTheme.consumer(
+        builder: (context, theme) {
+          final painted = CustomPaint(
+            painter: SketchyShapePainter(
+              primitive: _primitive,
+              strokeColor: widget.strokeColor ?? theme.colors.ink,
+              fillColor: widget.fillColor ?? theme.colors.paper,
+              strokeWidth: widget.strokeWidth ?? theme.strokeWidth,
+              roughness: theme.roughness,
+            ),
+            child: Padding(
+              padding: widget.padding,
+              child: widget.alignment != null
+                  ? Align(alignment: widget.alignment!, child: widget.child)
+                  : widget.child,
+            ),
+          );
 
-    if (widget.width != null || widget.height != null) {
-      return SizedBox(
-        width: widget.width,
-        height: widget.height,
-        child: painted,
+          if (widget.width != null || widget.height != null) {
+            return SizedBox(
+              width: widget.width,
+              height: widget.height,
+              child: painted,
+            );
+          }
+
+          return painted;
+        },
       );
-    }
-
-    return painted;
-  }
 }

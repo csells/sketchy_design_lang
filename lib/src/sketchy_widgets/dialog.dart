@@ -68,57 +68,58 @@ class SketchyDialog extends StatelessWidget {
   final EdgeInsetsGeometry? padding;
 
   @override
-  Widget build(BuildContext context) {
-    final theme = SketchyTheme.of(context);
-    final mediaQuery = MediaQuery.of(context);
-    final viewWidth = (mediaQuery.size.width - _kDialogMargin * 2)
-        .clamp(0.0, double.infinity);
-    final safeWidth = viewWidth == 0 ? mediaQuery.size.width : viewWidth;
-    final minWidth = math.min(_kDialogMinWidth.toDouble(), safeWidth);
-    final maxWidth = math.max(
-      minWidth,
-      math.min(_kDialogMaxWidth.toDouble(), safeWidth),
-    );
-    final availableHeight = mediaQuery.size.height - _kDialogMargin * 2;
-    final maxHeight =
-        availableHeight > 0 ? availableHeight : mediaQuery.size.height;
-    final resolvedPadding =
-        padding ?? const EdgeInsets.symmetric(horizontal: 24, vertical: 24);
+  Widget build(BuildContext context) => SketchyTheme.consumer(
+        builder: (context, theme) {
+          final mediaQuery = MediaQuery.of(context);
+          final viewWidth = (mediaQuery.size.width - _kDialogMargin * 2)
+              .clamp(0.0, double.infinity);
+          final safeWidth = viewWidth == 0 ? mediaQuery.size.width : viewWidth;
+          final minWidth = math.min(_kDialogMinWidth.toDouble(), safeWidth);
+          final maxWidth = math.max(
+            minWidth,
+            math.min(_kDialogMaxWidth.toDouble(), safeWidth),
+          );
+          final availableHeight = mediaQuery.size.height - _kDialogMargin * 2;
+          final maxHeight =
+              availableHeight > 0 ? availableHeight : mediaQuery.size.height;
+          final resolvedPadding = padding ??
+              const EdgeInsets.symmetric(horizontal: 24, vertical: 24);
 
-    final widthConstraints = BoxConstraints(
-      minWidth: minWidth,
-      maxWidth: maxWidth,
-    );
+          final widthConstraints = BoxConstraints(
+            minWidth: minWidth,
+            maxWidth: maxWidth,
+          );
 
-    return AnimatedPadding(
-      duration: const Duration(milliseconds: 220),
-      curve: Curves.easeOutCubic,
-      padding: mediaQuery.viewInsets +
-          const EdgeInsets.symmetric(
-            horizontal: _kDialogMargin,
-            vertical: _kDialogMargin,
-          ),
-      child: Center(
-        child: ConstrainedBox(
-          constraints: BoxConstraints(maxHeight: maxHeight),
-          child: SingleChildScrollView(
-            child: ConstrainedBox(
-              constraints: widthConstraints,
-              child: ClipRect(
-                child: SketchyFrame(
-                  padding: resolvedPadding,
-                  cornerRadius: 0,
-                  fill: SketchyFill.solid,
-                  fillColor: theme.colors.paper,
-                  strokeColor: theme.borderColor,
-                  strokeWidth: theme.strokeWidth,
-                  child: child,
+          return AnimatedPadding(
+            duration: const Duration(milliseconds: 220),
+            curve: Curves.easeOutCubic,
+            padding: mediaQuery.viewInsets +
+                const EdgeInsets.symmetric(
+                  horizontal: _kDialogMargin,
+                  vertical: _kDialogMargin,
+                ),
+            child: Center(
+              child: ConstrainedBox(
+                constraints: BoxConstraints(maxHeight: maxHeight),
+                child: SingleChildScrollView(
+                  child: ConstrainedBox(
+                    constraints: widthConstraints,
+                    child: ClipRect(
+                      child: SketchyFrame(
+                        padding: resolvedPadding,
+                        cornerRadius: 0,
+                        fill: SketchyFill.solid,
+                        fillColor: theme.colors.paper,
+                        strokeColor: theme.borderColor,
+                        strokeWidth: theme.strokeWidth,
+                        child: child,
+                      ),
+                    ),
+                  ),
                 ),
               ),
             ),
-          ),
-        ),
-      ),
-    );
-  }
+          );
+        },
+      );
 }

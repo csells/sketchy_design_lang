@@ -3,7 +3,7 @@
 # Sketchy Design Language for Flutter
 
 Sketchy is a hand-drawn, xkcd-inspired design language for Flutter on mobile,
-desktop, and web. It is powered by the wired_elements code, the flutter_rough
+desktop, and web. It's powered by the wired_elements code, the flutter_rough
 package and the Comic Shanns font.
 
 </div>
@@ -60,12 +60,23 @@ class SketchyDemo extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final base = SketchyThemeData.fromMode(
+      SketchyColorMode.blue,
+      roughness: 0.7,
+    );
+
     return SketchyApp(
       title: 'Sketchy Demo',
-      theme: SketchyThemeData.fromMode(
-        SketchyColorMode.blue,
-        roughness: 0.7,
+      theme: base,
+      darkTheme: base.copyWith(
+        colors: base.colors.copyWith(
+          primary: base.colors.secondary,
+          secondary: base.colors.primary,
+          ink: base.colors.secondary,
+          paper: base.colors.primary,
+        ),
       ),
+      themeMode: SketchyThemeMode.system,
       home: const SketchyScaffold(
         appBar: SketchyAppBar(title: Text('Wireframe Vibes')),
         body: Center(child: SketchyButton(child: Text('Do the thing'))),
@@ -76,6 +87,10 @@ class SketchyDemo extends StatelessWidget {
 ```
 
 The entire widget tree now uses the Sketchy palette, typography, and primitives.
+`SketchyApp` works like `MaterialApp`: provide a light `theme`, optionally a
+`darkTheme`, and control `themeMode` (`system`, `light`, `dark`). When you omit
+`darkTheme`, Sketchy auto-derives one by swapping ink/paper and primary/secondary
+colors so dark mode still feels native without extra setup.
 
 ---
 

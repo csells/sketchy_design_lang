@@ -34,26 +34,26 @@ class _SketchyTypingIndicatorState extends State<SketchyTypingIndicator>
   }
 
   @override
-  Widget build(BuildContext context) {
-    final theme = SketchyTheme.of(context);
-    return AnimatedBuilder(
-      animation: _controller,
-      builder: (context, child) => Row(
-        mainAxisSize: MainAxisSize.min,
-        children: List.generate(3, (index) {
-          final progress = (_controller.value + index * 0.2) % 1.0;
-          final opacity = progress < 0.5 ? progress * 2 : (1 - progress) * 2;
-          return Container(
-            width: 6,
-            height: 6,
-            margin: const EdgeInsets.symmetric(horizontal: 2),
-            decoration: BoxDecoration(
-              color: theme.colors.ink.withValues(alpha: opacity),
-              shape: BoxShape.circle,
-            ),
-          );
-        }),
-      ),
-    );
-  }
+  Widget build(BuildContext context) => SketchyTheme.consumer(
+        builder: (context, theme) => AnimatedBuilder(
+          animation: _controller,
+          builder: (context, child) => Row(
+            mainAxisSize: MainAxisSize.min,
+            children: List.generate(3, (index) {
+              final progress = (_controller.value + index * 0.2) % 1.0;
+              final opacity =
+                  progress < 0.5 ? progress * 2 : (1 - progress) * 2;
+              return Container(
+                width: 6,
+                height: 6,
+                margin: const EdgeInsets.symmetric(horizontal: 2),
+                decoration: BoxDecoration(
+                  color: theme.colors.ink.withValues(alpha: opacity),
+                  shape: BoxShape.circle,
+                ),
+              );
+            }),
+          ),
+        ),
+      );
 }

@@ -42,21 +42,22 @@ class SketchyFrame extends StatelessWidget {
   final SketchyFillOptions? fillOptions;
 
   @override
-  Widget build(BuildContext context) {
-    final theme = SketchyTheme.of(context);
-    final primitive = _buildPrimitive();
-    return SketchySurface(
-      width: width,
-      height: height,
-      padding: padding,
-      alignment: alignment,
-      strokeColor: strokeColor ?? theme.colors.ink,
-      fillColor: fillColor ?? const Color(0x00000000),
-      strokeWidth: strokeWidth ?? theme.strokeWidth,
-      createPrimitive: primitive,
-      child: child,
-    );
-  }
+  Widget build(BuildContext context) => SketchyTheme.consumer(
+        builder: (context, theme) {
+          final primitive = _buildPrimitive();
+          return SketchySurface(
+            width: width,
+            height: height,
+            padding: padding,
+            alignment: alignment,
+            strokeColor: strokeColor ?? theme.colors.ink,
+            fillColor: fillColor ?? const Color(0x00000000),
+            strokeWidth: strokeWidth ?? theme.strokeWidth,
+            createPrimitive: primitive,
+            child: child,
+          );
+        },
+      );
 
   SketchyPrimitive Function() _buildPrimitive() {
     switch (shape) {

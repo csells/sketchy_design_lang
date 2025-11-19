@@ -27,33 +27,32 @@ class SketchyScaffold extends StatelessWidget {
   final Color? backgroundColor;
 
   @override
-  Widget build(BuildContext context) {
-    final theme = SketchyTheme.of(context);
-
-    return ColoredBox(
-      color: backgroundColor ?? theme.colors.paper,
-      child: SafeArea(
-        child: Stack(
-          children: [
-            Column(
+  Widget build(BuildContext context) => SketchyTheme.consumer(
+        builder: (context, theme) => ColoredBox(
+          color: backgroundColor ?? theme.colors.paper,
+          child: SafeArea(
+            child: Stack(
               children: [
-                if (appBar != null) appBar!,
-                if (body != null)
-                  Expanded(
-                    child: DefaultTextStyle(
-                      style: theme.typography.body.copyWith(
-                        color: theme.colors.ink,
+                Column(
+                  children: [
+                    if (appBar != null) appBar!,
+                    if (body != null)
+                      Expanded(
+                        child: DefaultTextStyle(
+                          style: theme.typography.body.copyWith(
+                            color: theme.colors.ink,
+                          ),
+                          child: body!,
+                        ),
                       ),
-                      child: body!,
-                    ),
-                  ),
+                  ],
+                ),
+                if (floatingActionButton != null)
+                  Positioned(
+                      right: 24, bottom: 24, child: floatingActionButton!),
               ],
             ),
-            if (floatingActionButton != null)
-              Positioned(right: 24, bottom: 24, child: floatingActionButton!),
-          ],
+          ),
         ),
-      ),
-    );
-  }
+      );
 }

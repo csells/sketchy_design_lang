@@ -84,38 +84,37 @@ class _SketchyMessageBannerState extends State<_SketchyMessageBanner>
   }
 
   @override
-  Widget build(BuildContext context) {
-    final theme = SketchyTheme.of(context);
-    return Positioned(
-      top: 0,
-      left: 0,
-      right: 0,
-      child: SafeArea(
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
-          child: Align(
-            alignment: Alignment.topCenter,
-            child: SlideTransition(
-              position: _offset,
-              child: SketchySurface(
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 20,
-                  vertical: 12,
-                ),
-                fillColor: theme.colors.paper,
-                strokeColor: theme.colors.ink,
-                child: SketchyText(
-                  widget.message,
-                  textCase: widget.textCase,
-                  style: theme.typography.body.copyWith(
-                    fontWeight: FontWeight.w600,
+  Widget build(BuildContext context) => SketchyTheme.consumer(
+        builder: (context, theme) => Positioned(
+          top: 0,
+          left: 0,
+          right: 0,
+          child: SafeArea(
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
+              child: Align(
+                alignment: Alignment.topCenter,
+                child: SlideTransition(
+                  position: _offset,
+                  child: SketchySurface(
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 20,
+                      vertical: 12,
+                    ),
+                    fillColor: theme.colors.paper,
+                    strokeColor: theme.colors.ink,
+                    child: SketchyText(
+                      widget.message,
+                      textCase: widget.textCase,
+                      style: theme.typography.body.copyWith(
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
                   ),
                 ),
               ),
             ),
           ),
         ),
-      ),
-    );
-  }
+      );
 }

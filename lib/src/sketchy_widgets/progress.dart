@@ -64,53 +64,55 @@ class _SketchyProgressBarState extends State<SketchyProgressBar> {
   }
 
   @override
-  Widget build(BuildContext context) {
-    final theme = SketchyTheme.of(context);
-    final progress = (widget.controller?.value ?? widget.value).clamp(0.0, 1.0);
+  Widget build(BuildContext context) => SketchyTheme.consumer(
+        builder: (context, theme) {
+          final progress =
+              (widget.controller?.value ?? widget.value).clamp(0.0, 1.0);
 
-    return SizedBox(
-      height: _progressHeight,
-      child: LayoutBuilder(
-        builder: (context, constraints) {
-          final availableWidth = constraints.maxWidth.isFinite
-              ? constraints.maxWidth
-              : MediaQuery.sizeOf(context).width;
-          final inset = theme.strokeWidth * 0.35;
-          final verticalInset = theme.strokeWidth * 0.25;
-          final fillOptions = _buildFillOptions(theme.roughness);
-          final interiorWidth = (availableWidth - inset * 2)
-              .clamp(0.0, double.infinity);
-          final fillWidth = interiorWidth * progress;
+          return SizedBox(
+            height: _progressHeight,
+            child: LayoutBuilder(
+              builder: (context, constraints) {
+                final availableWidth = constraints.maxWidth.isFinite
+                    ? constraints.maxWidth
+                    : MediaQuery.sizeOf(context).width;
+                final inset = theme.strokeWidth * 0.35;
+                final verticalInset = theme.strokeWidth * 0.25;
+                final fillOptions = _buildFillOptions(theme.roughness);
+                final interiorWidth =
+                    (availableWidth - inset * 2).clamp(0.0, double.infinity);
+                final fillWidth = interiorWidth * progress;
 
-          return Stack(
-            fit: StackFit.expand,
-            children: [
-              SketchyFrame(
-                height: _progressHeight,
-                strokeColor: theme.borderColor,
-                strokeWidth: theme.strokeWidth,
-                fill: SketchyFill.none,
-                child: const SizedBox.expand(),
-              ),
-              if (progress > 0)
-                Positioned(
-                  left: inset,
-                  top: verticalInset,
-                  bottom: verticalInset,
-                  child: SizedBox(
-                    width: fillWidth,
-                    child: _ProgressFill(
-                      color: theme.borderColor,
-                      fillOptions: fillOptions,
+                return Stack(
+                  fit: StackFit.expand,
+                  children: [
+                    SketchyFrame(
+                      height: _progressHeight,
+                      strokeColor: theme.borderColor,
+                      strokeWidth: theme.strokeWidth,
+                      fill: SketchyFill.none,
+                      child: const SizedBox.expand(),
                     ),
-                  ),
-                ),
-            ],
+                    if (progress > 0)
+                      Positioned(
+                        left: inset,
+                        top: verticalInset,
+                        bottom: verticalInset,
+                        child: SizedBox(
+                          width: fillWidth,
+                          child: _ProgressFill(
+                            color: theme.borderColor,
+                            fillOptions: fillOptions,
+                          ),
+                        ),
+                      ),
+                  ],
+                );
+              },
+            ),
           );
         },
-      ),
-    );
-  }
+      );
 
   @override
   void dispose() {
