@@ -1,6 +1,7 @@
 import 'package:flutter/widgets.dart';
 
 import '../theme/sketchy_theme.dart';
+import '../widgets/calendar_utils.dart';
 import '../widgets/sketchy_frame.dart';
 
 /// Sketchy calendar.
@@ -34,24 +35,8 @@ class SketchyCalendar extends StatefulWidget {
 }
 
 class _SketchyCalendarState extends State<SketchyCalendar> {
-  final _weekdaysShort = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
-  final _months = [
-    'January',
-    'February',
-    'March',
-    'April',
-    'May',
-    'June',
-    'July',
-    'August',
-    'September',
-    'October',
-    'November',
-    'December',
-  ];
-
   DateTime _firstOfMonthDate = DateTime.now();
-  final List<CalendarCell> _weeks = [];
+  List<CalendarCell> _cells = [];
   String _monthYear = '';
 
   DateTime? _selected;
@@ -120,28 +105,20 @@ class _SketchyCalendarState extends State<SketchyCalendar> {
   );
 
   void _onPre() {
-    _firstOfMonthDate = DateTime(
-      _firstOfMonthDate.year,
-      _firstOfMonthDate.month - 1,
-      1,
-    );
+    _firstOfMonthDate = getPreviousMonth(_firstOfMonthDate);
     _computeCalendar();
     setState(() {});
   }
 
   void _onNext() {
-    _firstOfMonthDate = DateTime(
-      _firstOfMonthDate.year,
-      _firstOfMonthDate.month + 1,
-      1,
-    );
+    _firstOfMonthDate = getNextMonth(_firstOfMonthDate);
     _computeCalendar();
     setState(() {});
   }
 
   Row _buildWeeksHeaderUI() {
     final headers = <Widget>[];
-    for (final weekday in _weekdaysShort) {
+    for (final weekday in weekdaysShort) {
       headers.add(
         _buildCell(weekday, fontWeight: FontWeight.bold, fontSize: 18),
       );
@@ -155,23 +132,23 @@ class _SketchyCalendarState extends State<SketchyCalendar> {
 
   GridView _buildWeekdaysUI() {
     final weekdays = <Widget>[];
-    for (final week in _weeks) {
+    for (final cell in _cells) {
       weekdays.add(
         GestureDetector(
           onTap: () {
-            if (_selected == week.value) return;
-            _selected = week.value;
+            if (isSameDay(_selected, cell.value)) return;
+            _selected = cell.value;
             _refresh();
             setState(() {});
 
             if (widget.onSelected != null) {
-              widget.onSelected!(week.value);
+              widget.onSelected!(cell.value);
             }
           },
           child: _buildCell(
-            week.text,
-            selected: week.selected,
-            color: week.color,
+            cell.text,
+            selected: cell.selected,
+            color: cell.color,
           ),
       ),
       );
@@ -186,53 +163,16 @@ class _SketchyCalendarState extends State<SketchyCalendar> {
 
   void _setInitialConditions() {
     final reference = _selected ?? DateTime.now();
-    _firstOfMonthDate = DateTime(reference.year, reference.month, 1);
+    _firstOfMonthDate = getFirstOfMonth(reference);
   }
 
   void _computeCalendar() {
-    _monthYear =
-        '${_months[_firstOfMonthDate.month - 1]} ${_firstOfMonthDate.year}';
-
-    final firstDayInMonth = DateTime(
-      _firstOfMonthDate.year,
-      _firstOfMonthDate.month,
-      1,
+    _monthYear = formatMonthYear(_firstOfMonthDate);
+    _cells = computeCalendarCells(
+      firstOfMonth: _firstOfMonthDate,
+      selectedDate: _selected,
+      inkColor: _theme.colors.ink,
     );
-    var dayInMonthOffset = 0 - (firstDayInMonth.weekday % 7);
-    final amountOfWeeks =
-        (DateTime(_firstOfMonthDate.year, _firstOfMonthDate.month + 1, 0).day -
-            dayInMonthOffset) /
-        7;
-
-    _weeks.clear();
-    for (var weekIndex = 0; weekIndex < amountOfWeeks; weekIndex++) {
-      for (var dayOfWeekIndex = 0; dayOfWeekIndex < 7; dayOfWeekIndex++) {
-        final day = DateTime.fromMillisecondsSinceEpoch(
-          firstDayInMonth.millisecondsSinceEpoch +
-              _kMillisecondsPerDay * dayInMonthOffset,
-        );
-        final isSelected =
-            _selected != null &&
-            day.year == _selected!.year &&
-            day.month == _selected!.month &&
-            day.day == _selected!.day;
-
-        _weeks.add(
-          CalendarCell(
-            value: day,
-            text: day.day.toString(),
-            selected: isSelected,
-            dimmed: day.month != firstDayInMonth.month,
-            color: day.month == firstDayInMonth.month
-                ? _theme.colors.ink
-                : _theme.colors.ink.withValues(alpha: 0.35),
-            disabled: false,
-          ),
-        );
-
-        dayInMonthOffset++;
-      }
-    }
   }
 
   RenderObjectWidget _buildCell(
@@ -290,38 +230,4 @@ class _SketchyCalendarState extends State<SketchyCalendar> {
       color: color ?? _theme.colors.ink,
     ),
   );
-}
-
-// GLOBAL CONSTANTS
-const int _kMillisecondsPerDay = 24 * 60 * 60 * 1000;
-
-/// Model describing a single day rendered within the calendar grid.
-class CalendarCell {
-  /// Creates a calendar cell to describe the date [value].
-  CalendarCell({
-    required this.value,
-    required this.text,
-    required this.selected,
-    required this.dimmed,
-    required this.color,
-    this.disabled = false,
-  });
-
-  /// Concrete date represented by this cell.
-  final DateTime value;
-
-  /// Label rendered for the day (typically the day number).
-  final String text;
-
-  /// Whether the cell is the currently selected day.
-  final bool selected;
-
-  /// Whether the day belongs to the visible month.
-  final bool dimmed;
-
-  /// Whether selection/input is disabled for the cell.
-  final bool disabled;
-
-  /// Color used when painting the label.
-  final Color color;
 }

@@ -21,7 +21,11 @@ import '../widgets/sketchy_frame.dart';
 /// _controller.reset();
 /// ```
 class SketchyProgressBar extends StatefulWidget {
-  const SketchyProgressBar({this.controller, super.key, this.value = 0.0});
+  const SketchyProgressBar({this.controller, super.key, this.value = 0.0})
+      : assert(
+          value >= 0.0 && value <= 1.0,
+          'value must be between 0.0 and 1.0',
+        );
 
   /// The current progress value, range is 0.0 ~ 1.0.
   final double value;

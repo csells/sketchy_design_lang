@@ -237,88 +237,60 @@ class _SketchyDesignSystemPageState extends State<SketchyDesignSystemPage>
   @override
   Widget build(BuildContext context) {
     final palette = widget.palette;
-    final theme = SketchyTheme.of(context);
-
-    return Column(
-      children: [
-        // AppBar replacement
-        Container(
-          height: 56,
-          color: theme.colors.primary,
-          alignment: Alignment.center,
-          child: Text(
-            'Sketchy Design System',
-            style: theme.typography.title.copyWith(
-              color: theme.colors.secondary,
-              fontSize: 24,
-            ),
-          ),
+    return SketchyScaffold(
+      appBar: _buildHeroAppBar(context),
+      body: SingleChildScrollView(
+        padding: const EdgeInsets.all(16),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            _buildThemeRow(palette),
+            const SizedBox(height: 24),
+            _buildModeToggleRow(),
+            const SizedBox(height: 32),
+            _buildShowcaseBoard(),
+            const SizedBox(height: 32),
+          ],
         ),
-        Expanded(
-          child: SingleChildScrollView(
-            padding: const EdgeInsets.all(16),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                _buildHeaderRow(context, palette),
-                const SizedBox(height: 24),
-                _buildThemeRow(palette),
-                const SizedBox(height: 24),
-                _buildModeToggleRow(),
-                const SizedBox(height: 32),
-                _buildShowcaseBoard(),
-                const SizedBox(height: 32),
-              ],
-            ),
-          ),
-        ),
-      ],
+      ),
     );
   }
 
-  Widget _buildHeaderRow(BuildContext context, PaletteOption palette) {
+  SketchyAppBar _buildHeroAppBar(BuildContext context) {
     final theme = SketchyTheme.of(context);
-    return Row(
-      crossAxisAlignment: CrossAxisAlignment.center,
-      children: [
-        SketchyFrame(
-          padding: EdgeInsets.zero,
-          fill: SketchyFill.solid,
-          fillColor: theme.colors.paper,
-          strokeColor: theme.colors.ink,
+    return SketchyAppBar(
+      margin: const EdgeInsets.fromLTRB(16, 24, 16, 16),
+      padding: const EdgeInsets.all(16),
+      leading: SketchyTooltip(
+        message: 'meh.',
+        preferBelow: true,
+        child: SketchyFrame(
           child: Image.asset(
             'assets/images/sketchy_mascot.png',
             width: 96,
             height: 96,
           ),
         ),
-        const SizedBox(width: 16),
-        Expanded(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                'Sketchy',
-                style: theme.typography.headline.copyWith(
-                  fontSize: 40,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-              Text('''
-Sketchy is a hand-drawn, xkcd-inspired design language for Flutter on mobile,
-desktop, and web. It is powered by the wired_elements code, the flutter_rough
-package and the Comic Shanns font.
-''', style: theme.typography.title),
-              const SizedBox(height: 8),
-              Text(
-                'Current theme: ${palette.label} • '
-                'Mode: ${widget.isDark ? 'Dark' : 'Light'}',
-                style: _mutedStyle(context),
-              ),
-            ],
+      ),
+      title: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            'Sketchy',
+            style: theme.typography.headline.copyWith(
+              fontSize: 32,
+              fontWeight: FontWeight.bold,
+            ),
           ),
-        ),
-      ],
+          const SizedBox(height: 4),
+          Text(
+            'A hand-drawn, xkcd-inspired design language for Flutter on '
+            'mobile, desktop, and web. Powered by rough primitives and Comic '
+            'Shanns typography.',
+            style: theme.typography.title.copyWith(fontSize: 14),
+          ),
+        ],
+      ),
     );
   }
 
@@ -330,13 +302,6 @@ package and the Comic Shanns font.
         Text(
           'Theme colors',
           style: theme.typography.title.copyWith(fontWeight: FontWeight.bold),
-        ),
-        const SizedBox(height: 8),
-        Text(
-          'Primary row = light-mode primary • '
-          'Secondary row = light-mode secondary\n'
-          'In dark mode, primary and secondary swap roles.',
-          style: _mutedStyle(context),
         ),
         const SizedBox(height: 12),
         Wrap(
@@ -365,7 +330,7 @@ package and the Comic Shanns font.
                   ),
                   const SizedBox(height: 4),
                   Text(
-                    option.id,
+                    option.label,
                     style: TextStyle(
                       fontWeight: isActive ? FontWeight.bold : FontWeight.w400,
                     ),

@@ -12,7 +12,10 @@ class SketchyAppBar extends StatelessWidget implements PreferredSizeWidget {
     super.key,
     this.actions,
     this.leading,
-  });
+    EdgeInsetsGeometry? margin,
+    EdgeInsetsGeometry? padding,
+  }) : margin = margin ?? const EdgeInsets.all(16),
+       padding = padding ?? margin ?? const EdgeInsets.all(16);
 
   /// Title widget displayed at the center.
   final Widget title;
@@ -23,17 +26,27 @@ class SketchyAppBar extends StatelessWidget implements PreferredSizeWidget {
   /// Optional leading widget (e.g., back button).
   final Widget? leading;
 
+  /// Outer margin applied around the app bar surface.
+  final EdgeInsetsGeometry margin;
+
+  /// Inner padding applied to the sketched surface.
+  final EdgeInsetsGeometry padding;
+
   @override
-  Size get preferredSize => const Size.fromHeight(64);
+  Size get preferredSize {
+    final resolved = padding.resolve(TextDirection.ltr);
+    return Size.fromHeight(48 + resolved.vertical);
+  }
 
   @override
   Widget build(BuildContext context) {
     final theme = SketchyTheme.of(context);
+    final direction = Directionality.maybeOf(context) ?? TextDirection.ltr;
+    final resolvedPadding = padding.resolve(direction);
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 16),
+      padding: margin.resolve(direction),
       child: SketchySurface(
-        height: preferredSize.height,
-        padding: const EdgeInsets.symmetric(horizontal: 16),
+        padding: resolvedPadding,
         fillColor: theme.colors.paper,
         strokeColor: theme.colors.ink,
         createPrimitive: () => SketchyPrimitive.roundedRectangle(

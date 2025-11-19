@@ -6,6 +6,7 @@ import 'package:flutter/widgets.dart';
 import '../theme/sketchy_theme.dart';
 import '../widgets/icons.dart';
 import '../widgets/sketchy_frame.dart';
+import '../widgets/value_sync_mixin.dart';
 
 /// A item for [SketchyCombo].
 class SketchyComboItem<T> {
@@ -47,7 +48,7 @@ class SketchyCombo<T> extends StatefulWidget {
     super.key,
     this.value,
     this.onChanged,
-  });
+  }) : assert(items.length > 0, 'items must not be empty');
 
   /// The selected value for combo.
   final T? value;
@@ -62,28 +63,20 @@ class SketchyCombo<T> extends StatefulWidget {
   State<SketchyCombo<T>> createState() => _SketchyComboState<T>();
 }
 
-class _SketchyComboState<T> extends State<SketchyCombo<T>> {
+class _SketchyComboState<T> extends State<SketchyCombo<T>>
+    with ValueSyncMixin<T?, SketchyCombo<T>> {
   final double _height = 56;
-  T? _value;
 
   @override
-  void initState() {
-    super.initState();
-    _value = widget.value;
-  }
+  T? get widgetValue => widget.value;
 
   @override
-  void didUpdateWidget(covariant SketchyCombo<T> oldWidget) {
-    super.didUpdateWidget(oldWidget);
-    if (oldWidget.value != widget.value) {
-      _value = widget.value;
-    }
-  }
+  T? getOldWidgetValue(SketchyCombo<T> oldWidget) => oldWidget.value;
 
   @override
   Widget build(BuildContext context) {
     final selectedItem = widget.items.firstWhere(
-      (item) => item.value == _value,
+      (item) => item.value == value,
       orElse: () => widget.items.first,
     );
 
@@ -151,9 +144,7 @@ class _SketchyComboState<T> extends State<SketchyCombo<T>> {
                         .map(
                           (item) => GestureDetector(
                             onTap: () {
-                              setState(() {
-                                _value = item.value;
-                              });
+                              updateValue(item.value);
                               widget.onChanged?.call(item.value);
                               Navigator.of(context).pop();
                             },

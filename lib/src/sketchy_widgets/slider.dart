@@ -2,6 +2,7 @@ import 'package:flutter/widgets.dart';
 
 import '../theme/sketchy_theme.dart';
 import '../widgets/sketchy_frame.dart';
+import '../widgets/value_sync_mixin.dart';
 
 /// Hand-drawn slider control for adjusting a numeric value.
 class SketchySlider extends StatefulWidget {
@@ -14,7 +15,15 @@ class SketchySlider extends StatefulWidget {
     this.label,
     this.min = 0.0,
     this.max = 1.0,
-  });
+  }) : assert(min < max, 'min must be less than max'),
+       assert(
+         value >= min && value <= max,
+         'value must be between min and max',
+       ),
+       assert(
+         divisions == null || divisions > 0,
+         'divisions must be positive',
+       );
 
   /// Current slider value.
   final double value;
@@ -38,22 +47,13 @@ class SketchySlider extends StatefulWidget {
   State<SketchySlider> createState() => _SketchySliderState();
 }
 
-class _SketchySliderState extends State<SketchySlider> {
-  double _currentSliderValue = 0;
+class _SketchySliderState extends State<SketchySlider>
+    with ValueSyncMixin<double, SketchySlider> {
+  @override
+  double get widgetValue => widget.value;
 
   @override
-  void initState() {
-    super.initState();
-    _currentSliderValue = widget.value;
-  }
-
-  @override
-  void didUpdateWidget(covariant SketchySlider oldWidget) {
-    super.didUpdateWidget(oldWidget);
-    if (oldWidget.value != widget.value) {
-      _currentSliderValue = widget.value;
-    }
-  }
+  double getOldWidgetValue(SketchySlider oldWidget) => oldWidget.value;
 
   void _updateValue(double localDx, double width) {
     final range = widget.max - widget.min;
@@ -68,8 +68,8 @@ class _SketchySliderState extends State<SketchySlider> {
 
     newValue = newValue.clamp(widget.min, widget.max);
 
-    if (newValue != _currentSliderValue) {
-      setState(() => _currentSliderValue = newValue);
+    if (newValue != value) {
+      updateValue(newValue);
       widget.onChanged?.call(newValue);
     }
   }
@@ -89,7 +89,7 @@ class _SketchySliderState extends State<SketchySlider> {
           final range = (widget.max - widget.min).abs();
           final normalized = range == 0
               ? 0.0
-              : ((_currentSliderValue - widget.min) / range).clamp(0.0, 1.0);
+              : ((value - widget.min) / range).clamp(0.0, 1.0);
           final knobLeft = trackWidth * normalized;
 
           return GestureDetector(

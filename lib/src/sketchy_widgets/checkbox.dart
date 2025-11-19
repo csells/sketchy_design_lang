@@ -4,6 +4,7 @@ import '../primitives/sketchy_primitives.dart';
 import '../theme/sketchy_theme.dart';
 import '../widgets/icons.dart';
 import '../widgets/surface.dart';
+import '../widgets/value_sync_mixin.dart';
 
 /// Sketchy checkbox.
 ///
@@ -35,32 +36,21 @@ class SketchyCheckbox extends StatefulWidget {
   State<SketchyCheckbox> createState() => _SketchyCheckboxState();
 }
 
-class _SketchyCheckboxState extends State<SketchyCheckbox> {
-  bool _value = false;
+class _SketchyCheckboxState extends State<SketchyCheckbox>
+    with ValueSyncMixin<bool, SketchyCheckbox> {
+  @override
+  bool get widgetValue => widget.value!;
 
   @override
-  void initState() {
-    super.initState();
-    _value = widget.value!;
-  }
-
-  @override
-  void didUpdateWidget(covariant SketchyCheckbox oldWidget) {
-    super.didUpdateWidget(oldWidget);
-    if (oldWidget.value != widget.value) {
-      _value = widget.value!;
-    }
-  }
+  bool getOldWidgetValue(SketchyCheckbox oldWidget) => oldWidget.value!;
 
   @override
   Widget build(BuildContext context) {
     final theme = SketchyTheme.of(context);
     return GestureDetector(
       onTap: () {
-        final newValue = !_value;
-        setState(() {
-          _value = newValue;
-        });
+        final newValue = !value;
+        updateValue(newValue);
         widget.onChanged(newValue);
       },
       child: SketchySurface(
@@ -73,7 +63,7 @@ class _SketchyCheckboxState extends State<SketchyCheckbox> {
         alignment: Alignment.center,
         createPrimitive: () =>
             SketchyPrimitive.rectangle(fill: SketchyFill.none),
-        child: _value
+        child: value
             ? Transform.scale(
                 scale: 0.7,
                 child: SketchyIcon(

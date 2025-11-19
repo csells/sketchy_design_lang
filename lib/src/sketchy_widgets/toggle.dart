@@ -5,6 +5,7 @@ import 'package:flutter/widgets.dart';
 
 import '../theme/sketchy_theme.dart';
 import '../widgets/sketchy_frame.dart';
+import '../widgets/value_sync_mixin.dart';
 
 /// Sketchy toggle
 class SketchyToggle extends StatefulWidget {
@@ -22,16 +23,20 @@ class SketchyToggle extends StatefulWidget {
 
 // ignore: library_private_types_in_public_api
 class _SketchyToggleState extends State<SketchyToggle>
-    with SingleTickerProviderStateMixin {
-  bool _isSwitched = false;
+    with SingleTickerProviderStateMixin, ValueSyncMixin<bool, SketchyToggle> {
   final double _thumbRadius = 18;
   late Animation<double> _animation;
   late AnimationController _controller;
 
   @override
+  bool get widgetValue => widget.value;
+
+  @override
+  bool getOldWidgetValue(SketchyToggle oldWidget) => oldWidget.value;
+
+  @override
   void initState() {
     super.initState();
-    _isSwitched = widget.value;
     _controller = AnimationController(
       duration: const Duration(milliseconds: 250),
       vsync: this,
@@ -50,18 +55,15 @@ class _SketchyToggleState extends State<SketchyToggle>
   @override
   void didUpdateWidget(covariant SketchyToggle oldWidget) {
     super.didUpdateWidget(oldWidget);
-    if (oldWidget.value != widget.value) {
-      _isSwitched = widget.value;
-      _toggle();
-    }
+    _toggle();
   }
 
   @override
   Widget build(BuildContext context) => GestureDetector(
     onTap: () {
-      final nextValue = !_isSwitched;
+      final nextValue = !value;
       widget.onChanged?.call(nextValue);
-      _isSwitched = nextValue;
+      updateValue(nextValue);
       _toggle();
     },
     child: _buildSwitcher(context),
@@ -99,7 +101,7 @@ class _SketchyToggleState extends State<SketchyToggle>
   }
 
   void _toggle() {
-    unawaited(_isSwitched ? _controller.forward() : _controller.reverse());
+    unawaited(value ? _controller.forward() : _controller.reverse());
   }
 
   @override
