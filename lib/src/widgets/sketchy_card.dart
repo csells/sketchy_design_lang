@@ -37,7 +37,7 @@ class SketchyCard extends StatelessWidget {
     super.key,
     this.child,
     this.fill = false,
-    this.height = 130.0,
+    this.height,
   });
 
   /// The [child] contained by the card.
