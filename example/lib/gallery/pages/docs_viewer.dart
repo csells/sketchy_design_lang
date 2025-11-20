@@ -55,7 +55,7 @@ class _DocsViewerExampleState extends State<DocsViewerExample> {
                                     ClipboardData(text: _docs[_index].title),
                                   );
                                   if (!context.mounted) return;
-                                  SketchyMessage.show(
+                                  SketchyToast.show(
                                     context,
                                     message: 'Link copied.',
                                   );

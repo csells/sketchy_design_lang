@@ -30,8 +30,13 @@ class SketchyFillOptions {
 
 /// Deterministic rough shape that caches its seed at construction time.
 class SketchyPrimitive {
-  SketchyPrimitive._(this._builder, this._fill, this._fillOptions, {int? seed})
-    : _seed = seed ?? _seedSource.nextInt(0x7fffffff);
+  SketchyPrimitive._(
+    this._builder,
+    this._pathBuilder,
+    this._fill,
+    this._fillOptions, {
+    int? seed,
+  }) : _seed = seed ?? _seedSource.nextInt(0x7fffffff);
 
   /// Rectangle primitive.
   factory SketchyPrimitive.rectangle({
@@ -40,6 +45,7 @@ class SketchyPrimitive {
     SketchyFillOptions? fillOptions,
   }) => SketchyPrimitive._(
     (generator, size) => generator.rectangle(0, 0, size.width, size.height),
+    (size) => Path()..addRect(Rect.fromLTWH(0, 0, size.width, size.height)),
     fill,
     fillOptions,
     seed: seed,
@@ -54,6 +60,14 @@ class SketchyPrimitive {
   }) => SketchyPrimitive._(
     (generator, size) =>
         generator.polygon(_roundedRectPoints(size, cornerRadius)),
+    (size) => Path()
+      ..addPolygon(
+        _roundedRectPoints(
+          size,
+          cornerRadius,
+        ).map((p) => Offset(p.x, p.y)).toList(),
+        true,
+      ),
     fill,
     fillOptions,
     seed: seed,
@@ -83,12 +97,14 @@ class SketchyPrimitive {
       size.width,
       size.height,
     ),
+    (size) => Path()..addOval(Rect.fromLTWH(0, 0, size.width, size.height)),
     fill,
     fillOptions,
     seed: seed,
   );
 
   final Drawable Function(Generator, Size) _builder;
+  final Path Function(Size) _pathBuilder;
   final SketchyFill _fill;
   final SketchyFillOptions? _fillOptions;
   final int _seed;
@@ -108,7 +124,10 @@ class SketchyPrimitive {
     }
 
     final config = _buildConfig(roughness.clamp(0, 1));
-    final filler = _buildFiller(config, _fill, roughness, _fillOptions);
+    // Note: For solid, we use NoFiller here because the painter handles the
+    // fill.
+    final effectiveFill = _fill == SketchyFill.solid ? SketchyFill.none : _fill;
+    final filler = _buildFiller(config, effectiveFill, roughness, _fillOptions);
     final generator = Generator(config, filler);
 
     _cachedDrawable = _builder(generator, size);
@@ -116,6 +135,9 @@ class SketchyPrimitive {
     _cachedRoughness = roughness;
     return _cachedDrawable!;
   }
+
+  /// Returns the clean geometric path for the shape (used for solid fills).
+  Path pathFor(Size size) => _pathBuilder(size);
 
   DrawConfig _buildConfig(double roughness) => DrawConfig.build(
     seed: _seed,
@@ -154,6 +176,17 @@ class SketchyShapePainter extends CustomPainter {
 
   @override
   void paint(Canvas canvas, Size size) {
+    // 1. Handle Solid Fill (Custom)
+    if (primitive._fill == SketchyFill.solid) {
+      final path = primitive.pathFor(size);
+      final fillPaint = Paint()
+        ..color = fillColor
+        ..style = PaintingStyle.fill
+        ..isAntiAlias = true;
+      canvas.drawPath(path, fillPaint);
+    }
+
+    // 2. Handle Stroke & Hachure Fill (Rough)
     final drawable = primitive.drawableFor(size, roughness);
     final stroke = Paint()
       ..color = strokeColor
@@ -195,6 +228,8 @@ Filler _buildFiller(
     case SketchyFill.hachure:
       return HachureFiller(fillerConfig);
     case SketchyFill.solid:
+      // Fallback to solid filler if this path is ever reached, though
+      // drawableFor() now redirects solid -> none.
       return SolidFiller(fillerConfig);
   }
 }

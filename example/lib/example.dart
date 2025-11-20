@@ -837,7 +837,7 @@ Comic Shanns font.
                 ),
                 SketchyButton(
                   onPressed: () {
-                    SketchyMessage.show(
+                    SketchyToast.show(
                       context,
                       message: 'Saved ${_conversationTabs[tabIndex]} note',
                     );

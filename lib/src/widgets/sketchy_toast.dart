@@ -2,13 +2,14 @@ import 'dart:async';
 
 import 'package:flutter/widgets.dart';
 
+import '../primitives/sketchy_primitives.dart';
 import '../theme/sketchy_text_case.dart';
 import '../theme/sketchy_theme.dart';
 import 'surface.dart';
 import 'text.dart';
 
 /// Displays transient "Sketchy message" banners.
-class SketchyMessage {
+class SketchyToast {
   /// Shows a top-anchored message that slides into view.
   static void show(
     BuildContext context, {
@@ -21,7 +22,7 @@ class SketchyMessage {
 
     late OverlayEntry entry;
     entry = OverlayEntry(
-      builder: (context) => _SketchyMessageBanner(
+      builder: (context) => _SketchyToastState(
         message: message,
         duration: duration,
         onDismissed: () => entry.remove(),
@@ -33,8 +34,8 @@ class SketchyMessage {
   }
 }
 
-class _SketchyMessageBanner extends StatefulWidget {
-  const _SketchyMessageBanner({
+class _SketchyToastState extends StatefulWidget {
+  const _SketchyToastState({
     required this.message,
     required this.duration,
     required this.onDismissed,
@@ -47,10 +48,10 @@ class _SketchyMessageBanner extends StatefulWidget {
   final VoidCallback onDismissed;
 
   @override
-  State<_SketchyMessageBanner> createState() => _SketchyMessageBannerState();
+  State<_SketchyToastState> createState() => _SketchyToastStateState();
 }
 
-class _SketchyMessageBannerState extends State<_SketchyMessageBanner>
+class _SketchyToastStateState extends State<_SketchyToastState>
     with SingleTickerProviderStateMixin {
   late final AnimationController _controller;
   late final Animation<Offset> _offset;
@@ -96,18 +97,25 @@ class _SketchyMessageBannerState extends State<_SketchyMessageBanner>
             alignment: Alignment.topCenter,
             child: SlideTransition(
               position: _offset,
-              child: SketchySurface(
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 20,
-                  vertical: 12,
-                ),
-                fillColor: theme.paperColor,
-                strokeColor: theme.inkColor,
-                child: SketchyText(
-                  widget.message,
-                  textCase: widget.textCase,
-                  style: theme.typography.body.copyWith(
-                    fontWeight: FontWeight.w600,
+              child: UnconstrainedBox(
+                child: SketchySurface(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 20,
+                    vertical: 12,
+                  ),
+                  fillColor: theme.inkColor,
+                  strokeColor: theme.inkColor,
+                  createPrimitive: () => SketchyPrimitive.roundedRectangle(
+                    fill: SketchyFill.solid,
+                    cornerRadius: theme.borderRadius,
+                  ),
+                  child: SketchyText(
+                    widget.message,
+                    textCase: widget.textCase,
+                    style: theme.typography.body.copyWith(
+                      fontWeight: FontWeight.w600,
+                      color: theme.paperColor,
+                    ),
                   ),
                 ),
               ),

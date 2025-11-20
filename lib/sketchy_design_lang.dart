@@ -6,5 +6,5 @@ export 'src/theme/sketchy_text_case.dart';
 export 'src/theme/sketchy_theme.dart';
 export 'src/theme/sketchy_themes.dart';
 export 'src/theme/sketchy_typography.dart';
-export 'src/widgets/message.dart';
+export 'src/widgets/sketchy_toast.dart';
 export 'src/widgets/widgets.dart';
