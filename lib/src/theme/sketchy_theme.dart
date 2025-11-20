@@ -31,68 +31,7 @@ class SketchyThemeData {
     double strokeWidth = 2.0,
     double borderRadius = 0,
   }) {
-    final (ink, paper, primary, secondary) = switch (theme) {
-      SketchyThemes.monochrome => (
-        SketchyColors.black,
-        SketchyColors.white,
-        SketchyColors.black,
-        SketchyColors.ash,
-      ),
-      SketchyThemes.red => (
-        SketchyColors.maroon,
-        SketchyColors.blush,
-        SketchyColors.scarlet,
-        SketchyColors.lightCoral,
-      ),
-      SketchyThemes.orange => (
-        SketchyColors.rust,
-        SketchyColors.apricot,
-        SketchyColors.ember,
-        SketchyColors.peach,
-      ),
-      SketchyThemes.yellow => (
-        SketchyColors.ochre,
-        SketchyColors.cream,
-        SketchyColors.lemon,
-        SketchyColors.lightLemon,
-      ),
-      SketchyThemes.green => (
-        SketchyColors.forestGreen,
-        SketchyColors.mint,
-        SketchyColors.lime,
-        SketchyColors.lightSage,
-      ),
-      SketchyThemes.cyan => (
-        SketchyColors.deepTeal,
-        SketchyColors.aqua,
-        SketchyColors.teal,
-        SketchyColors.turquoise,
-      ),
-      SketchyThemes.blue => (
-        SketchyColors.navy,
-        SketchyColors.cloud,
-        SketchyColors.cobalt,
-        SketchyColors.sky,
-      ),
-      SketchyThemes.indigo => (
-        SketchyColors.midnight,
-        SketchyColors.lavender,
-        SketchyColors.indigo,
-        SketchyColors.periwinkle,
-      ),
-      SketchyThemes.violet => (
-        SketchyColors.plum,
-        SketchyColors.orchid,
-        SketchyColors.violet,
-        SketchyColors.lilac,
-      ),
-      SketchyThemes.magenta => (
-        SketchyColors.wine,
-        SketchyColors.rose,
-        SketchyColors.magenta,
-        SketchyColors.pink,
-      ),
-    };
+    final (ink, paper, primary, secondary) = theme.palette;
 
     // In dark mode, we swap ink/paper to create a dark theme from the same palette.
     // We also swap primary/secondary to ensure large fills (secondary) are darker
