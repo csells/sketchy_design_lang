@@ -38,11 +38,17 @@ class SketchyColors {
   /// Bright scarlet red.
   static const Color scarlet = Color(0xFFE53935);
 
+  /// Deep scarlet red.
+  static const Color darkScarlet = Color(0xFF981200);
+
   /// Deep maroon red.
   static const Color maroon = Color(0xFF5C1111);
 
   /// Pale blush red.
-  static const Color blush = Color(0xFFFFF3F0);
+  static const Color blush = Color(0xFFF5CCCC);
+
+  /// Rosewash.
+  static const Color rosewash = Color(0xFFE6B9B0);
 
   /// Light coral red.
   static const Color lightCoral = Color(0xFFFFCDD2);
@@ -53,9 +59,15 @@ class SketchyColors {
   /// Salmon red (used for warnings).
   static const Color salmon = Color(0xFFED6A5A);
 
+  /// Red primary.
+  static const Color red = Color(0xFFFF2500);
+
   // -- Oranges --
   /// Ember orange.
   static const Color ember = Color(0xFFFB8C00);
+
+  /// Orange primary.
+  static const Color orange = Color(0xFFFF9A02);
 
   /// Rust orange.
   static const Color rust = Color(0xFF7A2F05);
@@ -66,9 +78,15 @@ class SketchyColors {
   /// Peach orange.
   static const Color peach = Color(0xFFFFE0B2);
 
+  /// Creamsicle orange.
+  static const Color creamsicle = Color(0xFFFCE5CC);
+
   // -- Yellows --
   /// Lemon yellow.
   static const Color lemon = Color(0xFFFBC02D);
+
+  /// Yellow primary.
+  static const Color yellow = Color(0xFFFFFB03);
 
   /// Ochre yellow.
   static const Color ochre = Color(0xFF7C5B04);
@@ -79,15 +97,24 @@ class SketchyColors {
   /// Light lemon yellow.
   static const Color lightLemon = Color(0xFFFFF59D);
 
+  /// Buttercream yellow.
+  static const Color buttercream = Color(0xFFFFF3CC);
+
   // -- Greens --
   /// Lime green.
   static const Color lime = Color(0xFF2E7D32);
+
+  /// Green primary.
+  static const Color green = Color(0xFF09F902);
 
   /// Forest green.
   static const Color forestGreen = Color(0xFF184B2B);
 
   /// Mint green.
   static const Color mint = Color(0xFFF1FFF4);
+
+  /// Mint fade.
+  static const Color mintFade = Color(0xFFD9EAD3);
 
   /// Light sage green.
   static const Color lightSage = Color(0xFFC8E6C9);
@@ -99,11 +126,17 @@ class SketchyColors {
   /// Teal cyan.
   static const Color teal = Color(0xFF00ACC1);
 
+  /// Cyan primary.
+  static const Color cyan = Color(0xFF0AFDFF);
+
   /// Deep teal cyan.
   static const Color deepTeal = Color(0xFF06464E);
 
   /// Aqua cyan.
   static const Color aqua = Color(0xFFF0FDFF);
+
+  /// Ice mist.
+  static const Color iceMist = Color(0xFFD0E1E3);
 
   /// Turquoise cyan.
   static const Color turquoise = Color(0xFFB2EBF2);
@@ -111,6 +144,9 @@ class SketchyColors {
   // -- Blues --
   /// Cobalt blue.
   static const Color cobalt = Color(0xFF1976D2);
+
+  /// Blue primary.
+  static const Color blue = Color(0xFF0133FF);
 
   /// Navy blue.
   static const Color navy = Color(0xFF0F305D);
@@ -120,6 +156,15 @@ class SketchyColors {
 
   /// Sky blue.
   static const Color sky = Color(0xFFBBDEFB);
+
+  /// Skywash blue.
+  static const Color skywash = Color(0xFFD0E3F2);
+
+  /// Dusty blue.
+  static const Color dusty = Color(0xFF4A86E8);
+
+  /// Powder blue.
+  static const Color powderBlue = Color(0xFFC9DAF8);
 
   /// Steel blue (used for info).
   static const Color steel = Color(0xFF4F7CAC);
@@ -138,8 +183,8 @@ class SketchyColors {
   static const Color periwinkle = Color(0xFFD1C4E9);
 
   // -- Violets --
-  /// Violet.
-  static const Color violet = Color(0xFF8E24AA);
+  /// Violet primary.
+  static const Color violet = Color(0xFF9938FF);
 
   /// Plum violet.
   static const Color plum = Color(0xFF3C164D);
@@ -149,6 +194,16 @@ class SketchyColors {
 
   /// Lilac violet.
   static const Color lilac = Color(0xFFE1BEE7);
+
+  /// Lavender haze.
+  static const Color lavenderHaze = Color(0xFFD9D1E9);
+
+  // -- Pinks --
+  /// Pink primary.
+  static const Color pink = Color(0xFFFF40FF);
+
+  /// Petal blush.
+  static const Color petalBlush = Color(0xFFEAD1DC);
 
   // -- Magentas --
   /// Magenta.
@@ -161,5 +216,5 @@ class SketchyColors {
   static const Color rose = Color(0xFFFFF1F7);
 
   /// Pink magenta.
-  static const Color pink = Color(0xFFF8BBD0);
+  static const Color pastelPink = Color(0xFFF8BBD0);
 }

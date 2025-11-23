@@ -7,7 +7,10 @@ enum SketchyThemes {
   /// Classic monochrome look (black ink on white paper).
   monochrome,
 
-  /// Bold scarlet-inspired theme.
+  /// Bold scarlet theme.
+  scarlet,
+
+  /// Bright red theme.
   red,
 
   /// Energetic orange theme.
@@ -22,6 +25,9 @@ enum SketchyThemes {
   /// Playful cyan theme.
   cyan,
 
+  /// Dusty blue theme.
+  dusty,
+
   /// Default blue theme.
   blue,
 
@@ -31,8 +37,8 @@ enum SketchyThemes {
   /// Vivid violet theme.
   violet,
 
-  /// Punchy magenta theme.
-  magenta,
+  /// Pink theme.
+  pink,
 }
 
 /// Extension mapping themes to their core color palette.
@@ -44,43 +50,55 @@ extension SketchyThemePalette on SketchyThemes {
       SketchyColors.black,
       SketchyColors.white,
       SketchyColors.black,
-      SketchyColors.ash,
+      SketchyColors.white,
+    ),
+    SketchyThemes.scarlet => (
+      SketchyColors.maroon,
+      SketchyColors.rose,
+      SketchyColors.darkScarlet,
+      SketchyColors.rosewash,
     ),
     SketchyThemes.red => (
       SketchyColors.maroon,
+      SketchyColors.rose,
+      SketchyColors.red,
       SketchyColors.blush,
-      SketchyColors.scarlet,
-      SketchyColors.lightCoral,
     ),
     SketchyThemes.orange => (
       SketchyColors.rust,
       SketchyColors.apricot,
-      SketchyColors.ember,
-      SketchyColors.peach,
+      SketchyColors.orange,
+      SketchyColors.creamsicle,
     ),
     SketchyThemes.yellow => (
       SketchyColors.ochre,
       SketchyColors.cream,
-      SketchyColors.lemon,
-      SketchyColors.lightLemon,
+      SketchyColors.yellow,
+      SketchyColors.buttercream,
     ),
     SketchyThemes.green => (
       SketchyColors.forestGreen,
       SketchyColors.mint,
-      SketchyColors.lime,
-      SketchyColors.lightSage,
+      SketchyColors.green,
+      SketchyColors.mintFade,
     ),
     SketchyThemes.cyan => (
       SketchyColors.deepTeal,
       SketchyColors.aqua,
-      SketchyColors.teal,
-      SketchyColors.turquoise,
+      SketchyColors.cyan,
+      SketchyColors.iceMist,
+    ),
+    SketchyThemes.dusty => (
+      SketchyColors.navy,
+      SketchyColors.cloud,
+      SketchyColors.dusty,
+      SketchyColors.powderBlue,
     ),
     SketchyThemes.blue => (
       SketchyColors.navy,
       SketchyColors.cloud,
-      SketchyColors.cobalt,
-      SketchyColors.sky,
+      SketchyColors.blue,
+      SketchyColors.skywash,
     ),
     SketchyThemes.indigo => (
       SketchyColors.midnight,
@@ -92,13 +110,13 @@ extension SketchyThemePalette on SketchyThemes {
       SketchyColors.plum,
       SketchyColors.orchid,
       SketchyColors.violet,
-      SketchyColors.lilac,
+      SketchyColors.lavenderHaze,
     ),
-    SketchyThemes.magenta => (
+    SketchyThemes.pink => (
       SketchyColors.wine,
       SketchyColors.rose,
-      SketchyColors.magenta,
       SketchyColors.pink,
+      SketchyColors.petalBlush,
     ),
   };
 }
