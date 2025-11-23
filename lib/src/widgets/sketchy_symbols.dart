@@ -5,7 +5,7 @@ import '../primitives/sketchy_primitives.dart';
 import '../theme/sketchy_theme.dart';
 
 /// Symbols supported by [SketchySymbol].
-enum SketchySymbol {
+enum SketchySymbols {
   /// Plus icon.
   plus,
 
@@ -28,10 +28,11 @@ enum SketchySymbol {
   x,
 }
 
-/// Custom painter-based icon rendered in the sketch style using rough_flutter.
-class SketchySymbolWidget extends StatelessWidget {
+/// Custom painter-based symbol rendered in the sketch style using
+/// rough_flutter.
+class SketchySymbol extends StatelessWidget {
   /// Creates an icon for the given [symbol].
-  const SketchySymbolWidget({
+  const SketchySymbol({
     required this.symbol,
     super.key,
     this.size = 20,
@@ -39,7 +40,7 @@ class SketchySymbolWidget extends StatelessWidget {
   });
 
   /// Symbol to draw.
-  final SketchySymbol symbol;
+  final SketchySymbols symbol;
 
   /// Visual size of the icon.
   final double size;
@@ -70,7 +71,7 @@ class _SketchySymbolPainter extends CustomPainter {
     required this.roughness,
   });
 
-  final SketchySymbol symbol;
+  final SketchySymbols symbol;
   final Color color;
   final double roughness;
 
@@ -99,12 +100,12 @@ class _SketchySymbolPainter extends CustomPainter {
     }
 
     switch (symbol) {
-      case SketchySymbol.plus:
+      case SketchySymbols.plus:
         draw([
           generator.line(size.width / 2, 2, size.width / 2, size.height - 2),
           generator.line(2, size.height / 2, size.width - 2, size.height / 2),
         ]);
-      case SketchySymbol.chevronRight:
+      case SketchySymbols.chevronRight:
         draw([
           generator.linearPath([
             PointD(4, 4),
@@ -112,7 +113,7 @@ class _SketchySymbolPainter extends CustomPainter {
             PointD(4, size.height - 4),
           ]),
         ]);
-      case SketchySymbol.chevronDown:
+      case SketchySymbols.chevronDown:
         draw([
           generator.linearPath([
             PointD(4, 4),
@@ -120,9 +121,9 @@ class _SketchySymbolPainter extends CustomPainter {
             PointD(size.width - 4, 4),
           ]),
         ]);
-      case SketchySymbol.rectangle:
+      case SketchySymbols.rectangle:
         draw([generator.rectangle(2, 2, size.width - 4, size.height - 4)]);
-      case SketchySymbol.send:
+      case SketchySymbols.send:
         draw([
           generator.polygon([
             PointD(2, size.height - 2),
@@ -131,7 +132,7 @@ class _SketchySymbolPainter extends CustomPainter {
             PointD(size.width / 3, size.height / 2),
           ]),
         ]);
-      case SketchySymbol.bullet:
+      case SketchySymbols.bullet:
         // Solid fill (clean)
         canvas.drawOval(
           Rect.fromLTWH(2, 2, size.width - 4, size.height - 4),
@@ -148,7 +149,7 @@ class _SketchySymbolPainter extends CustomPainter {
             size.height - 4,
           ),
         ]);
-      case SketchySymbol.x:
+      case SketchySymbols.x:
         const inset = 4.0;
         draw([
           generator.line(inset, inset, size.width - inset, size.height - inset),

@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter/widgets.dart';
 
 import '../theme/sketchy_theme.dart';
+import 'sketchy_symbols.dart';
 
 /// Animated “typing” indicator made of three dots.
 class SketchyTypingIndicator extends StatefulWidget {
@@ -42,13 +43,11 @@ class _SketchyTypingIndicatorState extends State<SketchyTypingIndicator>
         children: List.generate(3, (index) {
           final progress = (_controller.value + index * 0.2) % 1.0;
           final opacity = progress < 0.5 ? progress * 2 : (1 - progress) * 2;
-          return Container(
-            width: 6,
-            height: 6,
-            margin: const EdgeInsets.symmetric(horizontal: 2),
-            decoration: BoxDecoration(
-              color: theme.inkColor.withValues(alpha: opacity),
-              shape: BoxShape.circle,
+          return Opacity(
+            opacity: opacity,
+            child: const Padding(
+              padding: EdgeInsets.symmetric(horizontal: 2),
+              child: SketchySymbol(symbol: SketchySymbols.bullet, size: 6),
             ),
           );
         }),

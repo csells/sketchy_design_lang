@@ -3,6 +3,7 @@ import 'package:flutter/widgets.dart';
 
 import '../theme/sketchy_theme.dart';
 import 'sketchy_frame.dart';
+import 'sketchy_symbols.dart';
 
 /// Sketchy radio button group.
 ///
@@ -74,13 +75,10 @@ class _SketchyRadioState<T> extends State<SketchyRadio<T>> {
               AnimatedOpacity(
                 opacity: _isSelected ? 1 : 0,
                 duration: const Duration(milliseconds: 150),
-                child: SketchyFrame(
-                  width: 20,
-                  height: 20,
-                  shape: SketchyFrameShape.circle,
-                  fill: SketchyFill.solid,
-                  fillColor: theme.inkColor,
-                  child: const SizedBox.expand(),
+                child: SketchySymbol(
+                  symbol: SketchySymbols.bullet,
+                  size: 20,
+                  color: theme.inkColor,
                 ),
               ),
             ],
