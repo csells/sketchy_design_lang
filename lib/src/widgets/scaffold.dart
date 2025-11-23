@@ -8,7 +8,6 @@ import 'package:flutter/material.dart'
 import 'package:flutter/widgets.dart';
 
 import '../theme/sketchy_theme.dart';
-import 'app_bar.dart';
 
 export 'package:flutter/material.dart'
     show
@@ -47,7 +46,7 @@ class Scaffold extends StatelessWidget {
   });
 
   /// An app bar to display at the top of the scaffold.
-  final AppBar? appBar;
+  final PreferredSizeWidget? appBar;
 
   /// The primary content of the scaffold.
   final Widget? body;

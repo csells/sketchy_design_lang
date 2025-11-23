@@ -9,6 +9,7 @@ analyzer:
     - "lib/generated_plugin_registrant.dart"
     - "lib/pubspec.dart"
 
+
   errors:
     # without ignore here, we cause import of all_lint_rules to warn, because
     # some rules conflict; instead, we're explicitly enabling even conflicting
@@ -17,7 +18,6 @@ analyzer:
     dangling_library_doc_comments: ignore
     document_ignores: ignore
     included_file_warning: ignore
-    prefer_null_aware_method_calls: ignore
     specify_nonobvious_local_variable_types: ignore
 
 linter:

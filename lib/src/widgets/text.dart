@@ -12,9 +12,9 @@ import '../theme/sketchy_text_case.dart';
 import '../theme/sketchy_theme.dart';
 
 /// Text widget that automatically applies theme textCase.
-class Text extends StatelessWidget {
+class SketchyText extends StatelessWidget {
   /// Creates text that applies textCase transformation from theme.
-  const Text(
+  const SketchyText(
     this.data, {
     super.key,
     this.style,

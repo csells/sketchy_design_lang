@@ -1,7 +1,7 @@
 import 'dart:async';
 import 'dart:math' as math;
 
-import 'package:flutter/widgets.dart' hide Text;
+import 'package:flutter/widgets.dart';
 
 import '../theme/sketchy_text_case.dart';
 import '../theme/sketchy_theme.dart';
@@ -133,7 +133,7 @@ class _TooltipOverlay extends StatelessWidget {
               color: theme.inkColor,
               borderRadius: BorderRadius.circular(4),
             ),
-            child: sketchy.Text(
+            child: sketchy.SketchyText(
               message,
               textCase: textCase,
               style: theme.typography.label.copyWith(color: theme.paperColor),

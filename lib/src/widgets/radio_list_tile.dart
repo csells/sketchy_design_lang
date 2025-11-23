@@ -56,7 +56,7 @@ class RadioListTile<T> extends StatelessWidget {
 
   void _handleTap() {
     if (onChanged != null) {
-      onChanged!(value);
+      onChanged?.call(value);
     }
   }
 

@@ -4,6 +4,7 @@ import '../theme/sketchy_text_case.dart';
 import '../theme/sketchy_theme.dart';
 import 'calendar_utils.dart';
 import 'sketchy_frame.dart';
+import 'text.dart';
 
 /// Sketchy calendar.
 ///
@@ -177,7 +178,7 @@ class _SketchyCalendarState extends State<SketchyCalendar> {
             setState(() {});
 
             if (widget.onSelected != null) {
-              widget.onSelected!(cell.value);
+              widget.onSelected?.call(cell.value);
             }
           },
           child: _buildCell(
@@ -258,13 +259,13 @@ class _SketchyCalendarState extends State<SketchyCalendar> {
     );
   }
 
-  Text _sketchyText(
+  SketchyText _sketchyText(
     SketchyThemeData theme,
     String text, {
     FontWeight fontWeight = FontWeight.w500,
     double fontSize = 18.0,
     Color? color,
-  }) => Text(
+  }) => SketchyText(
     text,
     textAlign: TextAlign.center,
     style: TextStyle(

@@ -51,7 +51,7 @@ class CheckboxListTile extends StatelessWidget {
 
   void _handleTap() {
     if (onChanged != null) {
-      onChanged!(!(value ?? false));
+      onChanged?.call(!(value ?? false));
     }
   }
 
@@ -60,7 +60,7 @@ class CheckboxListTile extends StatelessWidget {
     builder: (context, theme) {
       final control = Checkbox(
         value: value ?? false,
-        onChanged: onChanged != null ? (val) => onChanged!(val) : (val) {},
+        onChanged: onChanged != null ? (val) => onChanged?.call(val) : (val) {},
       );
 
       final labelColumn = Column(

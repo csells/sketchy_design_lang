@@ -1,6 +1,6 @@
 import 'dart:async';
 
-import 'package:flutter/widgets.dart' hide Text;
+import 'package:flutter/widgets.dart';
 
 import '../primitives/sketchy_primitives.dart';
 import '../theme/sketchy_text_case.dart';
@@ -93,7 +93,7 @@ class SnackBar extends StatefulWidget {
     late OverlayEntry entry;
     entry = OverlayEntry(
       builder: (context) => _SnackBarOverlay(
-        content: sketchy.Text(message),
+        content: sketchy.SketchyText(message),
         duration: duration,
         onDismissed: () => entry.remove(),
         textCase: textCase,
@@ -125,9 +125,9 @@ class _SnackBarState extends State<SnackBar> {
           fontWeight: FontWeight.w600,
           color: theme.paperColor,
         ),
-        child: widget.textCase != null && widget.content is sketchy.Text
-            ? sketchy.Text(
-                (widget.content as sketchy.Text).data,
+        child: widget.textCase != null && widget.content is sketchy.SketchyText
+            ? sketchy.SketchyText(
+                (widget.content as sketchy.SketchyText).data,
                 textCase: widget.textCase,
               )
             : widget.content,

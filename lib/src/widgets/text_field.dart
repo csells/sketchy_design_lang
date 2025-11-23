@@ -13,7 +13,7 @@ import 'package:flutter/material.dart'
         Theme;
 import 'package:flutter/material.dart' as material;
 import 'package:flutter/services.dart' show TextInputFormatter;
-import 'package:flutter/widgets.dart' hide Text;
+import 'package:flutter/widgets.dart';
 
 import '../theme/sketchy_text_case.dart';
 import '../theme/sketchy_theme.dart';
@@ -214,7 +214,10 @@ class _TextFieldState extends State<TextField> {
           if (displayLabel != null) ...[
             Padding(
               padding: const EdgeInsets.only(top: 12),
-              child: sketchy.Text(displayLabel, style: effectiveLabelStyle),
+              child: sketchy.SketchyText(
+                displayLabel,
+                style: effectiveLabelStyle,
+              ),
             ),
             const SizedBox(width: 10),
           ],

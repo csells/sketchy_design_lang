@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart'
     show MaterialTapTargetSize, VisualDensity;
-import 'package:flutter/widgets.dart' hide Text;
+import 'package:flutter/widgets.dart';
 
 import '../primitives/sketchy_primitives.dart';
 import '../theme/sketchy_text_case.dart';
@@ -485,9 +485,9 @@ class _SketchyChipImpl extends StatelessWidget {
           Flexible(
             child: DefaultTextStyle(
               style: effectiveTextStyle,
-              child: label is sketchy.Text && textCase != null
-                  ? sketchy.Text(
-                      (label as sketchy.Text).data,
+              child: label is sketchy.SketchyText && textCase != null
+                  ? sketchy.SketchyText(
+                      (label as sketchy.SketchyText).data,
                       textCase: textCase,
                     )
                   : label,
