@@ -150,7 +150,7 @@ class SketchyApp extends StatelessWidget {
           style: activeTheme.typography.body.copyWith(
             color: activeTheme.inkColor,
           ),
-          child: content,
+          child: ScaffoldMessenger(child: content),
         ),
       );
       return builder?.call(context, themed) ?? themed;

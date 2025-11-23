@@ -1,6 +1,7 @@
-// ignore_for_file: public_member_api_docs
 import 'dart:ui';
 
+import 'package:flutter/rendering.dart' show SemanticsProperties;
+import 'package:flutter/semantics.dart' show SemanticsProperties;
 import 'package:flutter/widgets.dart';
 
 import '../primitives/sketchy_primitives.dart';
@@ -8,44 +9,70 @@ import '../theme/sketchy_theme.dart';
 import 'sketchy_frame.dart';
 
 /// Sketchy progress bar.
-///
-/// Usage:
-/// ```dart
-/// final _controller = AnimationController(
-///    duration: const Duration(milliseconds: 1000), vsync: this);
-/// ......
-/// SketchyProgressBar(controller: _controller, value: 0.5),
-/// ......
-/// _controller.forward();
-/// _controller.stop();
-/// _controller.reset();
-/// ```
-class SketchyProgressBar extends StatefulWidget {
-  const SketchyProgressBar({this.controller, super.key, this.value = 0.0})
-    : assert(value >= 0.0 && value <= 1.0, 'value must be between 0.0 and 1.0');
+class LinearProgressIndicator extends StatefulWidget {
+  /// Creates a linear progress indicator.
+  const LinearProgressIndicator({
+    super.key,
+    this.value,
+    this.backgroundColor,
+    this.color,
+    this.valueColor,
+    this.minHeight,
+    this.semanticsLabel,
+    this.semanticsValue,
+    this.borderRadius,
+    // Sketchy extension
+    this.controller,
+  });
 
-  /// The current progress value, range is 0.0 ~ 1.0.
-  final double value;
+  /// The value of this progress indicator.
+  final double? value;
 
+  /// The progress indicator's background color.
+  final Color? backgroundColor;
+
+  /// The progress indicator's color.
+  final Color? color;
+
+  /// The progress indicator's color as an animation.
+  final Animation<Color?>? valueColor;
+
+  /// The minimum height of the line.
+  final double? minHeight;
+
+  /// The [SemanticsProperties.label] for this progress indicator.
+  final String? semanticsLabel;
+
+  /// The [SemanticsProperties.value] for this progress indicator.
+  final String? semanticsValue;
+
+  /// The border radius of the progress indicator.
+  final BorderRadiusGeometry? borderRadius;
+
+  // Sketchy specifics
+  /// The animation controller for the progress indicator.
   final AnimationController? controller;
 
   @override
-  State<SketchyProgressBar> createState() => _SketchyProgressBarState();
+  State<LinearProgressIndicator> createState() =>
+      _LinearProgressIndicatorState();
 }
 
-class _SketchyProgressBarState extends State<SketchyProgressBar> {
-  final double _progressHeight = 20;
+class _LinearProgressIndicatorState extends State<LinearProgressIndicator> {
+  double get _minHeight => widget.minHeight ?? 20;
 
   @override
   void initState() {
     super.initState();
     widget.controller?.addListener(_handleTick);
     // Delay for calculating `_getWidth()` during the next frame.
-    Future.delayed(Duration.zero, () => setState(() {}));
+    Future.delayed(Duration.zero, () {
+      if (mounted) setState(() {});
+    });
   }
 
   @override
-  void didUpdateWidget(covariant SketchyProgressBar oldWidget) {
+  void didUpdateWidget(covariant LinearProgressIndicator oldWidget) {
     super.didUpdateWidget(oldWidget);
     if (oldWidget.controller != widget.controller) {
       oldWidget.controller?.removeListener(_handleTick);
@@ -63,13 +90,13 @@ class _SketchyProgressBarState extends State<SketchyProgressBar> {
   @override
   Widget build(BuildContext context) => SketchyTheme.consumer(
     builder: (context, theme) {
-      final progress = (widget.controller?.value ?? widget.value).clamp(
+      final progress = (widget.controller?.value ?? widget.value ?? 0.0).clamp(
         0.0,
         1.0,
       );
 
       return SizedBox(
-        height: _progressHeight,
+        height: _minHeight,
         child: LayoutBuilder(
           builder: (context, constraints) {
             final availableWidth = constraints.maxWidth.isFinite
@@ -88,10 +115,13 @@ class _SketchyProgressBarState extends State<SketchyProgressBar> {
               fit: StackFit.expand,
               children: [
                 SketchyFrame(
-                  height: _progressHeight,
+                  height: _minHeight,
                   strokeColor: theme.borderColor,
                   strokeWidth: theme.strokeWidth,
-                  fill: SketchyFill.none,
+                  fill: widget.backgroundColor != null
+                      ? SketchyFill.solid
+                      : SketchyFill.none,
+                  fillColor: widget.backgroundColor,
                   child: const SizedBox.expand(),
                 ),
                 if (progress > 0)
@@ -102,7 +132,10 @@ class _SketchyProgressBarState extends State<SketchyProgressBar> {
                     child: SizedBox(
                       width: fillWidth,
                       child: _ProgressFill(
-                        color: theme.borderColor,
+                        color:
+                            widget.color ??
+                            widget.valueColor?.value ??
+                            theme.borderColor,
                         fillOptions: fillOptions,
                       ),
                     ),

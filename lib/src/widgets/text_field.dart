@@ -1,38 +1,44 @@
-import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
+import 'package:flutter/material.dart'
+    show
+        FocusNode,
+        InputBorder,
+        InputDecoration,
+        Material,
+        MaterialType,
+        TextCapitalization,
+        TextEditingController,
+        TextInputAction,
+        TextInputType,
+        TextSelectionThemeData,
+        Theme;
+import 'package:flutter/material.dart' as material;
+import 'package:flutter/services.dart' show TextInputFormatter;
+import 'package:flutter/widgets.dart' hide Text;
 
 import '../theme/sketchy_text_case.dart';
 import '../theme/sketchy_theme.dart';
 import 'sketchy_frame.dart';
+import 'text.dart' as sketchy;
+
+export 'package:flutter/material.dart'
+    show
+        FocusNode,
+        InputBorder,
+        InputDecoration,
+        TextCapitalization,
+        TextEditingController,
+        TextInputAction,
+        TextInputType;
 
 /// Sketchy text input.
-///
-/// Usage:
-/// ```dart
-/// SketchyTextInput(
-///   controller: controller1,
-///   style: TextStyle(
-///   fontFamily: handWriting2,
-///   fontSize: 18.0,
-///   ),
-///   labelText: 'Name',
-///   labelStyle: TextStyle(
-///   fontFamily: handWriting2,
-///   fontSize: 18.0,
-///   ),
-/// )
-/// ```
-class SketchyTextInput extends StatefulWidget {
+class TextField extends StatefulWidget {
   /// Creates a sketchy-styled text field.
-  const SketchyTextInput({
+  const TextField({
     super.key,
     this.controller,
     this.focusNode,
     this.style,
-    this.labelText,
-    this.labelStyle,
-    this.hintText,
-    this.hintStyle,
+    this.decoration,
     this.onChanged,
     this.onSubmitted,
     this.textCase,
@@ -64,18 +70,8 @@ class SketchyTextInput extends StatefulWidget {
   /// The text style for input.
   final TextStyle? style;
 
-  /// Text that describes the input field.
-  final String? labelText;
-
-  /// The style to use for the [labelText] when the label is above (i.e.,
-  /// vertically adjacent to) the input field.
-  final TextStyle? labelStyle;
-
-  /// Text that suggests what sort of input the field accepts.
-  final String? hintText;
-
-  /// The style to use for the [hintText].
-  final TextStyle? hintStyle;
+  /// The decoration to show around the text field.
+  final InputDecoration? decoration;
 
   /// Called when the text changes.
   final ValueChanged<String>? onChanged;
@@ -145,10 +141,10 @@ class SketchyTextInput extends StatefulWidget {
   final bool autofocus;
 
   @override
-  State<SketchyTextInput> createState() => _SketchyTextInputState();
+  State<TextField> createState() => _TextFieldState();
 }
 
-class _SketchyTextInputState extends State<SketchyTextInput> {
+class _TextFieldState extends State<TextField> {
   late TextEditingController _controller;
   late FocusNode _focusNode;
 
@@ -160,7 +156,7 @@ class _SketchyTextInputState extends State<SketchyTextInput> {
   }
 
   @override
-  void didUpdateWidget(covariant SketchyTextInput oldWidget) {
+  void didUpdateWidget(covariant TextField oldWidget) {
     super.didUpdateWidget(oldWidget);
     if (widget.controller != null && widget.controller != _controller) {
       _controller = widget.controller!;
@@ -185,24 +181,26 @@ class _SketchyTextInputState extends State<SketchyTextInput> {
   Widget build(BuildContext context) => SketchyTheme.consumer(
     builder: (context, theme) {
       final casing = widget.textCase ?? theme.textCase;
+      final decoration = widget.decoration ?? const InputDecoration();
+
       final effectiveLabelStyle =
-          widget.labelStyle ??
+          decoration.labelStyle ??
           TextStyle(fontFamily: theme.fontFamily, color: theme.textColor);
       final effectiveStyle =
           widget.style ??
           TextStyle(fontFamily: theme.fontFamily, color: theme.textColor);
       final effectiveHintStyle =
-          widget.hintStyle ??
+          decoration.hintStyle ??
           TextStyle(
             fontFamily: theme.fontFamily,
             color: theme.disabledTextColor,
           );
 
-      final displayLabel = widget.labelText != null
-          ? applyTextCase(widget.labelText!, casing)
+      final displayLabel = decoration.labelText != null
+          ? applyTextCase(decoration.labelText!, casing)
           : null;
-      final displayHint = widget.hintText != null
-          ? applyTextCase(widget.hintText!, casing)
+      final displayHint = decoration.hintText != null
+          ? applyTextCase(decoration.hintText!, casing)
           : null;
 
       // Calculate height based on lines if not expanding
@@ -216,7 +214,7 @@ class _SketchyTextInputState extends State<SketchyTextInput> {
           if (displayLabel != null) ...[
             Padding(
               padding: const EdgeInsets.only(top: 12),
-              child: Text(displayLabel, style: effectiveLabelStyle),
+              child: sketchy.Text(displayLabel, style: effectiveLabelStyle),
             ),
             const SizedBox(width: 10),
           ],
@@ -236,7 +234,7 @@ class _SketchyTextInputState extends State<SketchyTextInput> {
                   ),
                   child: Material(
                     type: MaterialType.transparency,
-                    child: TextField(
+                    child: material.TextField(
                       controller: _controller,
                       focusNode: _focusNode,
                       style: effectiveStyle,
@@ -251,6 +249,9 @@ class _SketchyTextInputState extends State<SketchyTextInput> {
                           horizontal: 4,
                         ),
                         counterText: '', // Hide default counter
+                        prefixIcon: decoration.prefixIcon,
+                        suffixIcon: decoration.suffixIcon,
+                        errorText: decoration.errorText,
                       ),
                       onChanged: widget.onChanged,
                       onSubmitted: widget.onSubmitted,

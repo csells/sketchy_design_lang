@@ -5,13 +5,17 @@ import '../theme/sketchy_theme.dart';
 import 'sketchy_surface.dart';
 
 /// Rough-styled icon button wrapper.
-class SketchyIconButton extends StatelessWidget {
+class IconButton extends StatelessWidget {
   /// Creates a new icon button with the given [icon].
-  const SketchyIconButton({
+  const IconButton({
     required this.icon,
-    super.key,
     this.onPressed,
-    this.size = 40,
+    this.iconSize = 40.0,
+    this.padding,
+    this.alignment,
+    this.color,
+    this.disabledColor,
+    super.key,
   });
 
   /// Icon displayed in the button.
@@ -21,20 +25,33 @@ class SketchyIconButton extends StatelessWidget {
   final VoidCallback? onPressed;
 
   /// Width/height of the button.
-  final double size;
+  final double iconSize;
+
+  /// Padding around the icon. (Currently mapped to size logic or ignored if not
+  /// applicable easily)
+  final EdgeInsetsGeometry? padding;
+
+  /// Alignment of the icon.
+  final AlignmentGeometry? alignment;
+
+  /// Color of the icon when enabled.
+  final Color? color;
+
+  /// Color of the icon when disabled.
+  final Color? disabledColor;
 
   @override
   Widget build(BuildContext context) => SketchyTheme.consumer(
     builder: (context, theme) {
       final content = SketchySurface(
-        width: size,
-        height: size,
+        width: iconSize,
+        height: iconSize,
         fillColor: theme.paperColor,
         strokeColor: theme.inkColor,
         createPrimitive: () =>
             SketchyPrimitive.rectangle(fill: SketchyFill.none),
         child: IconTheme(
-          data: IconThemeData(color: theme.inkColor),
+          data: IconThemeData(color: color ?? theme.inkColor),
           child: icon,
         ),
       );

@@ -10,7 +10,7 @@ import 'sketchy_frame.dart';
 /// ```dart
 /// ListTile(
 /// title: const Text('Lafayette'),
-/// leading: SketchyRadio<SingingCharacter>(
+/// leading: Radio<SingingCharacter>(
 ///   value: SingingCharacter.lafayette,
 ///   groupValue: _character,
 ///   onChanged: (SingingCharacter? value) {
@@ -24,8 +24,8 @@ import 'sketchy_frame.dart';
 /// ),
 /// ),
 /// ```
-class SketchyRadio<T> extends StatefulWidget {
-  const SketchyRadio({
+class Radio<T> extends StatefulWidget {
+  const Radio({
     required this.value,
     required this.groupValue,
     required this.onChanged,
@@ -42,11 +42,11 @@ class SketchyRadio<T> extends StatefulWidget {
   final ValueChanged<T?>? onChanged;
 
   @override
-  State<SketchyRadio<T>> createState() => _SketchyRadioState<T>();
+  State<Radio<T>> createState() => _RadioState<T>();
 }
 
 // ignore: library_private_types_in_public_api
-class _SketchyRadioState<T> extends State<SketchyRadio<T>> {
+class _RadioState<T> extends State<Radio<T>> {
   bool _isSelected = false;
   T? _groupValue;
 

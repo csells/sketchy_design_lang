@@ -1,12 +1,20 @@
-import 'package:flutter/widgets.dart';
+import 'package:flutter/widgets.dart'
+    show
+        BuildContext,
+        StatelessWidget,
+        TextAlign,
+        TextOverflow,
+        TextStyle,
+        Widget;
+import 'package:flutter/widgets.dart' as widgets;
 
 import '../theme/sketchy_text_case.dart';
 import '../theme/sketchy_theme.dart';
 
 /// Text widget that automatically applies theme textCase.
-class SketchyText extends StatelessWidget {
+class Text extends StatelessWidget {
   /// Creates text that applies textCase transformation from theme.
-  const SketchyText(
+  const Text(
     this.data, {
     super.key,
     this.style,
@@ -40,7 +48,7 @@ class SketchyText extends StatelessWidget {
       final casing = textCase ?? theme.textCase;
       final displayText = applyTextCase(data, casing);
 
-      return Text(
+      return widgets.Text(
         displayText,
         style: style,
         textAlign: textAlign,

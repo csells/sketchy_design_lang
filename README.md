@@ -50,7 +50,7 @@ flutter pub get
 ### Minimal app
 
 ```dart
-import 'package:flutter/widgets.dart';
+import 'package:flutter/widgets.dart' hide Text;
 import 'package:sketchy_design_lang/sketchy_design_lang.dart';
 
 void main() => runApp(const SketchyDemo());
@@ -67,9 +67,9 @@ class SketchyDemo extends StatelessWidget {
         roughness: 0.7,
       ),
       themeMode: SketchyThemeMode.system,
-      home: const SketchyScaffold(
-        appBar: SketchyAppBar(title: Text('Wireframe Vibes')),
-        body: Center(child: SketchyButton(child: Text('Do the thing'))),
+      home: Scaffold(
+        appBar: AppBar(title: Text('Wireframe Vibes')),
+        body: Center(child: OutlinedButton(onPressed: () {}, child: Text('Do the thing'))),
       ),
     );
   }
@@ -145,7 +145,7 @@ widgets read the theme roughness and adapt automatically.
 ### Isolated Material usage
 
 While Sketchy is designed to be independent of Material, `SketchyApp` and
-`SketchyTextInput` use isolated Material contexts internally to provide advanced
+`TextField` use isolated Material contexts internally to provide advanced
 text editing capabilities (like selection handles, cursors, and clipboard access)
 without leaking Material styles into your app. You do **not** need to wrap your
 app in `MaterialApp` or `Theme`; `SketchyApp` handles the necessary localization
@@ -157,51 +157,50 @@ delegates automatically.
 
 Sketchy mirrors common UI building blocks. Highlights:
 
-| Category   | Widgets                                                                                                                      |
-| ---------- | ---------------------------------------------------------------------------------------------------------------------------- |
-| Inputs     | `SketchyTextInput`, `SketchyCombo`, `SketchySlider`, `SketchyCheckbox`, `SketchyToggle`, `SketchyRadio`, `SketchyOptionTile` |
-| Actions    | `SketchyButton`, `SketchyIconButton`, `SketchyChip`                                                                          |
-| Containers | `SketchyCard`, `SketchyPanel`, `SketchyListTile`, `SketchyDivider`                                                           |
-| Feedback   | `SketchyDialog`, `SketchyTooltip`, `SketchyChip`, `SketchyTypingIndicator`                                                   |
-| Navigation | `SketchyTabs`, `SketchyAppBar`, `SketchyScaffold`                                                                            |
+| Category   | Widgets                                                                                                     |
+| ---------- | ----------------------------------------------------------------------------------------------------------- |
+| Inputs     | `TextField`, `DropdownButton`, `Slider`, `Checkbox`, `Switch`, `Radio`, `CheckboxListTile`, `RadioListTile` |
+| Actions    | `OutlinedButton`, `IconButton`, `Chip`                                                                      |
+| Containers | `Card`, `ListTile`, `Divider`                                                                               |
+| Feedback   | `Dialog`, `Tooltip`, `Chip`, `SketchyTypingIndicator`, `SnackBar`                                           |
+| Navigation | `TabBar`, `AppBar`, `Scaffold`                                                                              |
 
 ### Quick examples
 
 ```dart
-SketchyButton(
+OutlinedButton(
   onPressed: saveNote,
   child: Text('Save', style: SketchyTheme.of(context).typography.label),
 );
 
-SketchyOptionTile.checkbox(
+CheckboxListTile(
   value: wantsEmails,
   onChanged: (checked) =>
       setState(() => wantsEmails = checked ?? wantsEmails),
-  label: Text('Email me weekly',
+  title: Text('Email me weekly',
       style: SketchyTheme.of(context).typography.body),
-  helper: const Text('Includes product updates + comics.'),
+  subtitle: const Text('Includes product updates + comics.'),
 );
 
-SketchyOptionTile.radio<String>(
+RadioListTile<String>(
   value: 'instant',
   groupValue: deliverySpeed,
   onChanged: (value) => setState(() => deliverySpeed = value ?? 'instant'),
-  label: Text('Send instantly',
+  title: Text('Send instantly',
       style: SketchyTheme.of(context).typography.body),
 );
 
-// `SketchyOptionTile` keeps the checkbox or radio button and its label (any widget)
-// in sync and makes the entire row tappable—think of it as SketchyListTile for
-// options.
+// `CheckboxListTile` and `RadioListTile` keep the control and its label (any widget)
+// in sync and makes the entire row tappable.
 
-SketchySlider(
+Slider(
   value: roughness,
   onChanged: (value) => setState(() => roughness = value),
   min: 0,
   max: 1,
 );
 
-SketchyDialog(
+Dialog(
   child: Column(
     crossAxisAlignment: CrossAxisAlignment.start,
     mainAxisSize: MainAxisSize.min,
@@ -211,7 +210,7 @@ SketchyDialog(
       const Text('Update palette + capture perf traces.'),
       Align(
         alignment: Alignment.centerRight,
-        child: SketchyButton(
+        child: OutlinedButton(
           onPressed: Navigator.of(context).pop,
           child: const Text('Close'),
         ),
@@ -233,8 +232,7 @@ change modes, and the roughness slider affects outlines/fills at once.
   Sketchy widget scenario.
 - Specs live under `specs/` (`design-system.md`, `technical_design.md`,
   `requirements.md`) with UX references and rationale.
-- `example/lib/gallery` hosts focused pages (calendar planner, expense tracker,
-  docs viewer, etc.) showing real layouts built purely with Sketchy widgets.
+- `example` hosts the gallery showing real layouts built purely with Sketchy widgets.
 
 Use the gallery as your reference implementation—it demonstrates recommended
 layout patterns, theming hooks, and roughness transitions.
@@ -306,7 +304,7 @@ APIs, and keep lines ≤80 characters (per repo lint settings).
 ## Contributing
 
 1. Fork + branch from `main` or `rearchitect`.
-2. Add or update widgets inside `lib/src/sketchy_widgets/`. Re-export through
+2. Add or update widgets inside `lib/src/widgets/`. Re-export through
    `lib/src/widgets/widgets.dart`.
 3. Update the gallery and specs when introducing new components or significant
    behavior changes.

@@ -1,16 +1,16 @@
 import 'dart:async';
 import 'dart:math' as math;
 
-import 'package:flutter/widgets.dart';
+import 'package:flutter/widgets.dart' hide Text;
 
 import '../theme/sketchy_text_case.dart';
 import '../theme/sketchy_theme.dart';
-import 'sketchy_text.dart';
+import 'text.dart' as sketchy;
 
 /// Basic tooltip that appears on hover similar to Flutter's Material tooltip.
-class SketchyTooltip extends StatefulWidget {
+class Tooltip extends StatefulWidget {
   /// Creates a tooltip that displays [message] near the pointer.
-  const SketchyTooltip({
+  const Tooltip({
     required this.message,
     required this.child,
     this.preferBelow = false,
@@ -31,10 +31,10 @@ class SketchyTooltip extends StatefulWidget {
   final TextCase? textCase;
 
   @override
-  State<SketchyTooltip> createState() => _SketchyTooltipState();
+  State<Tooltip> createState() => _TooltipState();
 }
 
-class _SketchyTooltipState extends State<SketchyTooltip> {
+class _TooltipState extends State<Tooltip> {
   OverlayEntry? _entry;
   Timer? _hideTimer;
   Offset? _pointerPosition;
@@ -58,7 +58,7 @@ class _SketchyTooltipState extends State<SketchyTooltip> {
     _hideTimer?.cancel();
     if (_entry == null) {
       _entry = OverlayEntry(
-        builder: (context) => _SketchyTooltipOverlay(
+        builder: (context) => _TooltipOverlay(
           message: widget.message,
           target: _pointerPosition ?? _fallbackPosition(),
           preferBelow: widget.preferBelow,
@@ -93,8 +93,8 @@ class _SketchyTooltipState extends State<SketchyTooltip> {
   }
 }
 
-class _SketchyTooltipOverlay extends StatelessWidget {
-  const _SketchyTooltipOverlay({
+class _TooltipOverlay extends StatelessWidget {
+  const _TooltipOverlay({
     required this.message,
     required this.target,
     required this.preferBelow,
@@ -133,7 +133,7 @@ class _SketchyTooltipOverlay extends StatelessWidget {
               color: theme.inkColor,
               borderRadius: BorderRadius.circular(4),
             ),
-            child: SketchyText(
+            child: sketchy.Text(
               message,
               textCase: textCase,
               style: theme.typography.label.copyWith(color: theme.paperColor),

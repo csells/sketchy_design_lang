@@ -4,7 +4,7 @@ import '../primitives/sketchy_primitives.dart';
 import '../theme/sketchy_theme.dart';
 import 'sketchy_surface.dart';
 
-/// Alignment options for [SketchyListTile].
+/// Alignment options for [ListTile].
 enum SketchyTileAlignment {
   /// Bubble aligns to the start (left in LTR).
   start,
@@ -14,16 +14,20 @@ enum SketchyTileAlignment {
 }
 
 /// Sketchy-styled list tile widget.
-class SketchyListTile extends StatelessWidget {
+class ListTile extends StatelessWidget {
   /// Creates a new list tile with optional leading/trailing widgets.
-  const SketchyListTile({
+  const ListTile({
     super.key,
     this.leading,
     this.title,
     this.subtitle,
     this.trailing,
     this.onTap,
+    this.onLongPress,
     this.alignment = SketchyTileAlignment.start,
+    this.selected = false,
+    this.enabled = true,
+    this.contentPadding,
   });
 
   /// Widget placed before the title.
@@ -41,18 +45,32 @@ class SketchyListTile extends StatelessWidget {
   /// Tap handler for the tile.
   final VoidCallback? onTap;
 
+  /// Long press handler for the tile.
+  final VoidCallback? onLongPress;
+
   /// Alignment of the bubble (start for agent, end for customer, etc.).
   final SketchyTileAlignment alignment;
+
+  /// Whether this tile is selected.
+  final bool selected;
+
+  /// Whether this tile is enabled.
+  final bool enabled;
+
+  /// The tile's internal padding.
+  final EdgeInsetsGeometry? contentPadding;
 
   @override
   Widget build(BuildContext context) => SketchyTheme.consumer(
     builder: (context, theme) {
-      final bubbleFill = alignment == SketchyTileAlignment.start
-          ? theme.paperColor
-          : theme.secondaryColor.withValues(alpha: 0.5);
+      final bubbleFill = selected
+          ? theme.secondaryColor
+          : (alignment == SketchyTileAlignment.start
+                ? theme.paperColor
+                : theme.secondaryColor.withValues(alpha: 0.5));
 
       final content = SketchySurface(
-        padding: const EdgeInsets.all(12),
+        padding: contentPadding ?? const EdgeInsets.all(12),
         fillColor: bubbleFill,
         strokeColor: theme.inkColor,
         createPrimitive: () => SketchyPrimitive.roundedRectangle(
@@ -71,13 +89,20 @@ class SketchyListTile extends StatelessWidget {
                     DefaultTextStyle(
                       style: theme.typography.body.copyWith(
                         fontWeight: FontWeight.w600,
+                        color: enabled
+                            ? theme.textColor
+                            : theme.disabledTextColor,
                       ),
                       child: title!,
                     ),
                   if (subtitle != null) ...[
                     const SizedBox(height: 4),
                     DefaultTextStyle(
-                      style: theme.typography.caption,
+                      style: theme.typography.caption.copyWith(
+                        color: enabled
+                            ? theme.textColor
+                            : theme.disabledTextColor,
+                      ),
                       child: subtitle!,
                     ),
                   ],
@@ -93,8 +118,14 @@ class SketchyListTile extends StatelessWidget {
           ? Align(alignment: Alignment.centerRight, child: content)
           : Align(alignment: Alignment.centerLeft, child: content);
 
-      if (onTap == null) return bubble;
-      return GestureDetector(onTap: onTap, child: bubble);
+      if (onTap == null && onLongPress == null) return bubble;
+      if (!enabled) return Opacity(opacity: 0.5, child: bubble);
+
+      return GestureDetector(
+        onTap: onTap,
+        onLongPress: onLongPress,
+        child: bubble,
+      );
     },
   );
 }

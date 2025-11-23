@@ -13,15 +13,15 @@ import 'sketchy_frame.dart';
 /// color: Colors.blueGrey,
 /// ),
 /// SizedBox(height: 15.0),
-/// SketchyDivider(),
+/// Divider(),
 /// Text(
 /// 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
 /// fontSize: 18.0,
 /// color: Colors.blueGrey,
 /// ),
 /// ```
-class SketchyDivider extends StatelessWidget {
-  const SketchyDivider({super.key});
+class Divider extends StatelessWidget {
+  const Divider({super.key});
 
   @override
   Widget build(BuildContext context) => const SizedBox(

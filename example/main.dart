@@ -231,6 +231,7 @@ class _SketchyDesignSystemPageState extends State<SketchyDesignSystemPage>
       vsync: this,
     );
     _conversationTabController.addListener(() {
+      // if (_conversationTabController.indexIsChanging) return;
       setState(
         () => _selectedConversationTab = _conversationTabController.index,
       );

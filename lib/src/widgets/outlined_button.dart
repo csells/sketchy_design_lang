@@ -1,18 +1,27 @@
+import 'package:flutter/material.dart' show ButtonStyle;
 import 'package:flutter/widgets.dart';
 
 import '../theme/sketchy_theme.dart';
 import 'sketchy_frame.dart';
 
 /// Rough-styled push button following the Sketchy aesthetic.
-class SketchyButton extends StatelessWidget {
+class OutlinedButton extends StatelessWidget {
   /// Creates a sketchy button that renders [child] within a hand-drawn frame.
-  const SketchyButton({required this.child, this.onPressed, super.key});
+  const OutlinedButton({
+    required this.onPressed,
+    required this.child,
+    this.style,
+    super.key,
+  });
 
   /// Widget displayed inside the button.
   final Widget child;
 
   /// Called when the button is tapped.
   final VoidCallback? onPressed;
+
+  /// Custom style for the button. (Currently unused in Sketchy implementation)
+  final ButtonStyle? style;
 
   @override
   Widget build(BuildContext context) => SketchyTheme.consumer(

@@ -1,22 +1,23 @@
-import 'package:flutter/material.dart';
+import 'package:flutter/material.dart'
+    hide DropdownButton, DropdownMenuItem, Scaffold, Text;
 import 'package:flutter_test/flutter_test.dart';
 import 'package:sketchy_design_lang/sketchy_design_lang.dart';
 
 void main() {
-  testWidgets('SketchyCombo popup sizes to content', (tester) async {
+  testWidgets('DropdownButton popup sizes to content', (tester) async {
     await tester.pumpWidget(
       SketchyApp(
         title: 'Test',
         theme: SketchyThemeData.fromTheme(SketchyThemes.monochrome),
         home: Scaffold(
           body: Center(
-            child: SketchyCombo<String>(
+            child: DropdownButton<String>(
               value: 'One',
               items: [
                 'One',
                 'Two',
                 'Three',
-              ].map((e) => SketchyComboItem(value: e, child: Text(e))).toList(),
+              ].map((e) => DropdownMenuItem(value: e, child: Text(e))).toList(),
               onChanged: (_) {},
             ),
           ),
@@ -25,10 +26,10 @@ void main() {
     );
 
     // Verify combo is present
-    expect(find.byType(SketchyCombo<String>), findsOneWidget);
+    expect(find.byType(DropdownButton<String>), findsOneWidget);
 
     // Find the combo and tap it
-    await tester.tap(find.byType(SketchyCombo<String>));
+    await tester.tap(find.byType(DropdownButton<String>));
     await tester.pumpAndSettle();
 
     // Find the popup content
