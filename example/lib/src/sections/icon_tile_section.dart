@@ -28,17 +28,16 @@ class _IconTileSectionState extends State<IconTileSection> {
           Wrap(
             spacing: 12,
             runSpacing: 12,
-            children: SketchySymbols.values
-                .map(
-                  (symbol) => SketchyTooltip(
-                    message: symbol.name,
-                    child: SketchyIconButton(
-                      icon: SketchySymbol(symbol: symbol),
-                      onPressed: () {},
-                    ),
+            children: [
+              for (final symbol in SketchySymbols.values)
+                SketchyTooltip(
+                  message: symbol.name,
+                  child: SketchyIconButton(
+                    icon: SketchySymbol(symbol: symbol),
+                    onPressed: () {},
                   ),
-                )
-                .toList(),
+                ),
+            ],
           ),
           const SizedBox(height: 16),
           SketchyListTile(

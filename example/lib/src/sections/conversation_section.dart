@@ -64,7 +64,7 @@ class _ConversationSectionState extends State<ConversationSection>
           children: [
             SketchyTabBar(
               controller: _conversationTabController,
-              tabs: _conversationTabs.map(Text.new).toList(),
+              tabs: [for (final t in _conversationTabs) Text(t)],
               detachSelected: true,
               detachGap: theme.strokeWidth,
               backgroundColor: theme.paperColor,

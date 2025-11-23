@@ -1,6 +1,5 @@
 import 'dart:async';
 
-import 'package:flutter/material.dart' show Material;
 import 'package:flutter/widgets.dart';
 
 import '../theme/sketchy_theme.dart';
@@ -31,9 +30,7 @@ class SketchyDropdownButton<T> extends StatefulWidget {
     this.hint,
     this.disabledHint,
     this.onTap,
-    this.elevation = 8,
     this.style,
-    this.underline,
     this.icon,
     this.iconDisabledColor,
     this.iconEnabledColor,
@@ -41,14 +38,8 @@ class SketchyDropdownButton<T> extends StatefulWidget {
     this.isDense = false,
     this.isExpanded = false,
     this.itemHeight = kMinInteractiveDimension,
-    this.focusColor,
-    this.focusNode,
-    this.autofocus = false,
     this.dropdownColor,
-    this.menuMaxHeight,
-    this.enableFeedback,
     this.alignment = AlignmentDirectional.centerStart,
-    this.borderRadius,
     this.padding,
   }) : assert(items.length > 0, 'items must not be empty');
 
@@ -70,14 +61,8 @@ class SketchyDropdownButton<T> extends StatefulWidget {
   /// Called when the dropdown button is tapped.
   final VoidCallback? onTap;
 
-  /// The z-coordinate at which to place the menu when open. (Unused)
-  final int elevation;
-
   /// The text style to use for text in the dropdown button.
   final TextStyle? style;
-
-  /// The widget to use for drawing the drop-down button's underline. (Unused)
-  final Widget? underline;
 
   /// The widget to use for the drop-down button's icon.
   final Widget? icon;
@@ -100,30 +85,11 @@ class SketchyDropdownButton<T> extends StatefulWidget {
   /// The height of the dropdown menu items.
   final double? itemHeight;
 
-  /// The color for the button's [Material] when it has the input focus.
-  final Color? focusColor;
-
-  /// Defines the keyboard focus for this widget.
-  final FocusNode? focusNode;
-
-  /// True if this widget will be selected as the initial focus when no other
-  /// node in its scope is currently focused.
-  final bool autofocus;
-
   /// The background color of the dropdown.
   final Color? dropdownColor;
 
-  /// The maximum height of the menu.
-  final double? menuMaxHeight;
-
-  /// Whether detected gestures should provide acoustic and/or haptic feedback.
-  final bool? enableFeedback;
-
   /// Defines how the hint or the selected item is positioned within the button.
   final AlignmentGeometry alignment;
-
-  /// The border radius of the dropdown menu.
-  final BorderRadius? borderRadius;
 
   /// Padding around the visible button's content.
   final EdgeInsetsGeometry? padding;
@@ -262,29 +228,28 @@ class _SketchyDropdownButtonState<T> extends State<SketchyDropdownButton<T>>
                       child: Column(
                         mainAxisSize: MainAxisSize.min,
                         crossAxisAlignment: CrossAxisAlignment.stretch,
-                        children: widget.items
-                            .map(
-                              (item) => GestureDetector(
-                                onTap: () {
-                                  updateValue(item.value);
-                                  widget.onChanged?.call(item.value);
-                                  Navigator.of(context).pop();
-                                },
-                                behavior: HitTestBehavior.opaque,
-                                child: Padding(
-                                  padding: const EdgeInsets.all(12),
-                                  child: DefaultTextStyle(
-                                    style:
-                                        widget.style ??
-                                        theme.typography.body.copyWith(
-                                          color: theme.inkColor,
-                                        ),
-                                    child: item.child,
-                                  ),
+                        children: [
+                          for (final item in widget.items)
+                            GestureDetector(
+                              onTap: () {
+                                updateValue(item.value);
+                                widget.onChanged?.call(item.value);
+                                Navigator.of(context).pop();
+                              },
+                              behavior: HitTestBehavior.opaque,
+                              child: Padding(
+                                padding: const EdgeInsets.all(12),
+                                child: DefaultTextStyle(
+                                  style:
+                                      widget.style ??
+                                      theme.typography.body.copyWith(
+                                        color: theme.inkColor,
+                                      ),
+                                  child: item.child,
                                 ),
                               ),
-                            )
-                            .toList(),
+                            ),
+                        ],
                       ),
                     ),
                   ),

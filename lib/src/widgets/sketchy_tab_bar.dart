@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart'
-    show DefaultTabController, Tab, TabBarIndicatorSize, TabController;
+    show DefaultTabController, Tab, TabController;
 import 'package:flutter/widgets.dart';
 
 import '../primitives/sketchy_primitives.dart';
@@ -8,7 +8,7 @@ import '../theme/sketchy_theme.dart';
 import 'sketchy_surface.dart';
 
 export 'package:flutter/material.dart'
-    show DefaultTabController, Tab, TabBarIndicatorSize, TabController;
+    show DefaultTabController, Tab, TabController;
 
 /// Segmented control used to switch between sections.
 class SketchyTabBar extends StatefulWidget {
@@ -18,16 +18,7 @@ class SketchyTabBar extends StatefulWidget {
     this.controller,
     this.isScrollable = false,
     this.padding,
-    this.indicatorColor,
-    this.automaticIndicatorColorAdjustment = true,
-    this.indicatorWeight = 2.0,
-    this.indicatorPadding = EdgeInsets.zero,
-    this.indicator,
-    this.indicatorSize,
-    this.labelColor,
     this.labelStyle,
-    this.labelPadding,
-    this.unselectedLabelColor,
     this.unselectedLabelStyle,
     this.onTap,
     this.textCase,
@@ -50,35 +41,8 @@ class SketchyTabBar extends StatefulWidget {
   /// The amount of space by which to inset the tab bar.
   final EdgeInsetsGeometry? padding;
 
-  /// The color of the line that appears below the selected tab.
-  final Color? indicatorColor;
-
-  /// Whether this widget's automatic indicator color adjustment is enabled.
-  final bool automaticIndicatorColorAdjustment;
-
-  /// The thickness of the line that appears below the selected tab.
-  final double indicatorWeight;
-
-  /// The horizontal padding for the line that appears below the selected tab.
-  final EdgeInsetsGeometry indicatorPadding;
-
-  /// Defines the appearance of the selected tab indicator.
-  final Decoration? indicator;
-
-  /// Defines how the selected tab indicator's size is computed.
-  final TabBarIndicatorSize? indicatorSize;
-
-  /// The color of selected tab labels.
-  final Color? labelColor;
-
   /// The text style of the selected tab labels.
   final TextStyle? labelStyle;
-
-  /// The padding added to each of the tab labels.
-  final EdgeInsetsGeometry? labelPadding;
-
-  /// The color of unselected tab labels.
-  final Color? unselectedLabelColor;
 
   /// The text style of the unselected tab labels.
   final TextStyle? unselectedLabelStyle;

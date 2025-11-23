@@ -26,14 +26,13 @@ class _ComboSectionState extends State<ComboSection> {
           const SizedBox(height: 4),
           SketchyDropdownButton<String>(
             value: _selectedCadence,
-            items: _cadenceOptions
-                .map(
-                  (c) => SketchyDropdownMenuItem<String>(
-                    value: c,
-                    child: Text(c, style: bodyStyle(theme)),
-                  ),
-                )
-                .toList(),
+            items: [
+              for (final c in _cadenceOptions)
+                SketchyDropdownMenuItem<String>(
+                  value: c,
+                  child: Text(c, style: bodyStyle(theme)),
+                ),
+            ],
             onChanged: (val) {
               if (val != null) setState(() => _selectedCadence = val);
             },
