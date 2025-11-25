@@ -52,24 +52,24 @@ class SketchyDesignSystemPage extends StatelessWidget {
   Widget build(BuildContext context) => SketchyTheme.consumer(
     builder: (context, theme) => SketchyScaffold(
       appBar: const HeroAppBar(),
-      body: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          ConfigSection(
-            activeTheme: activeTheme,
-            themeMode: themeMode,
-            onThemeModeChanged: onThemeModeChanged,
-            onThemeChanged: onThemeChanged,
-            roughness: roughness,
-            onRoughnessChanged: onRoughnessChanged,
-            fontFamily: fontFamily,
-            onFontChanged: onFontChanged,
-            textCase: textCase,
-            onTitleCasingChanged: onTitleCasingChanged,
-          ),
-          const SketchyDivider(),
-          Expanded(
-            child: SingleChildScrollView(
+      body: SingleChildScrollView(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            ConfigSection(
+              activeTheme: activeTheme,
+              themeMode: themeMode,
+              onThemeModeChanged: onThemeModeChanged,
+              onThemeChanged: onThemeChanged,
+              roughness: roughness,
+              onRoughnessChanged: onRoughnessChanged,
+              fontFamily: fontFamily,
+              onFontChanged: onFontChanged,
+              textCase: textCase,
+              onTitleCasingChanged: onTitleCasingChanged,
+            ),
+            const SketchyDivider(),
+            Padding(
               padding: const EdgeInsets.all(16),
               child: LayoutBuilder(
                 builder: (context, constraints) {
@@ -105,8 +105,8 @@ class SketchyDesignSystemPage extends StatelessWidget {
                 },
               ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     ),
   );
