@@ -26,5 +26,4 @@ flutter:
   fonts:
     - family: ComicShanns
       fonts:
-        - asset: lib/fonts/comic-Shanns-2.ttf
-
+        - asset: lib/fonts/comic-shanns-2.ttf
