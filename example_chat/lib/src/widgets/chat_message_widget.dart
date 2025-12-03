@@ -30,8 +30,8 @@ class ChatMessageWidget extends StatelessWidget {
             ? SketchyChatBubbleAlignment.end
             : SketchyChatBubbleAlignment.start;
 
-        // Build header content
-        Widget headerContent = Row(
+        // Build header content: name + [AI badge + model] + timestamp (right)
+        final headerContent = Row(
           mainAxisSize: MainAxisSize.min,
           children: [
             SketchyText(
@@ -42,7 +42,7 @@ class ChatMessageWidget extends StatelessWidget {
                 fontSize: 13,
               ),
             ),
-            if (sender.isAgent && sender.modelString != null) ...[
+            if (sender.isAgent) ...[
               const SizedBox(width: 4),
               SketchyChip(
                 label: SketchyText(
@@ -58,11 +58,13 @@ class ChatMessageWidget extends StatelessWidget {
                 backgroundColor: theme.primaryColor.withValues(alpha: 0.3),
                 padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 1),
               ),
+            ],
+            if (sender.isAgent && sender.modelString != null) ...[
               const SizedBox(width: 4),
               SketchyText(
                 sender.modelString!,
                 style: theme.typography.caption.copyWith(
-                  color: theme.primaryColor,
+                  color: theme.inkColor.withValues(alpha: 0.5),
                   fontSize: 11,
                 ),
               ),
@@ -78,55 +80,11 @@ class ChatMessageWidget extends StatelessWidget {
           ],
         );
 
-        if (isCurrentUser) {
-          // For current user, put time first, then name
-          headerContent = Row(
-            mainAxisSize: MainAxisSize.min,
-            mainAxisAlignment: MainAxisAlignment.end,
-            children: [
-              SketchyText(
-                sender.name,
-                style: theme.typography.body.copyWith(
-                  fontWeight: FontWeight.w600,
-                  color: theme.inkColor,
-                  fontSize: 13,
-                ),
-              ),
-              const SizedBox(width: 8),
-              SketchyText(
-                message.formattedTime,
-                style: theme.typography.caption.copyWith(
-                  color: theme.inkColor.withValues(alpha: 0.5),
-                  fontSize: 11,
-                ),
-              ),
-            ],
-          );
-        }
-
-        // Build avatar
-        Widget? badge;
-        if (sender.isAgent) {
-          badge = SketchyChip(
-            label: SketchyText(
-              'AI',
-              style: theme.typography.label.copyWith(
-                fontSize: 8,
-                fontWeight: FontWeight.w700,
-                color: theme.inkColor,
-              ),
-            ),
-            compact: true,
-            tone: SketchyChipTone.accent,
-            backgroundColor: theme.primaryColor.withValues(alpha: 0.3),
-            padding: const EdgeInsets.symmetric(horizontal: 3, vertical: 0),
-          );
-        }
-
+        // Avatar without AI badge
         final avatar = SketchyAvatar(
           initials: sender.initials,
           radius: 18,
-          badge: badge,
+          showOnlineIndicator: false,
         );
 
         final bubbleColor = isCurrentUser

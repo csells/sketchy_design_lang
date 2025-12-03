@@ -37,18 +37,19 @@ class ChatSidebar extends StatelessWidget {
             padding: const EdgeInsets.all(16),
             child: Row(
               children: [
-                SketchySymbol(
-                  symbol: SketchySymbols.pencil,
-                  size: 24,
-                  color: theme.inkColor,
-                ),
-                const SizedBox(width: 8),
-                SketchyText(
-                  'Sketch Chat',
-                  style: theme.typography.title.copyWith(
-                    fontWeight: FontWeight.w700,
-                    color: theme.inkColor,
+                Expanded(
+                  child: SketchyText(
+                    'Chatarang',
+                    style: theme.typography.title.copyWith(
+                      fontWeight: FontWeight.w700,
+                      color: theme.inkColor,
+                    ),
                   ),
+                ),
+                SketchySymbol(
+                  symbol: SketchySymbols.externalLink,
+                  size: 18,
+                  color: theme.inkColor.withValues(alpha: 0.6),
                 ),
               ],
             ),
@@ -83,7 +84,10 @@ class ChatSidebar extends StatelessWidget {
                     title: 'Humans',
                     children: [
                       for (final human in MockData.humans)
-                        UserTile(participant: human, showModelString: false),
+                        UserTile(
+                          participant: human,
+                          mode: UserTileMode.minimal,
+                        ),
                     ],
                   ),
 
@@ -94,7 +98,10 @@ class ChatSidebar extends StatelessWidget {
                     title: 'AI Agents',
                     children: [
                       for (final agent in MockData.agents)
-                        UserTile(participant: agent),
+                        UserTile(
+                          participant: agent,
+                          mode: UserTileMode.agent,
+                        ),
                     ],
                   ),
 
@@ -113,8 +120,7 @@ class ChatSidebar extends StatelessWidget {
                 Expanded(
                   child: UserTile(
                     participant: MockData.currentUser,
-                    showModelString: false,
-                    compact: true,
+                    mode: UserTileMode.footer,
                   ),
                 ),
                 SketchyIconButton(

@@ -49,6 +49,15 @@ enum SketchySymbols {
 
   /// Pencil/edit icon.
   pencil,
+
+  /// External link icon.
+  externalLink,
+
+  /// Checkmark icon.
+  check,
+
+  /// People/users icon.
+  people,
 }
 
 /// Custom painter-based symbol rendered in the sketch style using
@@ -288,6 +297,47 @@ class _SketchySymbolPainter extends CustomPainter {
           generator.line(w * 0.15, h * 0.85, w * 0.75, h * 0.25),
           // Tip
           generator.line(w * 0.75, h * 0.25, w * 0.85, h * 0.15),
+        ]);
+      case SketchySymbols.externalLink:
+        // External link icon (box with arrow pointing out)
+        final w = size.width;
+        final h = size.height;
+        draw([
+          // Box (missing top-right corner)
+          generator.linearPath([
+            PointD(w * 0.6, h * 0.15),
+            PointD(w * 0.15, h * 0.15),
+            PointD(w * 0.15, h * 0.85),
+            PointD(w * 0.85, h * 0.85),
+            PointD(w * 0.85, h * 0.4),
+          ]),
+          // Arrow
+          generator.line(w * 0.45, h * 0.55, w * 0.85, h * 0.15),
+          generator.line(w * 0.85, h * 0.15, w * 0.65, h * 0.15),
+          generator.line(w * 0.85, h * 0.15, w * 0.85, h * 0.35),
+        ]);
+      case SketchySymbols.check:
+        // Checkmark
+        final w = size.width;
+        final h = size.height;
+        draw([
+          generator.linearPath([
+            PointD(w * 0.15, h * 0.5),
+            PointD(w * 0.4, h * 0.75),
+            PointD(w * 0.85, h * 0.25),
+          ]),
+        ]);
+      case SketchySymbols.people:
+        // People/users icon (two figures)
+        final w = size.width;
+        final h = size.height;
+        draw([
+          // First person (front)
+          generator.ellipse(w * 0.4, h * 0.25, w * 0.25, h * 0.25),
+          generator.arc(w * 0.4, h * 0.85, w * 0.4, h * 0.5, 3.14, 3.14, false),
+          // Second person (back, slightly offset)
+          generator.ellipse(w * 0.65, h * 0.2, w * 0.2, h * 0.2),
+          generator.arc(w * 0.65, h * 0.75, w * 0.35, h * 0.4, 3.14, 3.14, false),
         ]);
     }
   }

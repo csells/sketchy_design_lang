@@ -55,28 +55,20 @@ class ChannelTile extends StatelessWidget {
                     ),
                   ),
                 ),
-                if (channel.unreadCount > 0) ...[
+                if (isSelected) ...[
                   const SizedBox(width: 8),
-                  SketchyText(
-                    'unread: ${channel.unreadCount}',
-                    style: theme.typography.caption.copyWith(
-                      color: theme.inkColor.withValues(alpha: 0.5),
-                    ),
+                  SketchySymbol(
+                    symbol: SketchySymbols.check,
+                    size: 14,
+                    color: theme.inkColor,
                   ),
-                ] else if (isSelected) ...[
+                ] else if (channel.unreadCount > 0) ...[
                   const SizedBox(width: 8),
                   SketchyText(
-                    'active, unread: 0',
-                    style: theme.typography.caption.copyWith(
-                      color: theme.inkColor.withValues(alpha: 0.5),
-                    ),
-                  ),
-                ] else ...[
-                  const SizedBox(width: 8),
-                  SketchyText(
-                    'unread: 0',
-                    style: theme.typography.caption.copyWith(
-                      color: theme.inkColor.withValues(alpha: 0.5),
+                    '${channel.unreadCount}',
+                    style: theme.typography.body.copyWith(
+                      fontWeight: FontWeight.w600,
+                      color: theme.inkColor.withValues(alpha: 0.7),
                     ),
                   ),
                 ],

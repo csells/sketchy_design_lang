@@ -161,17 +161,17 @@ class _ChatMainAreaState extends State<ChatMainArea> {
             ),
           ),
         ),
+        SketchySymbol(
+          symbol: SketchySymbols.people,
+          size: 18,
+          color: theme.inkColor.withValues(alpha: 0.6),
+        ),
+        const SizedBox(width: 4),
         SketchyText(
-          '${_getMemberCount()} members',
-          style: theme.typography.caption.copyWith(
+          '${_getMemberCount()}',
+          style: theme.typography.body.copyWith(
             color: theme.inkColor.withValues(alpha: 0.6),
           ),
-        ),
-        const SizedBox(width: 8),
-        SketchySymbol(
-          symbol: SketchySymbols.hash,
-          size: 16,
-          color: theme.inkColor.withValues(alpha: 0.4),
         ),
       ],
     ),

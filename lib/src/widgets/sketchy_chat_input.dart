@@ -33,9 +33,11 @@ class SketchyChatInput extends StatefulWidget {
     this.showAttachmentButton = true,
     this.showEmojiButton = true,
     this.showMentionButton = true,
+    this.showEditButton = true,
     this.onAttachmentPressed,
     this.onEmojiPressed,
     this.onMentionPressed,
+    this.onEditPressed,
     this.leading,
     this.trailing,
     this.autofocus = false,
@@ -65,6 +67,9 @@ class SketchyChatInput extends StatefulWidget {
   /// Whether to show the mention button.
   final bool showMentionButton;
 
+  /// Whether to show the edit/pencil button.
+  final bool showEditButton;
+
   /// Callback when attachment button is pressed.
   final VoidCallback? onAttachmentPressed;
 
@@ -74,10 +79,13 @@ class SketchyChatInput extends StatefulWidget {
   /// Callback when mention button is pressed.
   final VoidCallback? onMentionPressed;
 
-  /// Optional widget to show before the input (replaces default buttons).
+  /// Callback when edit button is pressed.
+  final VoidCallback? onEditPressed;
+
+  /// Optional widget to show before the input.
   final Widget? leading;
 
-  /// Optional widget to show after the input (replaces send button).
+  /// Optional widget to show after the input (replaces all action buttons).
   final Widget? trailing;
 
   /// Whether to autofocus the input.
@@ -149,39 +157,61 @@ class _SketchyChatInputState extends State<SketchyChatInput> {
   @override
   Widget build(BuildContext context) => SketchyTheme.consumer(
     builder: (context, theme) {
-      final leading = widget.leading ??
+      // All action icons on the right side
+      final trailing = widget.trailing ??
           Row(
             mainAxisSize: MainAxisSize.min,
             children: [
               if (widget.showAttachmentButton)
                 SketchyIconButton(
-                  icon: const SketchySymbol(symbol: SketchySymbols.paperclip),
+                  icon: SketchySymbol(
+                    symbol: SketchySymbols.paperclip,
+                    size: 18,
+                    color: theme.inkColor.withValues(alpha: 0.6),
+                  ),
                   onPressed: widget.onAttachmentPressed ?? () {},
                   iconSize: 32,
                 ),
               if (widget.showEmojiButton)
                 SketchyIconButton(
-                  icon: const SketchySymbol(symbol: SketchySymbols.smiley),
+                  icon: SketchySymbol(
+                    symbol: SketchySymbols.smiley,
+                    size: 18,
+                    color: theme.inkColor.withValues(alpha: 0.6),
+                  ),
                   onPressed: widget.onEmojiPressed ?? () {},
                   iconSize: 32,
                 ),
               if (widget.showMentionButton)
                 SketchyIconButton(
-                  icon: const SketchySymbol(symbol: SketchySymbols.at),
+                  icon: SketchySymbol(
+                    symbol: SketchySymbols.at,
+                    size: 18,
+                    color: theme.inkColor.withValues(alpha: 0.6),
+                  ),
                   onPressed: widget.onMentionPressed ?? () {},
                   iconSize: 32,
                 ),
+              if (widget.showEditButton)
+                SketchyIconButton(
+                  icon: SketchySymbol(
+                    symbol: SketchySymbols.pencil,
+                    size: 18,
+                    color: theme.inkColor.withValues(alpha: 0.6),
+                  ),
+                  onPressed: widget.onEditPressed ?? () {},
+                  iconSize: 32,
+                ),
+              SketchyIconButton(
+                icon: SketchySymbol(
+                  symbol: SketchySymbols.send,
+                  size: 18,
+                  color: _hasText ? theme.inkColor : theme.disabledTextColor,
+                ),
+                onPressed: _hasText ? _onSubmit : null,
+                iconSize: 32,
+              ),
             ],
-          );
-
-      final trailing = widget.trailing ??
-          SketchyIconButton(
-            icon: SketchySymbol(
-              symbol: SketchySymbols.send,
-              color: _hasText ? theme.inkColor : theme.disabledTextColor,
-            ),
-            onPressed: _hasText ? _onSubmit : null,
-            iconSize: 36,
           );
 
       return SketchySurface(
@@ -192,8 +222,10 @@ class _SketchyChatInputState extends State<SketchyChatInput> {
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.end,
           children: [
-            leading,
-            const SizedBox(width: 8),
+            if (widget.leading != null) ...[
+              widget.leading!,
+              const SizedBox(width: 8),
+            ],
             Expanded(
               child: Theme(
                 data: Theme.of(context).copyWith(
