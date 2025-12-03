@@ -1,13 +1,17 @@
 export 'calendar_utils.dart';
 export 'sketchy_app_bar.dart';
+export 'sketchy_avatar.dart';
 export 'sketchy_button.dart';
 export 'sketchy_calendar.dart';
 export 'sketchy_card.dart';
+export 'sketchy_chat_bubble.dart';
+export 'sketchy_chat_input.dart';
 export 'sketchy_checkbox.dart';
 export 'sketchy_checkbox_list_tile.dart';
 export 'sketchy_chip.dart';
 export 'sketchy_dialog.dart';
 export 'sketchy_divider.dart';
+export 'sketchy_drawer.dart';
 export 'sketchy_dropdown_button.dart';
 export 'sketchy_frame.dart';
 export 'sketchy_icon_button.dart';

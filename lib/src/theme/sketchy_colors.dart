@@ -205,6 +205,22 @@ class SketchyColors {
   /// Petal blush.
   static const Color petalBlush = Color(0xFFEAD1DC);
 
+  // -- Chat Theme Colors --
+  /// Warm parchment paper color for chat backgrounds.
+  static const Color parchment = Color(0xFFFAF6F0);
+
+  /// Sepia ink color for chat text.
+  static const Color sepia = Color(0xFF4A3728);
+
+  /// Soft lavender for AI message bubbles.
+  static const Color chatLavender = Color(0xFFE8E0F0);
+
+  /// Soft sage green for user message bubbles.
+  static const Color chatSage = Color(0xFFD8ECD8);
+
+  /// Online status green.
+  static const Color onlineGreen = Color(0xFF4CAF50);
+
   // -- Magentas --
   /// Magenta.
   static const Color magenta = Color(0xFFD81B60);
