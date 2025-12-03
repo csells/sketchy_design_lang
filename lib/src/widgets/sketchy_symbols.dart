@@ -1,3 +1,5 @@
+import 'dart:math' as math;
+
 import 'package:flutter/widgets.dart';
 import 'package:rough_flutter/rough_flutter.dart';
 
@@ -18,7 +20,7 @@ enum SketchySymbols {
   /// Rectangle outline.
   rectangle,
 
-  /// Paper-plane “send” icon.
+  /// Paper-plane "send" icon.
   send,
 
   /// Solid bullet (filled circle).
@@ -26,6 +28,27 @@ enum SketchySymbols {
 
   /// Close/Cancel icon (X).
   x,
+
+  /// Paperclip/attachment icon.
+  paperclip,
+
+  /// Smiley face/emoji icon.
+  smiley,
+
+  /// At symbol (@) for mentions.
+  at,
+
+  /// Gear/settings icon.
+  gear,
+
+  /// Hash/pound symbol (#).
+  hash,
+
+  /// Menu (hamburger) icon.
+  menu,
+
+  /// Pencil/edit icon.
+  pencil,
 }
 
 /// Custom painter-based symbol rendered in the sketch style using
@@ -154,6 +177,117 @@ class _SketchySymbolPainter extends CustomPainter {
         draw([
           generator.line(inset, inset, size.width - inset, size.height - inset),
           generator.line(size.width - inset, inset, inset, size.height - inset),
+        ]);
+      case SketchySymbols.paperclip:
+        // Paperclip shape
+        final w = size.width;
+        final h = size.height;
+        draw([
+          generator.linearPath([
+            PointD(w * 0.7, h * 0.15),
+            PointD(w * 0.85, h * 0.3),
+            PointD(w * 0.85, h * 0.7),
+            PointD(w * 0.7, h * 0.85),
+            PointD(w * 0.3, h * 0.85),
+            PointD(w * 0.15, h * 0.7),
+            PointD(w * 0.15, h * 0.4),
+            PointD(w * 0.3, h * 0.25),
+            PointD(w * 0.55, h * 0.25),
+            PointD(w * 0.7, h * 0.4),
+            PointD(w * 0.7, h * 0.6),
+            PointD(w * 0.55, h * 0.75),
+            PointD(w * 0.4, h * 0.75),
+            PointD(w * 0.3, h * 0.6),
+            PointD(w * 0.3, h * 0.45),
+          ]),
+        ]);
+      case SketchySymbols.smiley:
+        // Simple smiley face
+        final cx = size.width / 2;
+        final cy = size.height / 2;
+        final r = size.width * 0.4;
+        draw([
+          // Face outline
+          generator.ellipse(cx, cy, r * 2, r * 2),
+          // Left eye
+          generator.ellipse(cx - r * 0.35, cy - r * 0.2, r * 0.2, r * 0.25),
+          // Right eye
+          generator.ellipse(cx + r * 0.35, cy - r * 0.2, r * 0.2, r * 0.25),
+          // Smile
+          generator.arc(cx, cy, r * 1.2, r * 1.0, 0.2, 2.94, false),
+        ]);
+      case SketchySymbols.at:
+        // @ symbol
+        final cx = size.width / 2;
+        final cy = size.height / 2;
+        final r = size.width * 0.35;
+        draw([
+          // Outer circle
+          generator.ellipse(cx, cy, r * 2.2, r * 2.2),
+          // Inner 'a' part - simplified spiral
+          generator.arc(cx + r * 0.2, cy, r * 0.8, r * 0.8, -0.5, 5.5, false),
+        ]);
+      case SketchySymbols.gear:
+        // Settings gear
+        final cx = size.width / 2;
+        final cy = size.height / 2;
+        final outerR = size.width * 0.4;
+        final innerR = size.width * 0.2;
+        // Inner circle
+        draw([generator.ellipse(cx, cy, innerR * 2, innerR * 2)]);
+        // Gear teeth (simplified as lines)
+        const teeth = 6;
+        for (var i = 0; i < teeth; i++) {
+          final angle = (i / teeth) * math.pi * 2;
+          final cosA = math.cos(angle);
+          final sinA = math.sin(angle);
+          draw([
+            generator.line(
+              cx + innerR * 0.8 * cosA,
+              cy + innerR * 0.8 * sinA,
+              cx + outerR * cosA,
+              cy + outerR * sinA,
+            ),
+          ]);
+        }
+        // Outer rough circle
+        draw([generator.ellipse(cx, cy, outerR * 1.6, outerR * 1.6)]);
+      case SketchySymbols.hash:
+        // # symbol
+        final w = size.width;
+        final h = size.height;
+        draw([
+          // Vertical lines
+          generator.line(w * 0.35, h * 0.1, w * 0.25, h * 0.9),
+          generator.line(w * 0.75, h * 0.1, w * 0.65, h * 0.9),
+          // Horizontal lines
+          generator.line(w * 0.1, h * 0.35, w * 0.9, h * 0.35),
+          generator.line(w * 0.1, h * 0.65, w * 0.9, h * 0.65),
+        ]);
+      case SketchySymbols.menu:
+        // Hamburger menu
+        final w = size.width;
+        final h = size.height;
+        draw([
+          generator.line(w * 0.15, h * 0.25, w * 0.85, h * 0.25),
+          generator.line(w * 0.15, h * 0.5, w * 0.85, h * 0.5),
+          generator.line(w * 0.15, h * 0.75, w * 0.85, h * 0.75),
+        ]);
+      case SketchySymbols.pencil:
+        // Pencil icon
+        final w = size.width;
+        final h = size.height;
+        draw([
+          // Pencil body
+          generator.linearPath([
+            PointD(w * 0.15, h * 0.85),
+            PointD(w * 0.1, h * 0.9),
+            PointD(w * 0.25, h * 0.75),
+          ]),
+          generator.line(w * 0.25, h * 0.75, w * 0.85, h * 0.15),
+          generator.line(w * 0.15, h * 0.85, w * 0.75, h * 0.25),
+          // Tip
+          generator.line(w * 0.75, h * 0.25, w * 0.85, h * 0.15),
         ]);
     }
   }

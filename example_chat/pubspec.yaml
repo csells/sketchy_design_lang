@@ -1,0 +1,20 @@
+name: example_chat
+description: "A chat app example showcasing the sketchy_design_lang package."
+publish_to: 'none'
+
+environment:
+  sdk: ^3.10.0
+
+dependencies:
+  flutter:
+    sdk: flutter
+  sketchy_design_lang:
+    path: ../
+
+dev_dependencies:
+  all_lint_rules_community: ^0.0.38
+  flutter_test:
+    sdk: flutter
+
+flutter:
+  uses-material-design: true
