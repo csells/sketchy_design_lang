@@ -8,11 +8,7 @@ import 'chat_message_widget.dart';
 /// The main chat area showing messages and input.
 class ChatMainArea extends StatefulWidget {
   /// Creates a chat main area.
-  const ChatMainArea({
-    super.key,
-    required this.channel,
-    this.onMenuPressed,
-  });
+  const ChatMainArea({required this.channel, super.key, this.onMenuPressed});
 
   /// The current channel.
   final ChatChannel channel;

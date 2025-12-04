@@ -49,10 +49,10 @@ class SketchyDrawerController extends ChangeNotifier {
 class SketchyDrawer extends StatefulWidget {
   /// Creates a sketchy drawer.
   const SketchyDrawer({
-    super.key,
     required this.controller,
     required this.child,
     required this.drawer,
+    super.key,
     this.position = SketchyDrawerPosition.end,
     this.drawerWidth = 300,
     this.scrimColor,
@@ -139,8 +139,7 @@ class _SketchyDrawerState extends State<SketchyDrawer>
   @override
   Widget build(BuildContext context) => SketchyTheme.consumer(
     builder: (context, theme) {
-      final scrimColor =
-          widget.scrimColor ?? const Color(0x66000000);
+      final scrimColor = widget.scrimColor ?? const Color(0x66000000);
       final isEnd = widget.position == SketchyDrawerPosition.end;
 
       return Stack(

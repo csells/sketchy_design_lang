@@ -65,13 +65,8 @@ class _ChatPageState extends State<ChatPage> {
                   onSettingsPressed: _onSettingsPressed,
                 ),
               ),
-              Container(
-                width: 1,
-                color: theme.inkColor.withValues(alpha: 0.2),
-              ),
-              Expanded(
-                child: ChatMainArea(channel: _selectedChannel),
-              ),
+              Container(width: 1, color: theme.inkColor.withValues(alpha: 0.2)),
+              Expanded(child: ChatMainArea(channel: _selectedChannel)),
             ],
           );
         } else {
@@ -80,16 +75,15 @@ class _ChatPageState extends State<ChatPage> {
             children: [
               ChatMainArea(
                 channel: _selectedChannel,
-                onMenuPressed: () =>
-                    setState(() => _showMobileSidebar = true),
+                onMenuPressed: () => setState(() => _showMobileSidebar = true),
               ),
               if (_showMobileSidebar) ...[
                 // Scrim
                 GestureDetector(
                   onTap: () => setState(() => _showMobileSidebar = false),
-                  child: ColoredBox(
-                    color: const Color(0x66000000),
-                    child: const SizedBox.expand(),
+                  child: const ColoredBox(
+                    color: Color(0x66000000),
+                    child: SizedBox.expand(),
                   ),
                 ),
                 // Sidebar

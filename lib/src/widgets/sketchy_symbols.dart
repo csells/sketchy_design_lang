@@ -337,7 +337,15 @@ class _SketchySymbolPainter extends CustomPainter {
           generator.arc(w * 0.4, h * 0.85, w * 0.4, h * 0.5, 3.14, 3.14, false),
           // Second person (back, slightly offset)
           generator.ellipse(w * 0.65, h * 0.2, w * 0.2, h * 0.2),
-          generator.arc(w * 0.65, h * 0.75, w * 0.35, h * 0.4, 3.14, 3.14, false),
+          generator.arc(
+            w * 0.65,
+            h * 0.75,
+            w * 0.35,
+            h * 0.4,
+            3.14,
+            3.14,
+            false,
+          ),
         ]);
     }
   }

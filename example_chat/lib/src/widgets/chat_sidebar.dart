@@ -1,7 +1,6 @@
 import 'package:flutter/widgets.dart';
 import 'package:sketchy_design_lang/sketchy_design_lang.dart';
 
-import '../models/chat_models.dart';
 import '../models/mock_data.dart';
 import 'channel_tile.dart';
 import 'chat_sidebar_section.dart';
@@ -11,10 +10,10 @@ import 'user_tile.dart';
 class ChatSidebar extends StatelessWidget {
   /// Creates a chat sidebar.
   const ChatSidebar({
-    super.key,
     required this.selectedChannelId,
     required this.onChannelSelected,
     required this.onSettingsPressed,
+    super.key,
   });
 
   /// The currently selected channel ID.
@@ -98,10 +97,7 @@ class ChatSidebar extends StatelessWidget {
                     title: 'AI Agents',
                     children: [
                       for (final agent in MockData.agents)
-                        UserTile(
-                          participant: agent,
-                          mode: UserTileMode.agent,
-                        ),
+                        UserTile(participant: agent, mode: UserTileMode.agent),
                     ],
                   ),
 
@@ -117,7 +113,7 @@ class ChatSidebar extends StatelessWidget {
             padding: const EdgeInsets.all(12),
             child: Row(
               children: [
-                Expanded(
+                const Expanded(
                   child: UserTile(
                     participant: MockData.currentUser,
                     mode: UserTileMode.footer,

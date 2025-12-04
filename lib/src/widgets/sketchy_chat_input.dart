@@ -158,7 +158,8 @@ class _SketchyChatInputState extends State<SketchyChatInput> {
   Widget build(BuildContext context) => SketchyTheme.consumer(
     builder: (context, theme) {
       // All action icons on the right side
-      final trailing = widget.trailing ??
+      final trailing =
+          widget.trailing ??
           Row(
             mainAxisSize: MainAxisSize.min,
             children: [

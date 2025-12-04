@@ -7,10 +7,10 @@ import '../models/chat_models.dart';
 class ChannelTile extends StatelessWidget {
   /// Creates a channel tile.
   const ChannelTile({
-    super.key,
     required this.channel,
     required this.isSelected,
     required this.onTap,
+    super.key,
   });
 
   /// The channel to display.
@@ -50,7 +50,9 @@ class ChannelTile extends StatelessWidget {
                   child: SketchyText(
                     channel.name,
                     style: theme.typography.body.copyWith(
-                      fontWeight: isSelected ? FontWeight.w600 : FontWeight.w400,
+                      fontWeight: isSelected
+                          ? FontWeight.w600
+                          : FontWeight.w400,
                       color: theme.inkColor,
                     ),
                   ),

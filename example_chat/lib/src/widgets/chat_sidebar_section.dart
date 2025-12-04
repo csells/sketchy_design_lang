@@ -5,9 +5,9 @@ import 'package:sketchy_design_lang/sketchy_design_lang.dart';
 class ChatSidebarSection extends StatefulWidget {
   /// Creates a chat sidebar section.
   const ChatSidebarSection({
-    super.key,
     required this.title,
     required this.children,
+    super.key,
     this.initiallyExpanded = true,
   });
 

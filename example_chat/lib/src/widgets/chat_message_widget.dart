@@ -8,9 +8,9 @@ import '../models/mock_data.dart';
 class ChatMessageWidget extends StatelessWidget {
   /// Creates a chat message widget.
   const ChatMessageWidget({
-    super.key,
     required this.message,
     required this.isCurrentUser,
+    super.key,
   });
 
   /// The message to display.
@@ -95,13 +95,11 @@ class ChatMessageWidget extends StatelessWidget {
           padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 12),
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisAlignment:
-                isCurrentUser ? MainAxisAlignment.end : MainAxisAlignment.start,
+            mainAxisAlignment: isCurrentUser
+                ? MainAxisAlignment.end
+                : MainAxisAlignment.start,
             children: [
-              if (!isCurrentUser) ...[
-                avatar,
-                const SizedBox(width: 8),
-              ],
+              if (!isCurrentUser) ...[avatar, const SizedBox(width: 8)],
               Flexible(
                 child: SketchyChatBubble(
                   alignment: alignment,
@@ -117,10 +115,7 @@ class ChatMessageWidget extends StatelessWidget {
                   ),
                 ),
               ),
-              if (isCurrentUser) ...[
-                const SizedBox(width: 8),
-                avatar,
-              ],
+              if (isCurrentUser) ...[const SizedBox(width: 8), avatar],
             ],
           ),
         );

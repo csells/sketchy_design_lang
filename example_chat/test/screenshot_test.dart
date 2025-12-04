@@ -7,7 +7,7 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {
-  testWidgets('Capture chat app screenshot', (WidgetTester tester) async {
+  testWidgets('Capture chat app screenshot', (tester) async {
     // Set a fixed screen size matching the reference screenshot
     await tester.binding.setSurfaceSize(const Size(1200, 800));
     tester.view.physicalSize = const Size(1200, 800);
@@ -15,10 +15,7 @@ void main() {
 
     // Build the app
     await tester.pumpWidget(
-      RepaintBoundary(
-        key: const Key('screenshot'),
-        child: const SketchChatApp(),
-      ),
+      const RepaintBoundary(key: Key('screenshot'), child: SketchChatApp()),
     );
 
     // Wait for animations and rendering to complete
@@ -30,7 +27,7 @@ void main() {
     );
 
     // Capture the image
-    final image = await boundary.toImage(pixelRatio: 1.0);
+    final image = await boundary.toImage(pixelRatio: 1);
     final byteData = await image.toByteData(format: ui.ImageByteFormat.png);
     final bytes = byteData!.buffer.asUint8List();
 

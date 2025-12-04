@@ -77,12 +77,8 @@ class _SketchyAvatarState extends State<SketchyAvatar> {
             width: size,
             height: size,
             fit: BoxFit.cover,
-            errorBuilder: (context, error, stack) => _buildInitials(
-              theme,
-              size,
-              bgColor,
-              fgColor,
-            ),
+            errorBuilder: (context, error, stack) =>
+                _buildInitials(theme, size, bgColor, fgColor),
           ),
         );
       } else {
@@ -130,11 +126,7 @@ class _SketchyAvatarState extends State<SketchyAvatar> {
               ),
             ),
           if (widget.badge != null)
-            Positioned(
-              right: -4,
-              top: -4,
-              child: widget.badge!,
-            ),
+            Positioned(right: -4, top: -4, child: widget.badge!),
         ],
       );
     },
@@ -156,15 +148,14 @@ class _SketchyAvatarState extends State<SketchyAvatar> {
     ),
   );
 
-  Widget _buildInitialsContent(SketchyThemeData theme, Color fgColor) =>
-      Center(
-        child: SketchyText(
-          widget.initials ?? '?',
-          style: theme.typography.body.copyWith(
-            color: fgColor,
-            fontWeight: FontWeight.w600,
-            fontSize: widget.radius * 0.8,
-          ),
-        ),
-      );
+  Widget _buildInitialsContent(SketchyThemeData theme, Color fgColor) => Center(
+    child: SketchyText(
+      widget.initials ?? '?',
+      style: theme.typography.body.copyWith(
+        color: fgColor,
+        fontWeight: FontWeight.w600,
+        fontSize: widget.radius * 0.8,
+      ),
+    ),
+  );
 }

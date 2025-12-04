@@ -7,10 +7,10 @@ import '../models/chat_models.dart';
 class SettingsDrawer extends StatefulWidget {
   /// Creates a settings drawer.
   const SettingsDrawer({
-    super.key,
     required this.currentUser,
     required this.onUserUpdated,
     required this.onClose,
+    super.key,
   });
 
   /// The current user.
@@ -35,7 +35,9 @@ class _SettingsDrawerState extends State<SettingsDrawer> {
   void initState() {
     super.initState();
     _nameController = TextEditingController(text: widget.currentUser.name);
-    _roleController = TextEditingController(text: widget.currentUser.role ?? '');
+    _roleController = TextEditingController(
+      text: widget.currentUser.role ?? '',
+    );
     _isOnline = widget.currentUser.isOnline;
   }
 
@@ -155,7 +157,9 @@ class _SettingsDrawerState extends State<SettingsDrawer> {
                   ),
                   const SizedBox(height: 8),
                   SketchyText(
-                    _isOnline ? 'You appear online to others' : 'You appear offline',
+                    _isOnline
+                        ? 'You appear online to others'
+                        : 'You appear offline',
                     style: theme.typography.caption.copyWith(
                       color: theme.inkColor.withValues(alpha: 0.6),
                     ),

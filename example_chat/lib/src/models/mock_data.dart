@@ -59,8 +59,11 @@ class MockData {
   ];
 
   /// All participants.
-  static List<ChatParticipant> get allParticipants =>
-      [currentUser, ...humans, ...agents];
+  static List<ChatParticipant> get allParticipants => [
+    currentUser,
+    ...humans,
+    ...agents,
+  ];
 
   /// Get a participant by ID.
   static ChatParticipant? getParticipant(String id) {
@@ -130,7 +133,7 @@ class MockData {
       senderId: 'alice',
       content:
           'Agreed with Chris. But how do we handle visibility? Should humans '
-          'always know when they\'re talking to an agent?',
+          "always know when they're talking to an agent?",
       timestamp: DateTime(2025, 8, 14, 14, 17),
     ),
     ChatMessage(
@@ -178,7 +181,7 @@ class MockData {
       senderId: 'chris',
       content:
           "Kevin, yes — audit trail is non-negotiable. Let's add that to the "
-          "requirements doc. Rudy, can you think through the schema "
+          'requirements doc. Rudy, can you think through the schema '
           'implications?',
       timestamp: DateTime(2025, 8, 14, 14, 22),
     ),
@@ -255,8 +258,7 @@ class MockData {
       id: 'd3',
       channelId: 'design-specs',
       senderId: 'sky',
-      content:
-          'Already working on it! Dark mode should be ready by EOD.',
+      content: 'Already working on it! Dark mode should be ready by EOD.',
       timestamp: DateTime(2025, 8, 14, 10, 20),
     ),
   ];
@@ -268,7 +270,7 @@ class MockData {
       channelId: 'engineering',
       senderId: 'rudy',
       content:
-          "Just pushed the initial schema draft to the repo. "
+          'Just pushed the initial schema draft to the repo. '
           'PR is up for review.',
       timestamp: DateTime(2025, 8, 14, 15, 0),
     ),

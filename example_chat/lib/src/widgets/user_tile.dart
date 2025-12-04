@@ -19,8 +19,8 @@ enum UserTileMode {
 class UserTile extends StatelessWidget {
   /// Creates a user tile.
   const UserTile({
-    super.key,
     required this.participant,
+    super.key,
     this.mode = UserTileMode.minimal,
     this.onTap,
   });

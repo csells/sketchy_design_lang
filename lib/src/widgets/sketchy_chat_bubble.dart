@@ -20,8 +20,8 @@ enum SketchyChatBubbleAlignment {
 class SketchyChatBubble extends StatefulWidget {
   /// Creates a sketchy chat bubble.
   const SketchyChatBubble({
-    super.key,
     required this.content,
+    super.key,
     this.topContent,
     this.bottomContent,
     this.alignment = SketchyChatBubbleAlignment.start,
@@ -83,7 +83,8 @@ class _SketchyChatBubbleState extends State<SketchyChatBubble> {
   Widget build(BuildContext context) => SketchyTheme.consumer(
     builder: (context, theme) {
       final isEnd = widget.alignment == SketchyChatBubbleAlignment.end;
-      final bubbleColor = widget.bubbleColor ??
+      final bubbleColor =
+          widget.bubbleColor ??
           (isEnd ? theme.secondaryColor : theme.primaryColor);
 
       final bubble = SketchySurface(
@@ -101,9 +102,7 @@ class _SketchyChatBubbleState extends State<SketchyChatBubble> {
         constraints: BoxConstraints(
           maxWidth: widget.maxWidth ?? double.infinity,
         ),
-        child: IntrinsicWidth(
-          child: IntrinsicHeight(child: bubble),
-        ),
+        child: IntrinsicWidth(child: IntrinsicHeight(child: bubble)),
       );
 
       final wrappedBubble = widget.onTap != null || widget.onLongPress != null
@@ -118,8 +117,9 @@ class _SketchyChatBubbleState extends State<SketchyChatBubble> {
           : bubbleWithConstraints;
 
       final column = Column(
-        crossAxisAlignment:
-            isEnd ? CrossAxisAlignment.end : CrossAxisAlignment.start,
+        crossAxisAlignment: isEnd
+            ? CrossAxisAlignment.end
+            : CrossAxisAlignment.start,
         mainAxisSize: MainAxisSize.min,
         children: [
           if (widget.topContent != null) ...[
