@@ -6,6 +6,11 @@ TextStyle titleStyle(SketchyThemeData theme) =>
 
 TextStyle bodyStyle(SketchyThemeData theme) => theme.typography.body;
 
+TextStyle labelStyle(SketchyThemeData theme) =>
+    theme.typography.label.copyWith(fontWeight: FontWeight.w500);
+
+TextStyle captionStyle(SketchyThemeData theme) => theme.typography.caption;
+
 TextStyle mutedStyle(SketchyThemeData theme) =>
     theme.typography.caption.copyWith(color: const Color(0xFF9E9E9E));
 

@@ -28,6 +28,9 @@ enum SketchyShapeType {
 
   /// A circle.
   circle,
+
+  /// An arc.
+  arc,
 }
 
 /// Customization options for how hachure/solid fills are rendered.
@@ -66,6 +69,8 @@ class SketchyPrimitive {
     this.fill = SketchyFill.none,
     this.fillOptions,
     this.cornerRadius = 0,
+    this.startAngle,
+    this.sweepAngle,
   });
 
   /// Rectangle primitive.
@@ -118,6 +123,22 @@ class SketchyPrimitive {
     seed: seed ?? _seedSource.nextInt(0x7fffffff),
   );
 
+  /// NEW: Arc factory for progress rings
+  factory SketchyPrimitive.arc({
+    required double startAngle,
+    required double sweepAngle,
+    SketchyFill fill = SketchyFill.none,
+    int? seed,
+    SketchyFillOptions? fillOptions,
+  }) => SketchyPrimitive(
+    type: SketchyShapeType.arc,
+    fill: fill,
+    fillOptions: fillOptions,
+    seed: seed ?? _seedSource.nextInt(0x7fffffff),
+    startAngle: startAngle,
+    sweepAngle: sweepAngle,
+  );
+
   /// The type of shape to draw.
   final SketchyShapeType type;
 
@@ -129,6 +150,12 @@ class SketchyPrimitive {
 
   /// Corner radius for rounded rectangles.
   final double cornerRadius;
+
+  /// Start angle for arcs.
+  final double? startAngle;
+
+  /// Sweep angle for arcs.
+  final double? sweepAngle;
 
   /// Random seed for deterministic rendering.
   final int seed;
@@ -155,6 +182,8 @@ class SketchyPrimitive {
           fill == other.fill &&
           fillOptions == other.fillOptions &&
           cornerRadius == other.cornerRadius &&
+          startAngle == other.startAngle &&
+          sweepAngle == other.sweepAngle &&
           seed == other.seed;
 
   @override
@@ -163,6 +192,8 @@ class SketchyPrimitive {
       fill.hashCode ^
       fillOptions.hashCode ^
       cornerRadius.hashCode ^
+      startAngle.hashCode ^
+      sweepAngle.hashCode ^
       seed.hashCode;
 }
 
@@ -189,10 +220,10 @@ class SketchyGenerator {
     Size size,
     double roughness,
   ) {
-    // Check cache (keyed by seed + size + roughness) Note: This is a simplified
-    // cache strategy. In a real app you might want a better key or LRU
-    // eviction.
-    final cacheKey = primitive.seed;
+    // Check cache (keyed by primitive hashCode which includes angles)
+    // Note: This is a simplified cache strategy. In a real app you might want
+    // a better key or LRU eviction.
+    final cacheKey = primitive.hashCode;
     final cached = _cache[cacheKey];
     if (cached != null) {
       final (cachedSize, cachedRoughness, drawable) = cached;
@@ -236,6 +267,21 @@ class SketchyGenerator {
         );
       case SketchyShapeType.circle:
         return Path()..addOval(Rect.fromLTWH(0, 0, size.width, size.height));
+
+      case SketchyShapeType.arc:
+        final center = Offset(size.width / 2, size.height / 2);
+        final radius = min(size.width, size.height) / 2;
+        return Path()
+          ..moveTo(
+            center.dx + cos(primitive.startAngle ?? -pi / 2) * radius,
+            center.dy + sin(primitive.startAngle ?? -pi / 2) * radius,
+          )
+          ..arcTo(
+            Rect.fromCircle(center: center, radius: radius),
+            primitive.startAngle ?? -pi / 2,
+            primitive.sweepAngle ?? 2 * pi,
+            false,
+          );
     }
   }
 
@@ -257,6 +303,16 @@ class SketchyGenerator {
           size.height / 2,
           size.width,
           size.height,
+        );
+      case SketchyShapeType.arc:
+        final diameter = min(size.width, size.height);
+        return generator.arc(
+          size.width / 2,
+          size.height / 2,
+          diameter,
+          diameter,
+          primitive.startAngle ?? -pi / 2,
+          primitive.sweepAngle ?? 2 * pi,
         );
     }
   }

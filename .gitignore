@@ -30,5 +30,6 @@ migrate_working_dir/
 /build/
 /coverage/
 .vscode/settings.json
+.zed
 example/.firebase/hosting.YnVpbGQvd2Vi.cache
 example/.firebaserc

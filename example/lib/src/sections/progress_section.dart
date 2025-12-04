@@ -83,6 +83,18 @@ class _ProgressSectionState extends State<ProgressSection>
               ),
             ],
           ),
+          const SizedBox(height: 24),
+
+          const Row(
+            crossAxisAlignment: .center,
+            mainAxisAlignment: .spaceAround,
+            children: [
+              SketchyCircularProgressIndicator(),
+              SketchyCircularProgressIndicator(value: .6),
+              SketchyCircularProgressIndicator(value: .4),
+              SketchyCircularProgressIndicator(value: .2),
+            ],
+          ),
         ],
       ),
     ),
