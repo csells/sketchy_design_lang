@@ -14,24 +14,22 @@ void main() {
       Color? color,
       String? semanticLabel,
       SketchyThemeData? theme,
-    }) {
-      return SketchyApp(
-        title: 'Test',
-        theme: theme ?? SketchyThemeData.fromTheme(SketchyThemes.monochrome),
-        home: SketchyScaffold(
-          body: Center(
-            child: SketchyCircularProgressIndicator(
-              value: value,
-              strokeWidth: strokeWidth,
-              size: size,
-              backgroundColor: backgroundColor,
-              color: color,
-              semanticLabel: semanticLabel,
-            ),
+    }) => SketchyApp(
+      title: 'Test',
+      theme: theme ?? SketchyThemeData.fromTheme(SketchyThemes.monochrome),
+      home: SketchyScaffold(
+        body: Center(
+          child: SketchyCircularProgressIndicator(
+            value: value,
+            strokeWidth: strokeWidth,
+            size: size,
+            backgroundColor: backgroundColor,
+            color: color,
+            semanticLabel: semanticLabel,
           ),
         ),
-      );
-    }
+      ),
+    );
 
     group('Widget Creation', () {
       testWidgets('creates without errors', (tester) async {
@@ -49,7 +47,7 @@ void main() {
       });
 
       testWidgets('creates with custom strokeWidth', (tester) async {
-        await tester.pumpWidget(buildTestWidget(strokeWidth: 8.0));
+        await tester.pumpWidget(buildTestWidget(strokeWidth: 8));
 
         expect(find.byType(SketchyCircularProgressIndicator), findsOneWidget);
       });
@@ -61,7 +59,7 @@ void main() {
       });
 
       testWidgets('creates with custom size', (tester) async {
-        await tester.pumpWidget(buildTestWidget(size: 64.0));
+        await tester.pumpWidget(buildTestWidget(size: 64));
 
         expect(find.byType(SketchyCircularProgressIndicator), findsOneWidget);
       });
@@ -83,14 +81,15 @@ void main() {
         );
         await tester.pump();
 
-        // Find CustomPaint widgets that are descendants of SketchyCircularProgressIndicator
+        // Find CustomPaint widgets
+        // that are descendants of SketchyCircularProgressIndicator
         final customPaintFinder = find.descendant(
           of: find.byType(SketchyCircularProgressIndicator),
           matching: find.byType(CustomPaint),
         );
         final customPaints = tester.widgetList<CustomPaint>(customPaintFinder);
 
-        // Find the background track painter (has SketchyShapePainter with circle primitive)
+        // Find the background track painter (with circle primitive)
         final backgroundPainter = customPaints
             .map((cp) => cp.painter)
             .whereType<SketchyShapePainter>()
@@ -106,21 +105,25 @@ void main() {
         await tester.pumpWidget(buildTestWidget(color: testColor, value: 0.5));
         await tester.pump();
 
-        // Find CustomPaint widgets that are descendants of SketchyCircularProgressIndicator
+        // Find CustomPaint widgets
+        // that are descendants of SketchyCircularProgressIndicator
         final customPaintFinder = find.descendant(
           of: find.byType(SketchyCircularProgressIndicator),
           matching: find.byType(CustomPaint),
         );
         final customPaints = tester.widgetList<CustomPaint>(customPaintFinder);
 
-        // Find the background track painter (has SketchyShapePainter with circle primitive)
+        // Find the background track painter (with circle primitive)
         final backgroundPainter = customPaints
             .map((cp) => cp.painter)
             .whereType<SketchyShapePainter>()
             .firstWhere((p) => p.primitive.type == SketchyShapeType.circle);
 
         // Background should be the color with reduced alpha (0.2)
-        expect(backgroundPainter.strokeColor.alpha, lessThan(testColor.alpha));
+        expect(
+          backgroundPainter.strokeColor.toARGB32(),
+          lessThan(testColor.toARGB32()),
+        );
       });
 
       testWidgets('creates with semanticLabel', (tester) async {
@@ -135,8 +138,8 @@ void main() {
         await tester.pumpWidget(
           buildTestWidget(
             value: 0.5,
-            strokeWidth: 6.0,
-            size: 72.0,
+            strokeWidth: 6,
+            size: 72,
             backgroundColor: Colors.grey.shade300,
             color: Colors.blue,
             semanticLabel: 'Download progress',
@@ -161,7 +164,7 @@ void main() {
       });
 
       testWidgets('respects custom size parameter', (tester) async {
-        await tester.pumpWidget(buildTestWidget(size: 64.0));
+        await tester.pumpWidget(buildTestWidget(size: 64));
         await tester.pump();
 
         final widgetSize = tester.getSize(
@@ -173,7 +176,7 @@ void main() {
       });
 
       testWidgets('handles small custom size', (tester) async {
-        await tester.pumpWidget(buildTestWidget(size: 24.0));
+        await tester.pumpWidget(buildTestWidget(size: 24));
         await tester.pump();
 
         final widgetSize = tester.getSize(
@@ -185,7 +188,7 @@ void main() {
       });
 
       testWidgets('handles large custom size', (tester) async {
-        await tester.pumpWidget(buildTestWidget(size: 120.0));
+        await tester.pumpWidget(buildTestWidget(size: 120));
         await tester.pump();
 
         final widgetSize = tester.getSize(
@@ -232,20 +235,21 @@ void main() {
         await tester.pump();
 
         // Should have only 1 CustomPaint (background track only)
-        // Note: The exact behavior depends on implementation - at least background exists
+        // Note: The exact behavior depends on implementation
+        // - at least background exists
         final customPaints = find.byType(CustomPaint);
         expect(customPaints, findsWidgets);
       });
 
       testWidgets('handles value of 0', (tester) async {
-        await tester.pumpWidget(buildTestWidget(value: 0.0));
+        await tester.pumpWidget(buildTestWidget(value: 0));
         await tester.pump();
 
         expect(find.byType(SketchyCircularProgressIndicator), findsOneWidget);
       });
 
       testWidgets('handles value of 1 (complete)', (tester) async {
-        await tester.pumpWidget(buildTestWidget(value: 1.0));
+        await tester.pumpWidget(buildTestWidget(value: 1));
         await tester.pump();
 
         expect(find.byType(SketchyCircularProgressIndicator), findsOneWidget);
@@ -334,7 +338,8 @@ void main() {
         );
         await tester.pump();
 
-        // Find CustomPaint widgets that are descendants of SketchyCircularProgressIndicator
+        // Find CustomPaint widgets
+        // that are descendants of SketchyCircularProgressIndicator
         final customPaintFinder = find.descendant(
           of: find.byType(SketchyCircularProgressIndicator),
           matching: find.byType(CustomPaint),
@@ -448,10 +453,10 @@ void main() {
       });
 
       testWidgets('updates when strokeWidth changes', (tester) async {
-        await tester.pumpWidget(buildTestWidget(strokeWidth: 4.0));
+        await tester.pumpWidget(buildTestWidget(strokeWidth: 4));
         await tester.pump();
 
-        await tester.pumpWidget(buildTestWidget(strokeWidth: 8.0));
+        await tester.pumpWidget(buildTestWidget(strokeWidth: 8));
         await tester.pump();
 
         expect(find.byType(SketchyCircularProgressIndicator), findsOneWidget);
@@ -536,7 +541,7 @@ void main() {
       testWidgets('shows 0% value in semantics when value is 0', (
         tester,
       ) async {
-        await tester.pumpWidget(buildTestWidget(value: 0.0));
+        await tester.pumpWidget(buildTestWidget(value: 0));
         await tester.pump();
 
         final semantics = tester.widget<Semantics>(
@@ -554,7 +559,7 @@ void main() {
       testWidgets('shows 100% value in semantics when value is 1', (
         tester,
       ) async {
-        await tester.pumpWidget(buildTestWidget(value: 1.0));
+        await tester.pumpWidget(buildTestWidget(value: 1));
         await tester.pump();
 
         final semantics = tester.widget<Semantics>(
@@ -606,7 +611,7 @@ void main() {
       });
 
       testWidgets('handles very large strokeWidth', (tester) async {
-        await tester.pumpWidget(buildTestWidget(strokeWidth: 20.0, value: 0.5));
+        await tester.pumpWidget(buildTestWidget(strokeWidth: 20, value: 0.5));
         await tester.pump();
 
         expect(find.byType(SketchyCircularProgressIndicator), findsOneWidget);
@@ -623,7 +628,10 @@ void main() {
 
       testWidgets('handles color with alpha', (tester) async {
         await tester.pumpWidget(
-          buildTestWidget(color: Colors.blue.withOpacity(0.5), value: 0.5),
+          buildTestWidget(
+            color: Colors.blue.withValues(alpha: 0.5),
+            value: 0.5,
+          ),
         );
         await tester.pump();
 
@@ -633,7 +641,7 @@ void main() {
       testWidgets('handles backgroundColor with alpha', (tester) async {
         await tester.pumpWidget(
           buildTestWidget(
-            backgroundColor: Colors.grey.withOpacity(0.3),
+            backgroundColor: Colors.grey.withValues(alpha: 0.3),
             value: 0.5,
           ),
         );
@@ -643,7 +651,7 @@ void main() {
       });
 
       testWidgets('handles size of zero', (tester) async {
-        await tester.pumpWidget(buildTestWidget(size: 0.0, value: 0.5));
+        await tester.pumpWidget(buildTestWidget(size: 0, value: 0.5));
         await tester.pump();
 
         expect(find.byType(SketchyCircularProgressIndicator), findsOneWidget);
@@ -651,7 +659,7 @@ void main() {
 
       testWidgets('updates when size changes', (tester) async {
         // Use a StatefulBuilder to properly trigger rebuilds
-        double currentSize = 48.0;
+        double? currentSize = 48;
         late StateSetter setState;
 
         await tester.pumpWidget(
@@ -682,7 +690,7 @@ void main() {
 
         // Update size via setState
         setState(() {
-          currentSize = 96.0;
+          currentSize = 96;
         });
         await tester.pump();
 
@@ -694,7 +702,7 @@ void main() {
 
       testWidgets('updates when semanticLabel changes', (tester) async {
         // Use a StatefulBuilder to properly trigger rebuilds
-        String currentLabel = 'Loading';
+        var currentLabel = 'Loading';
         late StateSetter setState;
 
         await tester.pumpWidget(
@@ -743,7 +751,7 @@ void main() {
       // golden file comparisons specific to your CI environment.
 
       testWidgets('renders correctly at 0% progress', (tester) async {
-        await tester.pumpWidget(buildTestWidget(value: 0.0));
+        await tester.pumpWidget(buildTestWidget(value: 0));
         await tester.pump();
 
         expect(find.byType(SketchyCircularProgressIndicator), findsOneWidget);
@@ -771,7 +779,7 @@ void main() {
       });
 
       testWidgets('renders correctly at 100% progress', (tester) async {
-        await tester.pumpWidget(buildTestWidget(value: 1.0));
+        await tester.pumpWidget(buildTestWidget(value: 1));
         await tester.pump();
 
         expect(find.byType(SketchyCircularProgressIndicator), findsOneWidget);
@@ -869,7 +877,7 @@ void main() {
         ),
         strokeColor: Colors.blue,
         fillColor: Colors.transparent,
-        strokeWidth: 4.0,
+        strokeWidth: 4,
         roughness: 0.5,
       );
 
@@ -881,7 +889,7 @@ void main() {
         ),
         strokeColor: Colors.blue,
         fillColor: Colors.transparent,
-        strokeWidth: 4.0,
+        strokeWidth: 4,
         roughness: 0.5,
       );
 
@@ -895,7 +903,7 @@ void main() {
         primitive: primitive,
         strokeColor: Colors.blue,
         fillColor: Colors.transparent,
-        strokeWidth: 4.0,
+        strokeWidth: 4,
         roughness: 0.5,
       );
 
@@ -903,7 +911,7 @@ void main() {
         primitive: primitive,
         strokeColor: Colors.red,
         fillColor: Colors.transparent,
-        strokeWidth: 4.0,
+        strokeWidth: 4,
         roughness: 0.5,
       );
 
@@ -917,7 +925,7 @@ void main() {
         primitive: primitive,
         strokeColor: Colors.blue,
         fillColor: Colors.transparent,
-        strokeWidth: 4.0,
+        strokeWidth: 4,
         roughness: 0.5,
       );
 
@@ -925,7 +933,7 @@ void main() {
         primitive: primitive,
         strokeColor: Colors.blue,
         fillColor: Colors.transparent,
-        strokeWidth: 8.0,
+        strokeWidth: 8,
         roughness: 0.5,
       );
 
@@ -939,7 +947,7 @@ void main() {
         primitive: primitive,
         strokeColor: Colors.blue,
         fillColor: Colors.transparent,
-        strokeWidth: 4.0,
+        strokeWidth: 4,
         roughness: 0.5,
       );
 
@@ -947,7 +955,7 @@ void main() {
         primitive: primitive,
         strokeColor: Colors.blue,
         fillColor: Colors.transparent,
-        strokeWidth: 4.0,
+        strokeWidth: 4,
         roughness: 0.8,
       );
 
@@ -961,7 +969,7 @@ void main() {
         primitive: primitive,
         strokeColor: Colors.blue,
         fillColor: Colors.transparent,
-        strokeWidth: 4.0,
+        strokeWidth: 4,
         roughness: 0.5,
       );
 
@@ -969,7 +977,7 @@ void main() {
         primitive: primitive,
         strokeColor: Colors.blue,
         fillColor: Colors.transparent,
-        strokeWidth: 4.0,
+        strokeWidth: 4,
         roughness: 0.5,
       );
 
