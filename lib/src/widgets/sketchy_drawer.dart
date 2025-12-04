@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/widgets.dart';
 
 import '../primitives/sketchy_primitives.dart';
@@ -130,9 +132,9 @@ class _SketchyDrawerState extends State<SketchyDrawer>
 
   void _onControllerChanged() {
     if (widget.controller.isOpen) {
-      _animationController.forward();
+      unawaited(_animationController.forward());
     } else {
-      _animationController.reverse();
+      unawaited(_animationController.reverse());
     }
   }
 

@@ -55,7 +55,10 @@ class _SketchySwitchState extends State<SketchySwitch>
   @override
   void didUpdateWidget(covariant SketchySwitch oldWidget) {
     super.didUpdateWidget(oldWidget);
-    _toggle();
+    // Only toggle animation when the value actually changes
+    if (widget.value != oldWidget.value) {
+      _toggle();
+    }
   }
 
   @override

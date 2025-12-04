@@ -69,22 +69,6 @@ class _SketchyAvatarState extends State<SketchyAvatar> {
       final bgColor = widget.backgroundColor ?? theme.secondaryColor;
       final fgColor = widget.foregroundColor ?? theme.inkColor;
 
-      Widget content;
-      if (widget.imageProvider != null) {
-        content = ClipOval(
-          child: Image(
-            image: widget.imageProvider!,
-            width: size,
-            height: size,
-            fit: BoxFit.cover,
-            errorBuilder: (context, error, stack) =>
-                _buildInitials(theme, size, bgColor, fgColor),
-          ),
-        );
-      } else {
-        content = _buildInitials(theme, size, bgColor, fgColor);
-      }
-
       return Stack(
         clipBehavior: Clip.none,
         children: [
@@ -130,22 +114,6 @@ class _SketchyAvatarState extends State<SketchyAvatar> {
         ],
       );
     },
-  );
-
-  Widget _buildInitials(
-    SketchyThemeData theme,
-    double size,
-    Color bgColor,
-    Color fgColor,
-  ) => SizedBox(
-    width: size,
-    height: size,
-    child: SketchySurface(
-      fillColor: bgColor,
-      strokeColor: theme.inkColor,
-      createPrimitive: () => _circlePrimitive,
-      child: _buildInitialsContent(theme, fgColor),
-    ),
   );
 
   Widget _buildInitialsContent(SketchyThemeData theme, Color fgColor) => Center(
