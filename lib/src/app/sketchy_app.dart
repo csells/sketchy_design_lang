@@ -1,6 +1,9 @@
-import 'package:flutter/material.dart';
+import 'package:flutter/material.dart'
+    show DefaultMaterialLocalizations, ScaffoldMessenger;
+import 'package:flutter/widgets.dart';
 
 import '../theme/sketchy_theme.dart';
+import '../theme/sketchy_themes.dart';
 import 'sketchy_page_route.dart';
 
 /// Controls which Sketchy theme variant should be used.
@@ -21,11 +24,11 @@ typedef SketchyRouteBuilder = WidgetBuilder;
 /// Minimal app shell that wires Sketchy theming into a [WidgetsApp].
 class SketchyApp extends StatelessWidget {
   /// Creates a Sketchy-powered application.
-  const SketchyApp({
+  SketchyApp({
     required this.title,
-    required this.theme,
     required this.home,
     super.key,
+    SketchyThemeData? theme,
     this.darkTheme,
     this.themeMode = SketchyThemeMode.system,
     this.routes,
@@ -47,12 +50,13 @@ class SketchyApp extends StatelessWidget {
     this.actions,
     this.restorationScopeId,
     this.builder,
-  });
+  }) : theme = theme ?? SketchyThemeData.fromTheme(SketchyThemes.monochrome);
 
   /// Title exposed to Flutter’s window bindings.
   final String title;
 
   /// Global light theme configuration consumed by Sketchy widgets.
+  /// Defaults to [SketchyThemes.monochrome] if not provided.
   final SketchyThemeData theme;
 
   /// Optional dark theme configuration.

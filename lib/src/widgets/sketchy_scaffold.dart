@@ -1,19 +1,13 @@
 import 'package:flutter/gestures.dart';
-import 'package:flutter/material.dart'
-    show
-        DrawerCallback,
-        FloatingActionButtonAnimator,
-        FloatingActionButtonLocation,
-        Material;
 import 'package:flutter/widgets.dart';
 
 import '../theme/sketchy_theme.dart';
+import 'sketchy_fab_location.dart';
 
-export 'package:flutter/material.dart'
-    show
-        DrawerCallback,
-        FloatingActionButtonAnimator,
-        FloatingActionButtonLocation;
+export 'sketchy_fab_location.dart';
+
+/// Callback for when a drawer is opened or closed.
+typedef SketchyDrawerCallback = void Function(bool isOpened);
 
 /// Minimal scaffold that avoids pulling in Material widgets.
 class SketchyScaffold extends StatelessWidget {
@@ -24,7 +18,6 @@ class SketchyScaffold extends StatelessWidget {
     this.body,
     this.floatingActionButton,
     this.floatingActionButtonLocation,
-    this.floatingActionButtonAnimator,
     this.persistentFooterButtons,
     this.drawer,
     this.onDrawerChanged,
@@ -55,11 +48,7 @@ class SketchyScaffold extends StatelessWidget {
   final Widget? floatingActionButton;
 
   /// Responsible for determining where the [floatingActionButton] should go.
-  final FloatingActionButtonLocation? floatingActionButtonLocation;
-
-  /// Animator to move the [floatingActionButton] to a new
-  /// [floatingActionButtonLocation].
-  final FloatingActionButtonAnimator? floatingActionButtonAnimator;
+  final SketchyFabLocation? floatingActionButtonLocation;
 
   /// A set of buttons that are displayed at the bottom of the scaffold.
   final List<Widget>? persistentFooterButtons;
@@ -69,14 +58,14 @@ class SketchyScaffold extends StatelessWidget {
   final Widget? drawer;
 
   /// Optional callback that is called when the [drawer] is opened or closed.
-  final DrawerCallback? onDrawerChanged;
+  final SketchyDrawerCallback? onDrawerChanged;
 
   /// A panel displayed to the side of the [body], often hidden on mobile
   /// devices.
   final Widget? endDrawer;
 
   /// Optional callback that is called when the [endDrawer] is opened or closed.
-  final DrawerCallback? onEndDrawerChanged;
+  final SketchyDrawerCallback? onEndDrawerChanged;
 
   /// A bottom navigation bar to display at the bottom of the scaffold.
   final Widget? bottomNavigationBar;
@@ -84,7 +73,7 @@ class SketchyScaffold extends StatelessWidget {
   /// The persistent bottom sheet to display.
   final Widget? bottomSheet;
 
-  /// The color of the [Material] widget that underlies the entire Scaffold.
+  /// The background color of the scaffold.
   final Color? backgroundColor;
 
   /// If true the [body] and the scaffold's floating widgets should size

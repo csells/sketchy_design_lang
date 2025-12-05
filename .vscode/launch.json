@@ -9,6 +9,13 @@
       "program": "example.dart"
     },
     {
+      "name": "counter",
+      "cwd": "example",
+      "request": "launch",
+      "type": "dart",
+      "program": "counter.dart"
+    },
+    {
       "name": "design system",
       "cwd": "example",
       "request": "launch",

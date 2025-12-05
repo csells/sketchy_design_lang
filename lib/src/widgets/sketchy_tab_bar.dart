@@ -1,5 +1,4 @@
-import 'package:flutter/material.dart'
-    show DefaultTabController, Tab, TabController;
+import 'package:flutter/material.dart' as material;
 import 'package:flutter/widgets.dart';
 
 import '../primitives/sketchy_primitives.dart';
@@ -7,8 +6,17 @@ import '../theme/sketchy_text_case.dart';
 import '../theme/sketchy_theme.dart';
 import 'sketchy_surface.dart';
 
-export 'package:flutter/material.dart'
-    show DefaultTabController, Tab, TabController;
+/// Controller for tab selection and animation.
+///
+/// Use [SketchyTabController.new] to create a controller, providing a
+/// [TickerProvider] (typically from [SingleTickerProviderStateMixin]).
+typedef SketchyTabController = material.TabController;
+
+/// Inherited widget that provides a [SketchyTabController] to descendant widgets.
+typedef SketchyDefaultTabController = material.DefaultTabController;
+
+/// A single tab in a [SketchyTabBar].
+typedef SketchyTab = material.Tab;
 
 /// Segmented control used to switch between sections.
 class SketchyTabBar extends StatefulWidget {
@@ -29,11 +37,11 @@ class SketchyTabBar extends StatefulWidget {
     super.key,
   });
 
-  /// Typically a list of two or more [Tab] widgets.
+  /// Typically a list of two or more [SketchyTab] widgets.
   final List<Widget> tabs;
 
   /// This widget's selection and animation state.
-  final TabController? controller;
+  final SketchyTabController? controller;
 
   /// Whether this tab bar can be scrolled horizontally.
   final bool isScrollable;
@@ -73,7 +81,7 @@ class SketchyTabBar extends StatefulWidget {
 }
 
 class _SketchyTabBarState extends State<SketchyTabBar> {
-  TabController? _controller;
+  SketchyTabController? _controller;
   int _currentIndex = 0;
   late final SketchyPrimitive _selectedPrimitive;
   late final SketchyPrimitive _unselectedPrimitive;
@@ -107,7 +115,7 @@ class _SketchyTabBarState extends State<SketchyTabBar> {
 
   void _updateController() {
     final newController =
-        widget.controller ?? DefaultTabController.maybeOf(context);
+        widget.controller ?? SketchyDefaultTabController.maybeOf(context);
     if (newController != _controller) {
       _controller?.removeListener(_handleTabControllerTick);
       _controller = newController;

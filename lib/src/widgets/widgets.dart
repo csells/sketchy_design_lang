@@ -9,6 +9,7 @@ export 'sketchy_chat_input.dart';
 export 'sketchy_checkbox.dart';
 export 'sketchy_checkbox_list_tile.dart';
 export 'sketchy_chip.dart';
+export 'sketchy_control_affinity.dart';
 export 'sketchy_dialog.dart';
 export 'sketchy_divider.dart';
 export 'sketchy_drawer.dart';

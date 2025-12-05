@@ -1,5 +1,3 @@
-import 'package:flutter/material.dart'
-    show MaterialTapTargetSize, VisualDensity;
 import 'package:flutter/widgets.dart';
 
 import '../primitives/sketchy_primitives.dart';
@@ -36,8 +34,6 @@ class SketchyChip extends StatelessWidget {
     this.autofocus = false,
     this.backgroundColor,
     this.padding,
-    this.visualDensity,
-    this.materialTapTargetSize,
     this.elevation,
     this.shadowColor,
     this.surfaceTintColor,
@@ -94,12 +90,6 @@ class SketchyChip extends StatelessWidget {
 
   /// Padding.
   final EdgeInsetsGeometry? padding;
-
-  /// Visual density.
-  final VisualDensity? visualDensity;
-
-  /// Tap target size.
-  final MaterialTapTargetSize? materialTapTargetSize;
 
   /// Elevation.
   final double? elevation;
@@ -161,8 +151,6 @@ class SketchyActionChip extends StatelessWidget {
     this.autofocus = false,
     this.backgroundColor,
     this.padding,
-    this.visualDensity,
-    this.materialTapTargetSize,
     this.elevation,
     this.shadowColor,
     this.surfaceTintColor,
@@ -216,12 +204,6 @@ class SketchyActionChip extends StatelessWidget {
 
   /// Padding.
   final EdgeInsetsGeometry? padding;
-
-  /// Visual density.
-  final VisualDensity? visualDensity;
-
-  /// Tap target size.
-  final MaterialTapTargetSize? materialTapTargetSize;
 
   /// Elevation.
   final double? elevation;
@@ -286,8 +268,6 @@ class SketchyChoiceChip extends StatelessWidget {
     this.autofocus = false,
     this.backgroundColor,
     this.padding,
-    this.visualDensity,
-    this.materialTapTargetSize,
     this.elevation,
     this.shadowColor,
     this.surfaceTintColor,
@@ -352,12 +332,6 @@ class SketchyChoiceChip extends StatelessWidget {
 
   /// Padding.
   final EdgeInsetsGeometry? padding;
-
-  /// Visual density.
-  final VisualDensity? visualDensity;
-
-  /// Tap target size.
-  final MaterialTapTargetSize? materialTapTargetSize;
 
   /// Elevation.
   final double? elevation;

@@ -1,7 +1,7 @@
-import 'package:flutter/material.dart' show ListTileControlAffinity;
 import 'package:flutter/widgets.dart';
 
 import '../theme/sketchy_theme.dart';
+import 'sketchy_control_affinity.dart';
 import 'sketchy_radio.dart';
 
 /// A list tile with a radio button.
@@ -17,7 +17,7 @@ class SketchyRadioListTile<T> extends StatelessWidget {
     this.dense,
     this.secondary,
     this.selected = false,
-    this.controlAffinity = ListTileControlAffinity.platform,
+    this.controlAffinity = SketchyControlAffinity.trailing,
     super.key,
   });
 
@@ -52,7 +52,7 @@ class SketchyRadioListTile<T> extends StatelessWidget {
   final bool selected;
 
   /// Where to place the control relative to the text.
-  final ListTileControlAffinity controlAffinity;
+  final SketchyControlAffinity controlAffinity;
 
   void _handleTap() {
     if (onChanged != null) {
@@ -80,11 +80,10 @@ class SketchyRadioListTile<T> extends StatelessWidget {
       Widget? leading;
       Widget? trailing;
       switch (controlAffinity) {
-        case ListTileControlAffinity.leading:
+        case SketchyControlAffinity.leading:
           leading = control;
           trailing = secondary;
-        case ListTileControlAffinity.trailing:
-        case ListTileControlAffinity.platform:
+        case SketchyControlAffinity.trailing:
           leading = secondary;
           trailing = control;
       }
