@@ -7,6 +7,6 @@ class _HelloSketchyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) => SketchyApp(
     title: 'Hello Sketchy',
-    home: const Center(child: SketchyText('Hello, Sketchy!')),
+    home: const SketchySymbol(symbol: SketchySymbols.people),
   );
 }
