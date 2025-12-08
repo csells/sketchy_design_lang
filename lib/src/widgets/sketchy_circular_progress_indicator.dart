@@ -26,7 +26,14 @@ class SketchyCircularProgressIndicator extends StatefulWidget {
   /// The width of the progress indicator's stroke.
   final double strokeWidth;
 
-  /// The color of the progress indicator's background.
+  /// The color of the progress indicator's background track.
+  ///
+  /// If null, the background track is shown automatically for determinate mode
+  /// (when [value] is provided) using a faded version of [color], and hidden
+  /// for indeterminate mode.
+  ///
+  /// Set to [Colors.transparent] to explicitly hide the track in determinate
+  /// mode.
   final Color? backgroundColor;
 
   /// The size of the progress indicator.
@@ -88,62 +95,79 @@ class _State extends State<SketchyCircularProgressIndicator>
     super.dispose();
   }
 
-  @override
-  Widget build(BuildContext context) => AnimatedBuilder(
-    animation: Listenable.merge([_controller, _spinAnimation]),
-    builder: (context, child) {
-      final theme = SketchyTheme.of(context);
-      final value = widget.value ?? _progressAnimation.value;
-      final spinOffset = widget.value == null
-          ? _spinAnimation.value * 2 * pi
-          : 0;
+  bool get _isDeterminate => widget.value != null;
 
-      return Semantics(
-        label: widget.semanticLabel ?? 'Circular progress indicator',
-        value: widget.value != null
-            ? '${(widget.value! * 100).round()}%'
-            : null,
-        child: SizedBox.square(
-          dimension: widget.size ?? 48,
-          child: Stack(
-            children: [
-              // Background track (uses cached primitive)
-              SizedBox.expand(
-                child: CustomPaint(
-                  painter: SketchyShapePainter(
-                    primitive: _backgroundCircle,
-                    strokeColor:
-                        widget.backgroundColor ??
-                        (widget.color ?? theme.primaryColor).withValues(
-                          alpha: 0.2,
-                        ),
-                    fillColor: Colors.transparent,
-                    strokeWidth: widget.strokeWidth * 0.6,
-                    roughness: theme.roughness,
-                  ),
-                ),
-              ),
-              // Foreground arc (cannot be cached - angles change each frame)
-              if (value > 0.01)
-                SizedBox.expand(
-                  child: CustomPaint(
-                    painter: SketchyShapePainter(
-                      primitive: SketchyPrimitive.arc(
-                        seed: _fixedSeed,
-                        startAngle: -pi / 2 + spinOffset,
-                        sweepAngle: value * 2 * pi,
+  bool _shouldShowTrack(SketchyThemeData theme) {
+    // If explicitly set to transparent, hide track
+    if (widget.backgroundColor == Colors.transparent) return false;
+    // If explicitly set to a color, show track
+    if (widget.backgroundColor != null) return true;
+    // Default: show for determinate, hide for indeterminate
+    return _isDeterminate;
+  }
+
+  Color _getTrackColor(SketchyThemeData theme) {
+    if (widget.backgroundColor != null) return widget.backgroundColor!;
+    // Default track color: faded version of the progress color
+    return (widget.color ?? theme.primaryColor).withValues(alpha: 0.2);
+  }
+
+  @override
+  Widget build(BuildContext context) => SketchyTheme.consumer(
+    builder: (context, theme) => AnimatedBuilder(
+      animation: Listenable.merge([_controller, _spinAnimation]),
+      builder: (context, child) {
+        final value = widget.value ?? _progressAnimation.value;
+        final spinOffset = widget.value == null
+            ? _spinAnimation.value * 2 * pi
+            : 0;
+
+        return Semantics(
+          label: widget.semanticLabel ?? 'Circular progress indicator',
+          value: widget.value != null
+              ? '${(widget.value! * 100).round()}%'
+              : null,
+          child: SizedBox.square(
+            dimension: widget.size ?? 48,
+            child: Stack(
+              children: [
+                // Background track:
+                // - Determinate: shown by default (unless transparent)
+                // - Indeterminate: hidden by default (unless explicit)
+                if (_shouldShowTrack(theme))
+                  SizedBox.expand(
+                    child: CustomPaint(
+                      painter: SketchyShapePainter(
+                        primitive: _backgroundCircle,
+                        strokeColor: _getTrackColor(theme),
+                        fillColor: Colors.transparent,
+                        strokeWidth: widget.strokeWidth * 0.6,
+                        roughness: theme.roughness,
                       ),
-                      strokeColor: widget.color ?? theme.primaryColor,
-                      fillColor: Colors.transparent,
-                      strokeWidth: widget.strokeWidth,
-                      roughness: theme.roughness,
                     ),
                   ),
-                ),
-            ],
+                // Foreground arc (cannot be cached - angles change each frame)
+                if (value > 0.01)
+                  SizedBox.expand(
+                    child: CustomPaint(
+                      painter: SketchyShapePainter(
+                        primitive: SketchyPrimitive.arc(
+                          seed: _fixedSeed,
+                          startAngle: -pi / 2 + spinOffset,
+                          sweepAngle: value * 2 * pi,
+                        ),
+                        strokeColor: widget.color ?? theme.primaryColor,
+                        fillColor: Colors.transparent,
+                        strokeWidth: widget.strokeWidth,
+                        roughness: theme.roughness,
+                      ),
+                    ),
+                  ),
+              ],
+            ),
           ),
-        ),
-      );
-    },
+        );
+      },
+    ),
   );
 }

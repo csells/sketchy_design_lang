@@ -1,4 +1,7 @@
 // benchmark/circular_progress_benchmark.dart
+// ignore_for_file: avoid_print, lines_longer_than_80_chars
+// ignore_for_file: avoid_equals_and_hash_code_on_mutable_classes
+// ignore_for_file: unreachable_from_main, unnecessary_statements
 //
 // Pure Dart performance benchmarks for SketchyCircularProgressIndicator primitives.
 //
