@@ -23,11 +23,11 @@ typedef SketchyRouteBuilder = WidgetBuilder;
 
 /// Minimal app shell that wires Sketchy theming into a [WidgetsApp].
 class SketchyApp extends StatelessWidget {
-  /// Creates a Sketchy-powered application.
+  /// Creates a Sketchy-powered application with imperative routing.
   SketchyApp({
     required this.title,
-    required this.home,
     super.key,
+    this.home,
     SketchyThemeData? theme,
     this.darkTheme,
     this.themeMode = SketchyThemeMode.system,
@@ -50,7 +50,41 @@ class SketchyApp extends StatelessWidget {
     this.actions,
     this.restorationScopeId,
     this.builder,
-  }) : theme = theme ?? SketchyThemeData.fromTheme(SketchyThemes.monochrome);
+  }) : theme = theme ?? SketchyThemeData.fromTheme(SketchyThemes.monochrome),
+       routerConfig = null;
+
+  /// Creates a Sketchy-powered application with declarative routing.
+  ///
+  /// This constructor enables Navigator 2.0 support and compatibility with
+  /// modern routing packages like go_router.
+  SketchyApp.router({
+    required this.routerConfig,
+    super.key,
+    this.title = '',
+    SketchyThemeData? theme,
+    this.darkTheme,
+    this.themeMode = SketchyThemeMode.system,
+    this.locale,
+    this.supportedLocales = const <Locale>[Locale('en', 'US')],
+    this.localizationsDelegates,
+    this.localeListResolutionCallback,
+    this.localeResolutionCallback,
+    this.showPerformanceOverlay = false,
+    this.showSemanticsDebugger = false,
+    this.debugShowCheckedModeBanner = true,
+    this.shortcuts,
+    this.actions,
+    this.restorationScopeId,
+    this.builder,
+  }) : theme = theme ?? SketchyThemeData.fromTheme(SketchyThemes.monochrome),
+       home = null,
+       routes = null,
+       onGenerateRoute = null,
+       onGenerateInitialRoutes = null,
+       initialRoute = null,
+       onUnknownRoute = null,
+       navigatorKey = null,
+       navigatorObservers = null;
 
   /// Title exposed to Flutter’s window bindings.
   final String title;
@@ -66,28 +100,40 @@ class SketchyApp extends StatelessWidget {
   final SketchyThemeMode themeMode;
 
   /// Widget shown for the default `/` route.
-  final Widget home;
+  /// Only used when using the default constructor (imperative routing).
+  final Widget? home;
 
   /// Optional static route table.
+  /// Only used when using the default constructor (imperative routing).
   final Map<String, SketchyRouteBuilder>? routes;
 
   /// Hook for dynamic route generation.
+  /// Only used when using the default constructor (imperative routing).
   final RouteFactory? onGenerateRoute;
 
   /// Hook for generating the initial navigator stack.
+  /// Only used when using the default constructor (imperative routing).
   final InitialRouteListFactory? onGenerateInitialRoutes;
 
   /// Name of the first route to show.
+  /// Only used when using the default constructor (imperative routing).
   final String? initialRoute;
 
   /// Handler invoked when no route matches.
+  /// Only used when using the default constructor (imperative routing).
   final RouteFactory? onUnknownRoute;
 
   /// Key controlling the navigator bound to this app.
+  /// Only used when using the default constructor (imperative routing).
   final GlobalKey<NavigatorState>? navigatorKey;
 
   /// Observers listening to navigator lifecycle events.
+  /// Only used when using the default constructor (imperative routing).
   final List<NavigatorObserver>? navigatorObservers;
+
+  /// Router configuration for declarative routing (Navigator 2.0).
+  /// Only used when using the `.router` constructor.
+  final RouterConfig<Object>? routerConfig;
 
   /// Locale override used by the app.
   final Locale? locale;
@@ -126,26 +172,9 @@ class SketchyApp extends StatelessWidget {
   final TransitionBuilder? builder;
 
   @override
-  Widget build(BuildContext context) => WidgetsApp(
-    navigatorKey: navigatorKey,
-    title: title,
-    color: theme.paperColor,
-    locale: locale,
-    supportedLocales: supportedLocales,
-    localizationsDelegates: [
-      ...?localizationsDelegates,
-      DefaultMaterialLocalizations.delegate,
-      DefaultWidgetsLocalizations.delegate,
-    ],
-    localeListResolutionCallback: localeListResolutionCallback,
-    localeResolutionCallback: localeResolutionCallback,
-    showPerformanceOverlay: showPerformanceOverlay,
-    showSemanticsDebugger: showSemanticsDebugger,
-    debugShowCheckedModeBanner: debugShowCheckedModeBanner,
-    shortcuts: shortcuts,
-    actions: actions,
-    restorationScopeId: restorationScopeId,
-    builder: (context, child) {
+  Widget build(BuildContext context) {
+    // Common builder for theme wrapping
+    Widget themedBuilder(BuildContext context, Widget? child) {
       final activeTheme = _resolveTheme(context);
       final content = child ?? const SizedBox.shrink();
       final themed = SketchyTheme(
@@ -158,28 +187,75 @@ class SketchyApp extends StatelessWidget {
         ),
       );
       return builder?.call(context, themed) ?? themed;
-    },
-    navigatorObservers: navigatorObservers ?? const <NavigatorObserver>[],
-    initialRoute: initialRoute,
-    onGenerateInitialRoutes: onGenerateInitialRoutes,
-    onGenerateRoute: (settings) {
-      if (settings.name == Navigator.defaultRouteName) {
-        return SketchyPageRoute(builder: (_) => home, settings: settings);
-      }
+    }
 
-      final mapBuilder = routes?[settings.name];
-      if (mapBuilder != null) {
-        return SketchyPageRoute(builder: mapBuilder, settings: settings);
-      }
+    // Common properties for both constructors
+    final commonLocalizationsDelegates = [
+      ...?localizationsDelegates,
+      DefaultMaterialLocalizations.delegate,
+      DefaultWidgetsLocalizations.delegate,
+    ];
 
-      if (onGenerateRoute != null) {
-        return onGenerateRoute!(settings);
-      }
+    // Build using declarative routing if routerConfig is provided
+    if (routerConfig != null) {
+      return WidgetsApp.router(
+        routerConfig: routerConfig,
+        title: title,
+        color: theme.paperColor,
+        locale: locale,
+        supportedLocales: supportedLocales,
+        localizationsDelegates: commonLocalizationsDelegates,
+        localeListResolutionCallback: localeListResolutionCallback,
+        localeResolutionCallback: localeResolutionCallback,
+        showPerformanceOverlay: showPerformanceOverlay,
+        showSemanticsDebugger: showSemanticsDebugger,
+        debugShowCheckedModeBanner: debugShowCheckedModeBanner,
+        shortcuts: shortcuts,
+        actions: actions,
+        restorationScopeId: restorationScopeId,
+        builder: themedBuilder,
+      );
+    }
 
-      return null;
-    },
-    onUnknownRoute: onUnknownRoute,
-  );
+    // Build using imperative routing (original behavior)
+    return WidgetsApp(
+      navigatorKey: navigatorKey,
+      title: title,
+      color: theme.paperColor,
+      locale: locale,
+      supportedLocales: supportedLocales,
+      localizationsDelegates: commonLocalizationsDelegates,
+      localeListResolutionCallback: localeListResolutionCallback,
+      localeResolutionCallback: localeResolutionCallback,
+      showPerformanceOverlay: showPerformanceOverlay,
+      showSemanticsDebugger: showSemanticsDebugger,
+      debugShowCheckedModeBanner: debugShowCheckedModeBanner,
+      shortcuts: shortcuts,
+      actions: actions,
+      restorationScopeId: restorationScopeId,
+      builder: themedBuilder,
+      navigatorObservers: navigatorObservers ?? const <NavigatorObserver>[],
+      initialRoute: initialRoute,
+      onGenerateInitialRoutes: onGenerateInitialRoutes,
+      onGenerateRoute: (settings) {
+        if (settings.name == Navigator.defaultRouteName) {
+          return SketchyPageRoute(builder: (_) => home!, settings: settings);
+        }
+
+        final mapBuilder = routes?[settings.name];
+        if (mapBuilder != null) {
+          return SketchyPageRoute(builder: mapBuilder, settings: settings);
+        }
+
+        if (onGenerateRoute != null) {
+          return onGenerateRoute!(settings);
+        }
+
+        return null;
+      },
+      onUnknownRoute: onUnknownRoute,
+    );
+  }
 
   SketchyThemeData _resolveTheme(BuildContext context) {
     final platformBrightness =

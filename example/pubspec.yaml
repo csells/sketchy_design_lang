@@ -1,6 +1,6 @@
 name: example
 description: "Some example apps showing off the Sketchy Design Language for any Flutter platform."
-publish_to: 'none'
+publish_to: "none"
 
 environment:
   sdk: ^3.10.0
@@ -10,6 +10,7 @@ dependencies:
   flutter:
     sdk: flutter
   font_awesome_flutter: ^10.12.0
+  go_router: ^14.6.2
   google_fonts: ^6.3.2
   intl: ^0.20.2
   sketchy_design_lang:
