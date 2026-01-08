@@ -1,0 +1,39 @@
+name: Deploy Example Web App
+
+on:
+  release:
+    types: [published]
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    name: Build and Deploy to Firebase
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v6
+
+      - name: Setup Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          # Using channel: stable without a specific version will fetch the latest stable Flutter.
+          # If you need a specific version, you can specify it like: flutter-version: '3.19.0'
+          channel: "stable"
+
+      - name: Get dependencies
+        run: flutter pub get
+        working-directory: example
+
+      - name: Build web app
+        run: flutter build web --wasm --release
+        working-directory: example
+
+      - name: Deploy to Firebase Hosting
+        uses: FirebaseExtended/action-hosting-deploy@v0.10.0
+        with:
+          repoToken: "${{ secrets.GITHUB_TOKEN }}"
+          firebaseServiceAccount: "${{ secrets.FIREBASE_SERVICE_ACCOUNT }}"
+          channelId: live
+          projectId: "${{ secrets.FIREBASE_PROJECT_ID }}"
+          entryPoint: example
